@@ -19,7 +19,7 @@ pipeline {
     		
 		sh "mkdir -p ${reponame}"
 		chmod 777 "${reponame}"
-		sh "${repoPath}/pipelines/scripts/github/initializeRepo.sh"
+		sh "${reponame}/pipelines/scripts/github/initializeRepo.sh"
             		}
 		}
         }       
