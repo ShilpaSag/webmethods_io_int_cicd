@@ -15,7 +15,6 @@ pipeline {
             steps {
 		script{
 		echo "Setup the environment"
-		pwd
 		dir
 		ls
     		
