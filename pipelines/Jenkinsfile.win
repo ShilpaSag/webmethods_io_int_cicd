@@ -15,7 +15,9 @@ pipeline {
             steps {
 		script{
 		echo "Setup the environment"
-		
+		pwd
+		dir
+		ls
     		
 		sh "mkdir -p ${reponame}"
 		chmod 777 "${reponame}"
