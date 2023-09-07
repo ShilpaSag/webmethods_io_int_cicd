@@ -14,8 +14,6 @@ pipeline {
 	 stage('InitialiseRepo'){
             steps {
 		script{
-echo "1"
-		sh '''#!/bin/bash
 echo "2"
 		sh bash
 		echo "$WORKSPACE"
