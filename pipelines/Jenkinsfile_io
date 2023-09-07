@@ -14,6 +14,7 @@ pipeline {
 	 stage('InitialiseRepo'){
             steps {
 		script{
+		bash
 		echo "$WORKSPACE"
 		echo "Setup the environment"
 		cd "${CUSTOMWORKSPACE}"
