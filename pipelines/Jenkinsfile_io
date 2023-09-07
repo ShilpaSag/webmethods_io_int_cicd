@@ -15,7 +15,6 @@ pipeline {
             steps {
 		script{
 echo "2"
-		sh bash
 		echo "$WORKSPACE"
 		echo "Setup the environment"
 		sh cd "${CUSTOMWORKSPACE}"
