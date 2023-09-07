@@ -14,13 +14,18 @@ pipeline {
 	 stage('InitialiseRepo'){
             steps {
 		script{
-		bash
+echo "1"
+		sh '''#!/bin/bash
+echo "2"
+		sh bash
 		echo "$WORKSPACE"
 		echo "Setup the environment"
-		cd "${CUSTOMWORKSPACE}"
+		sh cd "${CUSTOMWORKSPACE}"
+echo "3"
 		sh "mkdir -p ${reponame}"
-		chmod 777 "${reponame}"
+		sh chmod 777 "${reponame}"
 		sh "${reponame}/pipelines/scripts/github/initializeRepo.sh"
+		'''
             		}
 		}
         }       
