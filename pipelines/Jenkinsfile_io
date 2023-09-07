@@ -14,7 +14,6 @@ pipeline {
 	 stage('InitialiseRepo'){
             steps {
 		script{
-		pwd
 		echo "$WORKSPACE"
 		echo "Setup the environment"
 		sh "mkdir -p ${reponame}"
