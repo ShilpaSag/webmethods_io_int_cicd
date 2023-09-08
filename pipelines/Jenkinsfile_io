@@ -82,16 +82,16 @@ pipeline {
         if ( ${synchProject} != true ) 
         {
           echo "Patch Initialize"
-          if ( -z "${assetID}" ) {
+          if ( -z ${assetID} ) {
             echo "##vso[task.logissue type=error;]Missing parameter \"assetID\""
             echo "##vso[task.complete result=Failed;]"
-            exit 1
+            sh 'exit 1'
           }
                   
-          if ( -z "${assetType}" ){
+          if ( -z ${assetType} ){
             echo "##vso[task.logissue type=error;]Missing parameter \"assetType\""
             echo "##vso[task.complete result=Failed;]"
-            exit 1
+            sh 'exit 1'
           }
           }
           
