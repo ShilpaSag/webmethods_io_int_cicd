@@ -1,5 +1,3 @@
-
-
 pipeline {
     agent any 
     environment {
@@ -8,6 +6,11 @@ pipeline {
 		repoPAth = "${gitOwner}/${repoName}"
 		init = "true"
 		repo_user = "SanthoshKumarHN"
+		PAT= "test"
+		AZURE_TOKEN= "test"
+		devUser= "test"
+		featureBranchName= "test"
+		HOME_DIR= "test"
 		
  		}
     stages {
@@ -17,7 +20,26 @@ pipeline {
 
 		echo "$WORKSPACE"
 		echo "${CUSTOMWORKSPACE}"
-		echo "Setup the environment"
+		echo "Copy to the repo to custom workspace"
+		
+		sh '''
+		cp -r "$WORKSPACE" "${CUSTOMWORKSPACE}"
+		cd "${CUSTOMWORKSPACE}/${repoName}"
+		pwd
+		ls -ltr
+		source_environment_hostname = sh(returnStdout: true, script: "cat configs/play.yml | grep -i hostname | cut -d '"' -f2-").trim()
+		source_environment_port = sh(returnStdout: true, script: "cat configs/play.yml | grep -i port | cut -d '"' -f2-").trim()
+		admin_user = sh(returnStdout: true, script: "cat configs/play.yml | grep -i admin_username | cut -d '"' -f2-").trim()
+		source_type = sh(returnStdout: true, script: "cat configs/play.yml | grep -i type | cut -d '"' -f2-").trim()
+		repo_user = sh(returnStdout: true, script: "cat configs/repo.yml | grep -i user | cut -d '"' -f2-").trim()
+		
+		#echo "##vso[build.updatebuildnumber]$(Build.BuildNumber)-$(repoName)"
+		
+		echo "Verify the repo and create a repo"
+		
+		${CUSTOMWORKSPACE}/webMethodsIO/pipelines/scripts/github/initializeRepo.sh $(repo_user) $(PAT) $(AZURE_TOKEN) $(repoName) $(devUser) $(featureBranchName) ${HOME_DIR} debug'''
+		
+		echo "Verified the repo and required branches"
             		}
 		}
         }       
