@@ -23,8 +23,8 @@ pipeline {
 		echo "Copy to the repo to custom workspace"
 		
 		sh '''
-		cp -r "$WORKSPACE" "${CUSTOMWORKSPACE}"
-		cd "${CUSTOMWORKSPACE}/${JOB_BASE_NAME}"
+		#cp -r "$WORKSPACE" "${CUSTOMWORKSPACE}"
+		#cd "${CUSTOMWORKSPACE}/${JOB_BASE_NAME}"
 		pwd
 		ls -ltr
 		source_environment_hostname = sh(returnStdout: true, script: "cat configs/play.yml | grep -i hostname | cut -d '"' -f2-").trim()
