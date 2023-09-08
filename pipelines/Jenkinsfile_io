@@ -27,8 +27,8 @@ pipeline
 		echo "${CUSTOMWORKSPACE}"
 		echo "Copy to the repo to custom workspace"
 		sh '''
-	//	cp -r "$WORKSPACE" "${CUSTOMWORKSPACE}"
-	//	cd "${CUSTOMWORKSPACE}/${JOB_BASE_NAME}"
+	##	cp -r "$WORKSPACE" "${CUSTOMWORKSPACE}"
+	##	cd "${CUSTOMWORKSPACE}/${JOB_BASE_NAME}"
 		pwd
 		ls -ltr '''
 		script {
