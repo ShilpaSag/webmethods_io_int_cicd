@@ -36,13 +36,6 @@ pipeline {
 		admin_user = sh ( returnStdout: true, script: '''yq -e ".tenant.admin_username" configs/play.yml ''' )
 		source_type = sh ( returnStdout: true, script: '''yq -e ".tenant.type" configs/play.yml ''' )
 		repo_user = sh ( returnStdout: true, script: '''yq -e ".repo.user" configs/repo.yml ''' )
-
-
-		#source_environment_hostname = sh ( returnStdout: true, script: '''cat configs/play.yml | grep -i hostname | cut -d '"' -f2 ''' )
-		#source_environment_port = sh ( returnStdout: true, script: '''cat configs/play.yml | grep -i port | cut -d '"' -f2 ''' )
-		#admin_user = sh ( returnStdout: true, script: '''cat configs/play.yml | grep -i admin_username | cut -d '"' -f2 ''' )
-		#source_type = sh ( returnStdout: true, script: '''cat configs/play.yml | grep -i type | cut -d '"' -f2 ''' )
-		#repo_user = sh ( returnStdout: true, script: '''cat configs/repo.yml | grep -i user | cut -d '"' -f2 ''' )
 		}
 		
 			
