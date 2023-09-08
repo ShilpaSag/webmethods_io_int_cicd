@@ -10,7 +10,8 @@ pipeline {
 		AZURE_TOKEN= "test"
 		devUser= "test"
 		featureBranchName= "test"
-		HOME_DIR= "test"
+		HOME_DIR= "${WORKSPACE}/../"
+		workingDirectory = "${WORKSPACE}"
 		
  		}
     stages {
@@ -28,11 +29,20 @@ pipeline {
 		pwd
 		ls -ltr '''
 		script {
-		source_environment_hostname = sh ( returnStdout: true, script: '''cat configs/play.yml | grep -i hostname | cut -d '"' -f2 ''' )
-		source_environment_port = sh ( returnStdout: true, script: '''cat configs/play.yml | grep -i port | cut -d '"' -f2 ''' )
-		admin_user = sh ( returnStdout: true, script: '''cat configs/play.yml | grep -i admin_username | cut -d '"' -f2 ''' )
-		source_type = sh ( returnStdout: true, script: '''cat configs/play.yml | grep -i type | cut -d '"' -f2 ''' )
-		repo_user = sh ( returnStdout: true, script: '''cat configs/repo.yml | grep -i user | cut -d '"' -f2 ''' )
+
+
+		source_environment_hostname = sh ( returnStdout: true, script: '''yq -e ".tenant.hostname" configs/play.yml ''' )
+		source_environment_port = sh ( returnStdout: true, script: '''yq -e ".tenant.port" configs/play.yml ''' )
+		admin_user = sh ( returnStdout: true, script: '''yq -e ".tenant.admin_username" configs/play.yml ''' )
+		source_type = sh ( returnStdout: true, script: '''yq -e ".tenant.type" configs/play.yml ''' )
+		repo_user = sh ( returnStdout: true, script: '''yq -e ".repo.user" configs/repo.yml ''' )
+
+
+		#source_environment_hostname = sh ( returnStdout: true, script: '''cat configs/play.yml | grep -i hostname | cut -d '"' -f2 ''' )
+		#source_environment_port = sh ( returnStdout: true, script: '''cat configs/play.yml | grep -i port | cut -d '"' -f2 ''' )
+		#admin_user = sh ( returnStdout: true, script: '''cat configs/play.yml | grep -i admin_username | cut -d '"' -f2 ''' )
+		#source_type = sh ( returnStdout: true, script: '''cat configs/play.yml | grep -i type | cut -d '"' -f2 ''' )
+		#repo_user = sh ( returnStdout: true, script: '''cat configs/repo.yml | grep -i user | cut -d '"' -f2 ''' )
 		}
 		
 			
@@ -55,10 +65,67 @@ pipeline {
             		}
 		}
         }       
-	stage('Build'){
+	stage('Create and Sync Projects'){
             steps {
-                echo "This is build step"
-		//bat "${env.SAG_HOME}/common/lib/ant/bin/ant -DSAGHome=${env.SAG_HOME} -DSAG_CI_HOME=${env.SAG_CI_HOME} -DprojectName=${env.JOB_NAME} build"
+		script{
+                echo "Create / Sychronize the projects"
+				
+		sh  pwd
+      LOCAL_DEV_URL=https://$(source_environment_hostname):$(source_environment_port)
+      echo ${LOCAL_DEV_URL}
+	  echo ${init}
+      if [ ${init} == true ]; then
+        echo "New repo created"
+        ''' pwd
+        ls -ltr
+        ######## Check & Create Project 
+        chmod +x ./pipelines/scripts/*.sh
+        ./pipelines/scripts/createProject.sh ${LOCAL_DEV_URL} $(admin_user) $(admin_password) $(repoName)
+		'''
+      else
+        ######## Create a feature branch from prod 
+        echo "Repo Exists, Check and sync feature branch from Prod"
+        if [ ${synchProject} != true ]; then
+          echo "Patch Initialize"
+          if [ -z "${assetID}" ]; then
+            echo "##vso[task.logissue type=error;]Missing parameter \"assetID\""
+            echo "##vso[task.complete result=Failed;]"
+            exit 1
+          fi
+                  
+          if [ -z "${assetType}" ]; then
+            echo "##vso[task.logissue type=error;]Missing parameter \"assetType\""
+            echo "##vso[task.complete result=Failed;]"
+            exit 1
+          fi
+        else
+          echo "Project Initialize"
+       fi  
+          sh rm -rf ./${repoName}
+
+          git clone -b production https://$(repo_user):$(PAT)@github.com/$(repo_user)/$(repoName).git
+          sh cd $(repoName)
+          branchExists=$(git ls-remote --exit-code --heads origin $(featureBranchName))
+          if [ ! -z "${branchExists// }" ]; 
+          then
+              echo "Branch $(featureBranchName) already exists"
+          else
+              echo "Branch $(featureBranchName) doesnt exists, synching from prod ..."
+           ''' chmod +x ../${JOB_BASE_NAME}/pipelines/scripts/github/*.sh
+              ../${JOB_BASE_NAME}/pipelines/scripts/github/createFeatureFromProdBranch.sh $(devUser) $(featureBranchName) ${HOME_DIR} debug
+              # Project Check
+              chmod +x ../${JOB_BASE_NAME}/pipelines/scripts/*.sh
+              echo "Check and create Project ..."
+              ../${JOB_BASE_NAME}/pipelines/scripts/createProject.sh ${LOCAL_DEV_URL} $(admin_user) $(admin_password) $(repoName)
+              # Import
+                  echo "Importing asset ..."
+              ../${JOB_BASE_NAME}/pipelines/scripts/importAsset.sh ${LOCAL_DEV_URL} $(admin_user) $(admin_password) $(repoName) $(assetID) $(assetType) ${HOME_DIR} $(synchProject) $(source_type) debug
+          '''
+              
+          fi
+      fi
+				
+				
             }
         }
         stage('Deploy') {
