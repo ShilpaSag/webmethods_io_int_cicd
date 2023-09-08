@@ -67,7 +67,8 @@ function echod(){
 }
 
 
-name=$(curl -u ${repo_user}:${PAT} https://api.github.com/repos/${repo_user}/${repoName} | jq -r '.name')
+#name=$(curl -u ${repo_user}:${PAT} https://api.github.com/repos/${repo_user}/${repoName} | jq -r '.name')
+name=$(curl https://api.github.com/repos/${repo_user}/${repoName} | jq -r '.name')
       echo ${name}
       if [ "$name" == null ]
       then
@@ -76,27 +77,28 @@ name=$(curl -u ${repo_user}:${PAT} https://api.github.com/repos/${repo_user}/${r
           cd ${repoName}
 
           #### Create empty repo & SECRET
-          curl -u ${repo_user}:${PAT} https://api.github.com/user/repos -d '{"name":"'${repoName}'"}'
+          #curl -u ${repo_user}:${PAT} https://api.github.com/user/repos -d '{"name":"'${repoName}'"}'
+          curl https://api.github.com/user/repos -d '{"name":"'${repoName}'"}'
 
-          keyJson=$(curl -u ${repo_user}:${PAT} --location --request GET https://api.github.com/repos/${repo_user}/${repoName}/actions/secrets/public-key \
-          --header 'X-GitHub-Api-Version: 2022-11-28' \
-          --header 'Accept: application/vnd.github+json')
+         # keyJson=$(curl -u ${repo_user}:${PAT} --location --request GET https://api.github.com/repos/${repo_user}/${repoName}/actions/secrets/public-key \
+         # --header 'X-GitHub-Api-Version: 2022-11-28' \
+         # --header 'Accept: application/vnd.github+json')
 
-          keyId=$(echo "$keyJson" | jq -r '.key_id')
-          keyValue=$(echo "$keyJson" | jq -r '.key')
-          token=$(echo ${AZURE_TOKEN})
+         # keyId=$(echo "$keyJson" | jq -r '.key_id')
+         # keyValue=$(echo "$keyJson" | jq -r '.key')
+         # token=$(echo ${AZURE_TOKEN})
 
-          encryptedValue=$(python3.10 ../self/pipelines/scripts/github/encryptGithubSecret.py ${keyValue} ${token})
+          # encryptedValue=$(python3.10 ../self/pipelines/scripts/github/encryptGithubSecret.py ${keyValue} ${token})
          
 
-          secretJson='{"encrypted_value":"'"${encryptedValue}"'","key_id":"'"${keyId}"'"}'
+          # secretJson='{"encrypted_value":"'"${encryptedValue}"'","key_id":"'"${keyId}"'"}'
           
-          curl \
-            -X PUT \
-            -H "Accept: application/vnd.github+json" \
-            -H "X-GitHub-Api-Version: 2022-11-28" \
-            -u ${repo_user}:${PAT} https://api.github.com/repos/${repo_user}/${repoName}/actions/secrets/AZURE_DEVOPS_TOKEN \
-            -d '{"encrypted_value":"'"${AZURE_TOKEN}"'","key_id":"'"${keyId}"'"}'
+         # curl \
+         #   -X PUT \
+         #   -H "Accept: application/vnd.github+json" \
+         #   -H "X-GitHub-Api-Version: 2022-11-28" \
+         #   -u ${repo_user}:${PAT} https://api.github.com/repos/${repo_user}/${repoName}/actions/secrets/AZURE_DEVOPS_TOKEN \
+         #   -d '{"encrypted_value":"'"${AZURE_TOKEN}"'","key_id":"'"${keyId}"'"}'
           
           #### Initiatialite and push to main
           echo "# ${repoName}" >> README.md
@@ -104,7 +106,8 @@ name=$(curl -u ${repo_user}:${PAT} https://api.github.com/repos/${repo_user}/${r
           cd .github
           mkdir -p workflows
           cd ..
-          cp ../self/assets/github/workflows/dev.yml .github/workflows/
+          pwd
+          cp ../${repoName}/assets/github/workflows/dev.yml .github/workflows/
           git init
           git config user.email "noemail.com"
           git config user.name "${devUser}"
@@ -135,6 +138,7 @@ name=$(curl -u ${repo_user}:${PAT} https://api.github.com/repos/${repo_user}/${r
           echo "Repo creation done !!!"
       else
           echo "Repo already exixts with name:" ${name}
-          echo "##vso[task.setvariable variable=init]false"
+          # echo "##vso[task.setvariable variable=init]false"
+          init = false
           exit 0
       fi
