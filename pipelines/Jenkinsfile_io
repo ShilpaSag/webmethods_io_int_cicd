@@ -14,7 +14,6 @@ pipeline
 		featureBranchName= "test"
 		HOME_DIR= "${WORKSPACE}/../"
 		workingDirectory = "${WORKSPACE}"
-		def LOCAL_DEV_URL
  	}
     stages 
 	{
@@ -72,7 +71,7 @@ pipeline
 				sh '''
 				pwd
 				'''
-				def LOCAL_DEV_URL = "https://${source_environment_hostname}:${source_environment_port}" 
+				LOCAL_DEV_URL = sh ( returnStdout: true, script: ''' echo "https://${source_environment_hostname}:${source_environment_port}" ''')
 				
 				echo ${LOCAL_DEV_URL}
 				echo ${init}
