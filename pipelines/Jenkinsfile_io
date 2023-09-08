@@ -14,7 +14,7 @@ pipeline
 		featureBranchName= "test"
 		HOME_DIR= "${WORKSPACE}/../"
 		workingDirectory = "${WORKSPACE}"
-		
+		def LOCAL_DEV_URL
  	}
     stages 
 	{
