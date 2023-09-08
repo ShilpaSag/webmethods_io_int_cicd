@@ -102,9 +102,9 @@ pipeline {
 		
           sh rm -rf ./${repoName}
 
-          git clone -b production https://${repo_user}:${PAT}@github.com/${repo_user}/${repoName}.git
+          git clone -b production "https://${repo_user}:${PAT}@github.com/${repo_user}/${repoName}.git"
           sh cd $(repoName)
-          branchExists=$(git ls-remote --exit-code --heads origin ${featureBranchName})
+          branchExists = $(git ls-remote --exit-code --heads origin ${featureBranchName})
           if ( "${branchExists// }" ) 
           {
               echo "Branch ${featureBranchName} already exists"
