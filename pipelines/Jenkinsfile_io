@@ -26,7 +26,7 @@ pipeline
 		echo "$WORKSPACE"
 		echo "${CUSTOMWORKSPACE}"
 		echo "Copy to the repo to custom workspace"
-		sh '''
+		'''
 		#cp -r "$WORKSPACE" "${CUSTOMWORKSPACE}"
 		#cd "${CUSTOMWORKSPACE}/${JOB_BASE_NAME}"
 		pwd
@@ -55,15 +55,13 @@ pipeline
 	        
 	    echo "Verify the repo and create a repo"
 	    
-	    sh '''
-	    pwd
-	    chmod +x ./pipelines/scripts/github/*.sh
-		
-		./pipelines/scripts/github/initializeRepo.sh ${repo_user} ${PAT} ${AZURE_TOKEN} ${repoName} ${devUser} ${featureBranchName} ${HOME_DIR} debug '''
-		
+	    '''
+	    sh pwd
+	    sh chmod +x ./pipelines/scripts/github/*.sh
+	    sh ./pipelines/scripts/github/initializeRepo.sh ${repo_user} ${PAT} ${AZURE_TOKEN} ${repoName} ${devUser} ${featureBranchName} ${HOME_DIR} debug '''
 		echo "Verified the repo and required branches"
             		}
-			}
+		    }
 		}
        
 	stage('Create and Sync Projects')
