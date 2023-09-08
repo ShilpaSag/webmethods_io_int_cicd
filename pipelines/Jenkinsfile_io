@@ -26,18 +26,30 @@ pipeline {
 		#cp -r "$WORKSPACE" "${CUSTOMWORKSPACE}"
 		#cd "${CUSTOMWORKSPACE}/${JOB_BASE_NAME}"
 		pwd
-		ls -ltr
-		source_environment_hostname = sh(returnStdout: true, script: "cat configs/play.yml | grep -i hostname | cut -d '"' -f2-").trim()
-		source_environment_port = sh(returnStdout: true, script: "cat configs/play.yml | grep -i port | cut -d '"' -f2-").trim()
-		admin_user = sh(returnStdout: true, script: "cat configs/play.yml | grep -i admin_username | cut -d '"' -f2-").trim()
-		source_type = sh(returnStdout: true, script: "cat configs/play.yml | grep -i type | cut -d '"' -f2-").trim()
-		repo_user = sh(returnStdout: true, script: "cat configs/repo.yml | grep -i user | cut -d '"' -f2-").trim()
+		ls -ltr '''
+		script {
+		source_environment_hostname = sh ( returnStdout: true, script: '''cat configs/play.yml | grep -i hostname | cut -d '"' -f2 ''' )
+		source_environment_port = sh ( returnStdout: true, script: '''cat configs/play.yml | grep -i port | cut -d '"' -f2 ''' )
+		admin_user = sh ( returnStdout: true, script: '''cat configs/play.yml | grep -i admin_username | cut -d '"' -f2 ''' )
+		source_type = sh ( returnStdout: true, script: '''cat configs/play.yml | grep -i type | cut -d '"' -f2 ''' )
+		repo_user = sh ( returnStdout: true, script: '''cat configs/repo.yml | grep -i user | cut -d '"' -f2 ''' )
+		}
 		
-		#echo "##vso[build.updatebuildnumber]$(Build.BuildNumber)-$(repoName)"
+			
+		echo "${source_environment_hostname}"
+		echo "${source_environment_port}"
+        echo "${admin_user}"
+		echo "${source_type}"
+		echo "${repo_user}"
+	    
+	    
+	    echo "Verify the repo and create a repo"
+	    
+	    sh '''
+	    pwd
+	    chmod +x ./pipelines/scripts/github/*.sh
 		
-		echo "Verify the repo and create a repo"
-		
-		${CUSTOMWORKSPACE}/webMethodsIO/pipelines/scripts/github/initializeRepo.sh $(repo_user) $(PAT) $(AZURE_TOKEN) $(repoName) $(devUser) $(featureBranchName) ${HOME_DIR} debug'''
+		./pipelines/scripts/github/initializeRepo.sh ${repo_user} ${PAT} ${AZURE_TOKEN} ${repoName} ${devUser} ${featureBranchName} ${HOME_DIR} debug '''
 		
 		echo "Verified the repo and required branches"
             		}
