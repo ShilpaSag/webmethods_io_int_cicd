@@ -71,8 +71,9 @@ pipeline
                 echo "Create / Sychronize the projects"
 				sh '''
 				pwd
-				LOCAL_DEV_URL = "https://${source_environment_hostname}:${source_environment_port}" 
 				'''
+				def LOCAL_DEV_URL = "https://${source_environment_hostname}:${source_environment_port}" 
+				
 				echo ${LOCAL_DEV_URL}
 				echo ${init}
 				if ( ${init} == true ) 
@@ -110,7 +111,8 @@ pipeline
 					echo "Project Initialize"
 				}
 
-					
+	echo echo "Remove the repo"	
+	sh pwd
           sh rm -rf ./${repoName}
 
       //    sh git clone -b production https://${repo_user}:${PAT}@github.com/${repo_user}/${repoName}.git
