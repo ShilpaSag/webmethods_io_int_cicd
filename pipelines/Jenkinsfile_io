@@ -64,10 +64,10 @@ pipeline {
                 echo "Create / Sychronize the projects"
 				
 		sh  pwd
-    set  LOCAL_DEV_URL=https://${source_environment_hostname}:${source_environment_port}
+  	LOCAL_DEV_URL = "https://${source_environment_hostname}:${source_environment_port}"
       echo ${LOCAL_DEV_URL}
 	  echo ${init}
-      if [ ${init} == true ]; then
+      if ( ${init} == true ) {
         echo "New repo created"
         ''' pwd
         ls -ltr
@@ -75,34 +75,39 @@ pipeline {
         chmod +x ./pipelines/scripts/*.sh
         ./pipelines/scripts/createProject.sh ${LOCAL_DEV_URL} ${admin_user} ${admin_password} ${repoName}
 		'''
-      else
-        ######## Create a feature branch from prod 
+      }
+      else {
+    // Create a feature branch from prod 
         echo "Repo Exists, Check and sync feature branch from Prod"
-        if [ ${synchProject} != true ]; then
+        if ( ${synchProject} != true ) 
+        {
           echo "Patch Initialize"
-          if [ -z "${assetID}" ]; then
+          if ( -z "${assetID}" ) {
             echo "##vso[task.logissue type=error;]Missing parameter \"assetID\""
             echo "##vso[task.complete result=Failed;]"
             exit 1
-          fi
+          }
                   
-          if [ -z "${assetType}" ]; then
+          if ( -z "${assetType}" ){
             echo "##vso[task.logissue type=error;]Missing parameter \"assetType\""
             echo "##vso[task.complete result=Failed;]"
             exit 1
-          fi
+          }
+          }
+          
         else
           echo "Project Initialize"
-       fi  
+        }  
           sh rm -rf ./${repoName}
 
           git clone -b production https://${repo_user}:${PAT}@github.com/${repo_user}/${repoName}.git
           sh cd $(repoName)
           branchExists=$(git ls-remote --exit-code --heads origin ${featureBranchName})
-          if [ ! -z "${branchExists// }" ]; 
-          then
+          if ( ! -z "${branchExists// }" ) 
+          {
               echo "Branch ${featureBranchName} already exists"
-          else
+          }
+          else {
               echo "Branch ${featureBranchName} doesnt exists, synching from prod ..."
            ''' chmod +x ../${JOB_BASE_NAME}/pipelines/scripts/github/*.sh
               ../${JOB_BASE_NAME}/pipelines/scripts/github/createFeatureFromProdBranch.sh ${devUser} ${featureBranchName} ${HOME_DIR} debug
@@ -114,10 +119,7 @@ pipeline {
                   echo "Importing asset ..."
               ../${JOB_BASE_NAME}/pipelines/scripts/importAsset.sh ${LOCAL_DEV_URL} ${admin_user} ${admin_password} ${repoName} ${assetID} ${assetType} ${HOME_DIR} $(synchProject) $(source_type) debug
           '''
-              
-          fi
-      fi
-				
+               }
 				
             }
         }
@@ -127,6 +129,6 @@ pipeline {
 		//bat "${env.SAG_HOME}/common/lib/ant/bin/ant -DSAGHome=${env.SAG_HOME} -DSAG_CI_HOME=${env.SAG_CI_HOME} -DprojectName=${env.JOB_NAME} deploy"
             }
         }
- 	
-    }
+        
+	}
 }
