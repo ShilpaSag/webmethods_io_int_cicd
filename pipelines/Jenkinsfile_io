@@ -73,7 +73,6 @@ pipeline
 		script{
 		def LOCAL_DEV_URL = "${source_environment}"
 		env.LOCAL_DEV_URL = LOCAL_DEV_URL
-		echo "${source_environment}"
 
 		//def LOCAL_DEV_URL = "https://${source_environment_hostname}:${source_environment_port}"
 		echo "${LOCAL_DEV_URL}"
@@ -87,10 +86,10 @@ pipeline
 				script {
 					// LOCAL_DEV_URL = "https://${source_environment_hostname}:${source_environment_port}"
 					// def LOCAL_DEV_URL = "${source_environment}"
-					echo ${env.LOCAL_DEV_URL}
+					echo "${env.LOCAL_DEV_URL}"
 				}
 				// echo ${env.LOCAL_DEV_URL}
-				echo ${init}
+				echo "${init}"
 				if ( ${init} == true ) 
 				{
 					echo "New repo created"
