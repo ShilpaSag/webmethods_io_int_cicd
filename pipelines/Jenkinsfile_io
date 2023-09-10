@@ -1,3 +1,5 @@
+#!/usr/bin/env groovy
+
 pipeline 
 {
     agent any 
@@ -15,7 +17,7 @@ pipeline
 		HOME_DIR= "${WORKSPACE}/../"
 		workingDirectory = "${WORKSPACE}"
 		LOCAL_DEV_URL = "test"
-		source_environment_hostname = "localhost"
+	def source_environment_hostname = "localhost"
 		source_environment_port = "5555"
  	}
     stages 
@@ -24,15 +26,12 @@ pipeline
 	 {
             steps 
 			{
-		script{
 		echo "$WORKSPACE"
 		echo "${CUSTOMWORKSPACE}"
 		echo "Copy to the repo to custom workspace"
-		sh '''
-	##	cp -r "$WORKSPACE" "${CUSTOMWORKSPACE}"
-	##	cd "${CUSTOMWORKSPACE}/${JOB_BASE_NAME}"
-		pwd
-		ls -ltr '''
+		sh pwd
+		sh ls -ltr
+
 		script {
 
 		source_environment_hostname = sh ( returnStdout: true, script: '''cat configs/play.yml | grep -i hostname | cut -d '"' -f2 ''' )
@@ -62,20 +61,27 @@ pipeline
 	    chmod +x ./pipelines/scripts/github/*.sh
 	    ./pipelines/scripts/github/initializeRepo.sh ${repo_user} ${PAT} ${AZURE_TOKEN} ${repoName} ${devUser} ${featureBranchName} ${HOME_DIR} debug '''
 		echo "Verified the repo and required branches"
-            		}
+            		
 		    }
 		}
        
 	stage('Create and Sync Projects')
 	 {
       steps {
+		echo "LOCAL_DEV_URL"
+		def LOCAL_DEV_URL = https://"$source_environment_hostname":"$source_environment_port"
+		echo ${LOCAL_DEV_URL}
+
+		def LOCAL_DEV_URL = "https://${source_environment_hostname}:${source_environment_port}"
+		echo ${LOCAL_DEV_URL}
+
 		script{
                 echo "Create / Sychronize the projects"
 				sh '''
 				pwd
 				'''
 				script {
-					LOCAL_DEV_URL = "https://${source_environment_hostname}:${source_environment_port}"
+					echo "LOCAL_DEV_URL = "https://${source_environment_hostname}:${source_environment_port}""
 				}
 				echo ${LOCAL_DEV_URL}
 				echo ${init}
