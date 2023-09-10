@@ -17,7 +17,7 @@ pipeline
 		HOME_DIR= "${WORKSPACE}/../"
 		workingDirectory = "${WORKSPACE}"
 		LOCAL_DEV_URL = "test"
-	def source_environment_hostname = "localhost"
+		source_environment_hostname = "localhost"
 		source_environment_port = "5555"
 		def source_environment = "http://localhost:5555"
  	}
@@ -84,7 +84,8 @@ pipeline
 				pwd
 				'''
 				script {
-					LOCAL_DEV_URL = "https://${source_environment_hostname}:${source_environment_port}"
+					// LOCAL_DEV_URL = "https://${source_environment_hostname}:${source_environment_port}"
+					def LOCAL_DEV_URL = "${source_environment}"
 				}
 				echo ${LOCAL_DEV_URL}
 				echo ${init}
