@@ -19,6 +19,7 @@ pipeline
 		LOCAL_DEV_URL = "test"
 	def source_environment_hostname = "localhost"
 		source_environment_port = "5555"
+		def source_environment = "http://localhost:5555"
  	}
     stages 
 	{
@@ -70,8 +71,8 @@ pipeline
       steps {
 		echo "LOCAL_DEV_URL"
 		script{
-		def LOCAL_DEV_URL = https://${source_environment_hostname}:${source_environment_port}
-		echo "${LOCAL_DEV_URL}"
+		def LOCAL_DEV_URL = "${source_environment}"
+		echo "${source_environment}"
 
 		//def LOCAL_DEV_URL = "https://${source_environment_hostname}:${source_environment_port}"
 		echo "${LOCAL_DEV_URL}"
