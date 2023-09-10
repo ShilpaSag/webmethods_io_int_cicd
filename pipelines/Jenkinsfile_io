@@ -29,8 +29,8 @@ pipeline
 		echo "$WORKSPACE"
 		echo "${CUSTOMWORKSPACE}"
 		echo "Copy to the repo to custom workspace"
-		sh pwd
-		sh ls -ltr
+		sh 'pwd'
+		sh 'ls -ltr'
 
 		script {
 
@@ -69,7 +69,7 @@ pipeline
 	 {
       steps {
 		echo "LOCAL_DEV_URL"
-		def LOCAL_DEV_URL = https://${source_environment_hostname}:${source_environment_port}
+		// def LOCAL_DEV_URL = https://${source_environment_hostname}:${source_environment_port}
 		echo "${LOCAL_DEV_URL}"
 
 		//def LOCAL_DEV_URL = "https://${source_environment_hostname}:${source_environment_port}"
@@ -81,7 +81,7 @@ pipeline
 				pwd
 				'''
 				script {
-					// echo "LOCAL_DEV_URL = "https://${source_environment_hostname}:${source_environment_port}""
+					LOCAL_DEV_URL = "https://${source_environment_hostname}:${source_environment_port}"
 				}
 				echo ${LOCAL_DEV_URL}
 				echo ${init}
