@@ -72,6 +72,7 @@ pipeline
 		echo "LOCAL_DEV_URL"
 		script{
 		def LOCAL_DEV_URL = "${source_environment}"
+		env.LOCAL_DEV_URL = LOCAL_DEV_URL
 		echo "${source_environment}"
 
 		//def LOCAL_DEV_URL = "https://${source_environment_hostname}:${source_environment_port}"
@@ -85,9 +86,9 @@ pipeline
 				'''
 				script {
 					// LOCAL_DEV_URL = "https://${source_environment_hostname}:${source_environment_port}"
-					def LOCAL_DEV_URL = "${source_environment}"
+					// def LOCAL_DEV_URL = "${source_environment}"
 				}
-				echo ${LOCAL_DEV_URL}
+				echo ${env.LOCAL_DEV_URL}
 				echo ${init}
 				if ( ${init} == true ) 
 				{
