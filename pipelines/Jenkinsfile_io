@@ -70,10 +70,10 @@ pipeline
       steps {
 		echo "LOCAL_DEV_URL"
 		// def LOCAL_DEV_URL = https://"$source_environment_hostname":"$source_environment_port"
-		echo ${LOCAL_DEV_URL}
+		echo "${LOCAL_DEV_URL}"
 
 		def LOCAL_DEV_URL = "https://${source_environment_hostname}:${source_environment_port}"
-		echo ${LOCAL_DEV_URL}
+		echo "${LOCAL_DEV_URL}"
 
 		script{
                 echo "Create / Sychronize the projects"
