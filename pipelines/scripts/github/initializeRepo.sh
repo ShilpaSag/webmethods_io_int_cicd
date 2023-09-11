@@ -139,7 +139,7 @@ name=$(curl https://api.github.com/repos/${repo_user}/${repoName} | jq -r '.name
       else
           echo "Repo already exixts with name:" ${name}
           # echo "##vso[task.setvariable variable=init]false"
-          echo "init=false"
+          echo "initxxxxfalse"
           init = false
           exit 0
       fi
