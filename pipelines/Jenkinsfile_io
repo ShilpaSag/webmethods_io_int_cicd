@@ -16,7 +16,6 @@ pipeline
 		featureBranchName= "test"
 		HOME_DIR= "${WORKSPACE}/../"
 		workingDirectory = "${WORKSPACE}"
-		LOCAL_DEV_URL = "test"
 		source_environment_hostname = "localhost"
 		source_environment_port = "5555"
 		def source_environment = "http://localhost:5555"
