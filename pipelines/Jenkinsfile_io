@@ -120,7 +120,8 @@ echo "Init default value is ${init}"
 				{
 				 // Create a feature branch from prod 
 				 echo "Repo Exists, Check and sync feature branch from Prod"
-			      	  if ( "${synchProject}" != true ) 
+				 echo "Synch Project value is ${synchProject}"
+			      	  if ( "${synchProject}" != 'true' ) 
 				  {
 					echo "Patch Initialize"
 					if ( "${assetID}" == null) 
