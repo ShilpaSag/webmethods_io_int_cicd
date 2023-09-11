@@ -67,7 +67,7 @@ init = sh ( returnStdout: true, script: 'pipelines/scripts/github/initializeRepo
 		//initializeRepoInput = "${repo_user} ${PAT} ${AZURE_TOKEN} ${repoName} ${devUser} ${featureBranchName} ${HOME_DIR} debug"
 		//echo "${initializeRepoInput}"
 		//init = sh "( returnStdout: true, script: 'pipelines/scripts/github/initializeRepo.sh ${initializeRepoInput} ' )"
-		echo "Init value after verifying the repo ${init}"	
+		echo "Init value after verifying the repo ${init} "	
 
 		echo "Verified the repo and required branches"	
 		    }
