@@ -60,7 +60,7 @@ pipeline
 	    sh 'chmod +x ./pipelines/scripts/github/*.sh'
 	     
 	   // ./pipelines/scripts/github/initializeRepo.sh ${repo_user} ${PAT} ${AZURE_TOKEN} ${repoName} ${devUser} ${featureBranchName} ${HOME_DIR} debug
-		init = sh ( returnStdout: true, script: ./pipelines/scripts/github/initializeRepo.sh ${repo_user} ${PAT} ${AZURE_TOKEN} ${repoName} ${devUser} ${featureBranchName} ${HOME_DIR} debug )
+		init = sh ( returnStdout: true, script: pipelines/scripts/github/initializeRepo.sh ${repo_user} ${PAT} ${AZURE_TOKEN} ${repoName} ${devUser} ${featureBranchName} ${HOME_DIR} debug )
 		echo "Verified the repo and required branches"
             		
 		    }
