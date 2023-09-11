@@ -61,13 +61,13 @@ pipeline
 
 	     script {
 // ./pipelines/scripts/github/initializeRepo.sh ${repo_user} ${PAT} ${AZURE_TOKEN} ${repoName} ${devUser} ${featureBranchName} ${HOME_DIR} debug
-echo "${init}"	
+echo "Init default value is ${init}"	
 init = sh ( returnStdout: true, script: 'pipelines/scripts/github/initializeRepo.sh ${repo_user} ${PAT} ${AZURE_TOKEN} ${repoName} ${devUser} ${featureBranchName} ${HOME_DIR} debug' ).trim()
 
 		//initializeRepoInput = "${repo_user} ${PAT} ${AZURE_TOKEN} ${repoName} ${devUser} ${featureBranchName} ${HOME_DIR} debug"
 		//echo "${initializeRepoInput}"
 		//init = sh "( returnStdout: true, script: 'pipelines/scripts/github/initializeRepo.sh ${initializeRepoInput} ' )"
-		echo "${init}"	
+		echo "Init value after verifying the repo ${init}"	
 
 		echo "Verified the repo and required branches"	
 		    }
