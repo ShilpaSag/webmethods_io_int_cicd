@@ -9,7 +9,7 @@ pipeline
 
 		repoPAth = "${gitOwner}/${repoName}"
 		init = "true"
-		repo_user = "SanthoshKumarHN"
+		repo_user = "ShilpaSag"
 		PAT= "test"
 		AZURE_TOKEN= "test"
 		devUser= "test"
@@ -149,8 +149,9 @@ echo "Init default value is ${init}"
 	sh 'pwd'
           sh 'rm -rf ./${repoName}'
 
-          sh 'git clone -b production https://${repo_user}:${PAT}@github.com/${repo_user}/${repoName}.git'
-          sh 'cd $(repoName)'
+        //  sh 'git clone -b production https://${repo_user}:${PAT}@github.com/${repo_user}/${repoName}.git'
+          sh 'git clone -b production https://github.com/${repo_user}/${repoName}.git'
+	   sh 'cd $(repoName)'
 	   branchExists = sh ( returnStdout: true, script: '''git ls-remote --exit-code --heads origin ${featureBranchName} ''' ).trim()
         // branchExists = $(git ls-remote --exit-code --heads origin ${featureBranchName})
           if ( "${branchExists}" ) 
