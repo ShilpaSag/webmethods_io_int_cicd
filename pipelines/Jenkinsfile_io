@@ -89,8 +89,11 @@ pipeline
 				}
 				// echo ${env.LOCAL_DEV_URL}
 				echo "${init}"
+				def intVar = "${init}"
+		        	env.intVar = intVar
+		        	echo "Init value is ${env.intVar}"
 				script {
-				if ( ${init} == 'true' ) 
+				if ( env.intVar == 'true' )
 				{
 					echo "New repo created"
 					''' pwd
