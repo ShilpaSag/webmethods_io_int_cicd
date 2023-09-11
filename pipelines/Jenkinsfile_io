@@ -107,7 +107,7 @@ echo "Init default value is ${init}"
 
 
 				script {
-				if ( $init == 'true' )
+				if ( "${init}" == 'true' )
 				{
 					echo "New repo created"
 					sh 'pwd'
@@ -120,10 +120,10 @@ echo "Init default value is ${init}"
 				{
 				 // Create a feature branch from prod 
 				 echo "Repo Exists, Check and sync feature branch from Prod"
-			      	  if ( $synchProject != true ) 
+			      	  if ( "${synchProject}" != true ) 
 				  {
 					echo "Patch Initialize"
-					if ( $assetID == null) 
+					if ( "${assetID}" == null) 
 					{
 						//echo "##vso[task.logissue type=error;]Missing parameter \"assetID\""
 						//echo "##vso[task.complete result=Failed;]"
@@ -132,7 +132,7 @@ echo "Init default value is ${init}"
 						sh 'exit 1'
 					}
 					 
-					if ( $assetType  == null)
+					if ( "${assetType}"  == null)
 					{
 						echo "##vso[task.logissue type=error;]Missing parameter \"assetType\""
 						echo "##vso[task.complete result=Failed;]"
@@ -144,30 +144,30 @@ echo "Init default value is ${init}"
 					echo "Project Initialize"
 				}
 			}
-	echo echo "Remove the repo"	
-	sh pwd
-          sh rm -rf ./${repoName}
+	echo "Remove the repo"	
+	sh 'pwd'
+          sh 'rm -rf ./${repoName}'
 
-      //    sh git clone -b production https://${repo_user}:${PAT}@github.com/${repo_user}/${repoName}.git
-      //    sh cd $(repoName)
-      //    branchExists = $(git ls-remote --exit-code --heads origin ${featureBranchName})
-      //    if ( "${branchExists// }" ) 
-      //    {
-      //        echo "Branch ${featureBranchName} already exists"
-      //    }
-      //    else {
+          sh 'git clone -b production https://${repo_user}:${PAT}@github.com/${repo_user}/${repoName}.git'
+          sh 'cd $(repoName)'
+          branchExists = $(git ls-remote --exit-code --heads origin ${featureBranchName})
+          if ( "${branchExists// }" ) 
+          {
+              echo "Branch ${featureBranchName} already exists"
+          }
+          else {
               echo "Branch ${featureBranchName} doesnt exists, synching from prod ..."
-      //     ''' chmod +x ../${JOB_BASE_NAME}/pipelines/scripts/github/*.sh
-       //       ../${JOB_BASE_NAME}/pipelines/scripts/github/createFeatureFromProdBranch.sh ${devUser} ${featureBranchName} ${HOME_DIR} debug
-       //       # Project Check
-       //       chmod +x ../${JOB_BASE_NAME}/pipelines/scripts/*.sh
-       //       echo "Check and create Project ..."
-       //       ../${JOB_BASE_NAME}/pipelines/scripts/createProject.sh ${LOCAL_DEV_URL} ${admin_user} ${admin_password} ${repoName}
-       //       # Import
-       //           echo "Importing asset ..."
-       //       ../${JOB_BASE_NAME}/pipelines/scripts/importAsset.sh ${LOCAL_DEV_URL} ${admin_user} ${admin_password} ${repoName} ${assetID} ${assetType} ${HOME_DIR} $(synchProject) $(source_type) debug
-       //   '''
-       //        }
+           ''' chmod +x ../${JOB_BASE_NAME}/pipelines/scripts/github/*.sh
+             ../${JOB_BASE_NAME}/pipelines/scripts/github/createFeatureFromProdBranch.sh ${devUser} ${featureBranchName} ${HOME_DIR} debug
+             # Project Check
+              chmod +x ../${JOB_BASE_NAME}/pipelines/scripts/*.sh
+              echo "Check and create Project ..."
+              ../${JOB_BASE_NAME}/pipelines/scripts/createProject.sh ${LOCAL_DEV_URL} ${admin_user} ${admin_password} ${repoName}
+              # Import
+                  echo "Importing asset ..."
+              ../${JOB_BASE_NAME}/pipelines/scripts/importAsset.sh ${LOCAL_DEV_URL} ${admin_user} ${admin_password} ${repoName} ${assetID} ${assetType} ${HOME_DIR} $(synchProject) $(source_type) debug
+          '''
+               }
 				
             }
 		  }
