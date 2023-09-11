@@ -67,7 +67,7 @@ echo "Init default value is ${init}"
 		//initializeRepoInput = "${repo_user} ${PAT} ${AZURE_TOKEN} ${repoName} ${devUser} ${featureBranchName} ${HOME_DIR} debug"
 		//echo "${initializeRepoInput}"
 		initVal = sh ( returnStdout: true, script: 'pipelines/scripts/github/initializeRepo.sh ${repo_user} ${PAT} ${AZURE_TOKEN} ${repoName} ${devUser} ${featureBranchName} ${HOME_DIR} debug' )
-		echo "Init value after verifying the repo ${init} "	
+		echo "Init value after verifying the repo ${initVal} "	
 
 		echo "Verified the repo and required branches"	
 		    }
