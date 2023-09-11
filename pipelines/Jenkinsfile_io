@@ -63,7 +63,7 @@ pipeline
 
 echo "Init default value is ${init}"	
 // init = sh ( returnStdout: true, script: 'pipelines/scripts/github/initializeRepo.sh ${repo_user} ${PAT} ${AZURE_TOKEN} ${repoName} ${devUser} ${featureBranchName} ${HOME_DIR} debug' ).trim()
-sh ./pipelines/scripts/github/initializeRepo.sh ${repo_user} ${PAT} ${AZURE_TOKEN} ${repoName} ${devUser} ${featureBranchName} ${HOME_DIR} debug
+sh './pipelines/scripts/github/initializeRepo.sh ${repo_user} ${PAT} ${AZURE_TOKEN} ${repoName} ${devUser} ${featureBranchName} ${HOME_DIR} debug'
 		//initializeRepoInput = "${repo_user} ${PAT} ${AZURE_TOKEN} ${repoName} ${devUser} ${featureBranchName} ${HOME_DIR} debug"
 		//echo "${initializeRepoInput}"
 		//init = sh "( returnStdout: true, script: 'pipelines/scripts/github/initializeRepo.sh ${initializeRepoInput} ' )"
