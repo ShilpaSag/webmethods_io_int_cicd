@@ -67,8 +67,7 @@ pipeline
 		init = sh ( returnStdout: true, script: 'pipelines/scripts/github/initializeRepo.sh ${initializeRepoInput} ' )
 		echo "init"
 
-		echo "Verified the repo and required branches"
-            	echo "${init}	
+		echo "Verified the repo and required branches"	
 		    }
 		}
        }
