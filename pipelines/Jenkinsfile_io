@@ -98,7 +98,7 @@ echo "Init default value is ${init}"
 				// echo ${env.LOCAL_DEV_URL}
 
 				echo 'Building...'
-			                if ($init == 'false') {
+					if("${init}" == 'false') {
 			                    echo 'Value of $init'
 			                } else {
 			                    echo 'Value of $init'
