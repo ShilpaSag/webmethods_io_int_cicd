@@ -90,7 +90,8 @@ pipeline
 				}
 				// echo ${env.LOCAL_DEV_URL}
 				echo "${init}"
-				if ( ${init} == true ) 
+				script {
+				if ( ${init} == 'true' ) 
 				{
 					echo "New repo created"
 					''' pwd
@@ -104,7 +105,7 @@ pipeline
 				{
 				 // Create a feature branch from prod 
 				 echo "Repo Exists, Check and sync feature branch from Prod"
-			      if ( ${synchProject} != true ) 
+			      	  if ( ${synchProject} != true ) 
 				  {
 					echo "Patch Initialize"
 					if ( ${assetID} == null) 
@@ -124,7 +125,7 @@ pipeline
 				  else
 					echo "Project Initialize"
 				}
-
+			}
 	echo echo "Remove the repo"	
 	sh pwd
           sh rm -rf ./${repoName}
