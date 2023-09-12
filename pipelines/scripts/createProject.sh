@@ -61,7 +61,7 @@ if [ -z "$name" ];   then
     PROJECT_URL=${LOCAL_DEV_URL}/projects
     json='{ "name": "'${repoName}'", "description": "Created by Automated CI for feature branch"}'
     echo "Project url is ${PROJECT_URL}"
-    projectName=$(curl --location --request POST ${PROJECT_URL} \
+    projectName=$(curl --location --request POST '${PROJECT_URL}' \
     echo "Project name is ${projectName}"
     --header 'Content-Type: application/json' \
     --header 'Accept: application/json' \
