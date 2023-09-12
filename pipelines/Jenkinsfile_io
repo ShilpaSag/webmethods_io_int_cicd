@@ -165,8 +165,10 @@ init = sh ( returnStdout: true, script: ''' pipelines/scripts/github/initializeR
           }
           else {
               echo "Branch ${featureBranchName} doesnt exists, synching from prod ..."
-           ''' chmod +x ../${JOB_BASE_NAME}/pipelines/scripts/github/*.sh
-             ../${JOB_BASE_NAME}/pipelines/scripts/github/createFeatureFromProdBranch.sh ${devUser} ${featureBranchName} ${HOME_DIR} debug
+	      sh 'pwd'
+	      sh 'printenv'
+             sh 'chmod +x ../${JOB_BASE_NAME}/pipelines/scripts/github/*.sh'
+             sh '../${JOB_BASE_NAME}/pipelines/scripts/github/createFeatureFromProdBranch.sh ${devUser} ${featureBranchName} ${HOME_DIR} debug'
              # Project Check
               chmod +x ../${JOB_BASE_NAME}/pipelines/scripts/*.sh
               echo "Check and create Project ..."
