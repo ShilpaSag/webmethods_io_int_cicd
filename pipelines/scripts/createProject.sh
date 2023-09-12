@@ -10,7 +10,7 @@ LOCAL_DEV_URL=$1
 admin_user=$2
 admin_password=$3
 repoName=$4
-debug=${@: -1}
+// debug=${@: -1}
 
     if [ -z "$LOCAL_DEV_URL" ]; then
       echo "Missing template parameter LOCAL_DEV_URL"
@@ -60,7 +60,7 @@ if [ -z "$name" ];   then
    PROJECT_URL=${LOCAL_DEV_URL}/apis/v1/rest/projects
    ## PROJECT_URL=${LOCAL_DEV_URL}/projects
    echo "Repo name is ${repoName}"
-    json='{ "name": "${repoName}", "description": "Created by Automated CI for feature branch"}'
+    json='{ "name": "'${repoName}'", "description": "Created by Automated CI for feature branch"}'
     echo "Project url is ${PROJECT_URL}"
     echo "json is ${json}"
     projectName=$(curl --location --request POST ${PROJECT_URL} \
