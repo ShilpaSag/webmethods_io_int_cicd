@@ -13,7 +13,7 @@ pipeline
 		PAT= "test"
 		AZURE_TOKEN= "test"
 		devUser= "test"
-		featureBranchName= "test"
+		// featureBranchName= "test"
 		HOME_DIR= "${WORKSPACE}/../"
 		workingDirectory = "${WORKSPACE}"
 		source_environment_hostname = "localhost"
@@ -154,7 +154,7 @@ init = sh ( returnStdout: true, script: ''' pipelines/scripts/github/initializeR
         //  sh 'git clone -b production https://${repo_user}:${PAT}@github.com/${repo_user}/${repoName}.git'
           sh 'git clone -b production https://github.com/${repo_user}/${repoName}.git'
 	   sh 'cd ${repoName}'
-	   branchExists = sh ( returnStdout: true, script: '''git ls-remote --exit-code --heads origin ${featureBranchName} ''' ).trim()
+	   branchExists = sh ( returnStdout: true, script: '''git ls-remote --exit-code --heads ${featureBranchName} ''' ).trim()
         // branchExists = $(git ls-remote --exit-code --heads origin ${featureBranchName})
           if ( "${branchExists}" ) 
           {
