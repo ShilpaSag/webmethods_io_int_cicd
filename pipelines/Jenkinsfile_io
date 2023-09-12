@@ -12,7 +12,7 @@ pipeline
 		repo_user = "ShilpaSag"
 		PAT= "test"
 		AZURE_TOKEN= "test"
-		devUser= "test"
+		// devUser= "test"
 		// featureBranchName= "test"
 		HOME_DIR= "${WORKSPACE}/../"
 		workingDirectory = "${WORKSPACE}"
