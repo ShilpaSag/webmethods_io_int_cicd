@@ -57,8 +57,8 @@ name=$(curl --location --request GET ${PROJECT_URL} \
 if [ -z "$name" ];   then
     echo "Project does not exists. Creating ..."
     #### Create project in the tenant
-   ## PROJECT_URL=${LOCAL_DEV_URL}/apis/v1/rest/projects
-    PROJECT_URL=${LOCAL_DEV_URL}/projects
+   PROJECT_URL=${LOCAL_DEV_URL}/apis/v1/rest/projects
+   ## PROJECT_URL=${LOCAL_DEV_URL}/projects
     json='{ "name": "'${repoName}'", "description": "Created by Automated CI for feature branch"}'
     echo "Project url is ${PROJECT_URL}"
     projectName=$(curl --location --request POST ${PROJECT_URL} \
