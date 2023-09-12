@@ -45,7 +45,6 @@ function echod(){
 
 }
 
-echo "Repo name is ${repoName}"
 
 PROJECT_URL=${LOCAL_DEV_URL}/apis/v1/rest/projects/${repoName}
 
