@@ -18,7 +18,7 @@ pipeline
 		workingDirectory = "${WORKSPACE}"
 		source_environment_hostname = "localhost"
 		source_environment_port = "5555"
-		def source_environment = "https://env608865.int-aws-de.webmethods.io/"
+		def source_environment = "https://env608865.int-aws-de.webmethods.io"
  	}
     stages 
 	{
