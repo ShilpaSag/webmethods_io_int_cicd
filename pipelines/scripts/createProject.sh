@@ -63,9 +63,9 @@ if [ -z "$name" ];   then
     echo "Project url is ${PROJECT_URL}"
     echo "json is ${json}"
     projectName=$(curl --location --request POST ${PROJECT_URL} \
-    --header "Content-Type: application/json" \
-    --header "Accept: application/json" \
-    --data-raw "$json" -u ${admin_user}:${admin_password})
+    --header "Content-Type:application/json" \
+    --header "Accept:application/json" \
+    --data-raw '"$json"' -u '${admin_user}':'${admin_password}')
 
     echo "Project name is ${projectName}"
     
