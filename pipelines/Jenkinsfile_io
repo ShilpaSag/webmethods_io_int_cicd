@@ -153,7 +153,7 @@ init = sh ( returnStdout: true, script: ''' pipelines/scripts/github/initializeR
 
         //  sh 'git clone -b production https://${repo_user}:${PAT}@github.com/${repo_user}/${repoName}.git'
           sh 'git clone -b production https://github.com/${repo_user}/${repoName}.git'
-	   sh 'cd $(repoName)'
+	   sh 'cd ${repoName}'
 	   branchExists = sh ( returnStdout: true, script: '''git ls-remote --exit-code --heads origin ${featureBranchName} ''' ).trim()
         // branchExists = $(git ls-remote --exit-code --heads origin ${featureBranchName})
           if ( "${branchExists}" ) 
@@ -170,7 +170,7 @@ init = sh ( returnStdout: true, script: ''' pipelines/scripts/github/initializeR
               ../${JOB_BASE_NAME}/pipelines/scripts/createProject.sh ${LOCAL_DEV_URL} ${admin_user} ${admin_password} ${repoName}
               # Import
                   echo "Importing asset ..."
-              ../${JOB_BASE_NAME}/pipelines/scripts/importAsset.sh ${LOCAL_DEV_URL} ${admin_user} ${admin_password} ${repoName} ${assetID} ${assetType} ${HOME_DIR} $(synchProject) $(source_type) debug
+              ../${JOB_BASE_NAME}/pipelines/scripts/importAsset.sh ${LOCAL_DEV_URL} ${admin_user} ${admin_password} ${repoName} ${assetID} ${assetType} ${HOME_DIR} ${synchProject} ${source_type} debug
           '''
                }
 				
