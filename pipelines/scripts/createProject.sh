@@ -65,7 +65,7 @@ if [ -z "$name" ];   then
     projectName=$(curl --location --request POST ${PROJECT_URL} \
     --header "Content-Type:application/json" \
     --header "Accept:application/json" \
-    --data-raw '{"name": "webmethods_io_int_cicd", "description": "Created by Automated CI for feature branch"}' -u '${admin_user}':'${admin_password}')
+    --data-raw '{"name": "webmethods_io_int_cicd", "description": "Created by Automated CI for feature branch"}' -u \'${admin_user}\':\'${admin_password}\')
 
     echo "Project name is ${projectName}"
     
