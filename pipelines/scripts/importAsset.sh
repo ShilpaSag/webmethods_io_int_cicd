@@ -69,19 +69,19 @@ debug=${@: -1}
   fi
 
 
-  echo "pwd"
-  echo "ls -ltr"
+  echo $(pwd)
+  echo $(ls -ltr)
   echo "AssetType:" $assetType
   if [[ $assetType = workflow* ]]; then
       FLOW_URL=${LOCAL_DEV_URL}/apis/v1/rest/projects/${repoName}/workflow-import
     cd "${HOME_DIR}${repoName}/assets/workflows"
       echo "Workflow Import:${FLOW_URL}
-      echo "ls -ltr"
+      echo $(ls -ltr)
   else
       FLOW_URL=${LOCAL_DEV_URL}/apis/v1/rest/projects/${repoName}/flow-import
       cd "${HOME_DIR}/${repoName}/assets/flowservices"
       echo "Flowservice Import: ${FLOW_URL}"
-      echo "ls -ltr"
+      echo $(ls -ltr)
   fi    
       echo "${FLOW_URL}"
       echo "${PWD}"
@@ -107,7 +107,7 @@ debug=${@: -1}
   else
     echo "$FILE does not exists, Nothing to import"
   fi
-sh 'cd ${HOME_DIR}/${repoName}'
+cd "${HOME_DIR}/${repoName}"
 
 # Importing Reference Data
   DIR="./assets/projectConfigs/referenceData/"
@@ -124,13 +124,13 @@ sh 'cd ${HOME_DIR}/${repoName}'
           exit 1
       fi
        echo "ProjectID:" ${projectID}
-       sh 'pwd'
-      sh 'cd ./assets/projectConfigs/referenceData/'
+       echo $(pwd)
+      cd "./assets/projectConfigs/referenceData/"
       for d in * ; do
           if [ -d "$d" ]; then
             refDataName="$d"
             echo "$d"
-            sh 'cd "$d"'
+            cd ""$d""
             description=$(jq -r .description metadata.json)
             columnDelimiter=$(jq -r .columnDelimiter metadata.json)
             encodingType=$(jq -r .encodingType metadata.json)
@@ -165,20 +165,20 @@ sh 'cd ${HOME_DIR}/${repoName}'
               else
                 echo "Reference Data failed:" ${projectPostJson}
               fi
-            sh 'cd -'
+            "cd -"
           fi
         done
   fi
-sh 'pwd'
-sh 'ls -lrt'
-sh 'cd ${HOME_DIR}/${repoName}'
+echo $(pwd)
+echo $(ls -lrt)
+cd "${HOME_DIR}/${repoName}"
 
 
 
   DIR="./assets/projectConfigs/parameters/"
   if [ -d "$DIR" ]; then
       echo "Project Parameters needs to be synched"
-      sh 'cd ./assets/projectConfigs/parameters/'
+      cd "./assets/projectConfigs/parameters/"
       for filename in ./*.json; do
           parameterUID=${filename##*/}
           parameterUID=${parameterUID%.*}
