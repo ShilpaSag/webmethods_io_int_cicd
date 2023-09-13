@@ -61,40 +61,51 @@ debug=${@: -1}
     fi
 
 
-
+function echod(){
   
   if [ "$debug" == "debug" ]; then
     echo $1
     set -x
   fi
 
+}
 
-  echo $(pwd)
-  echo $(ls -ltr)
+function importAsset() {
+  LOCAL_DEV_URL=$1
+  admin_user=$2
+  admin_password=$3
+  repoName=$4
+  assetID=$5
+  assetType=$6
+  HOME_DIR=$7
+  synchProject=$8
+
+  echod $(pwd)
+  echod $(ls -ltr)
   echo "AssetType:" $assetType
   if [[ $assetType = workflow* ]]; then
       FLOW_URL=${LOCAL_DEV_URL}/apis/v1/rest/projects/${repoName}/workflow-import
-    cd "${HOME_DIR}${repoName}/assets/workflows"
-      echo "Workflow Import:${FLOW_URL}
-      echo $(ls -ltr)
+      cd ${HOME_DIR}/${repoName}/assets/workflows
+      echod "Workflow Import:" ${FLOW_URL}
+      echod $(ls -ltr)
   else
       FLOW_URL=${LOCAL_DEV_URL}/apis/v1/rest/projects/${repoName}/flow-import
-      cd "${HOME_DIR}/${repoName}/assets/flowservices"
-      echo "Flowservice Import: ${FLOW_URL}"
-      echo $(ls -ltr)
+      cd ${HOME_DIR}/${repoName}/assets/flowservices
+      echod "Flowservice Import:" ${FLOW_URL}
+      echod $(ls -ltr)
   fi    
-      echo "${FLOW_URL}"
-      echo "${PWD}"
+      echod ${FLOW_URL}
+      echod ${PWD}
   FILE=./${assetID}.zip
   formKey="recipe=@"${FILE}
-  echo "${formKey}"
+  echod ${formKey}
   if [ -f "$FILE" ]; then
   ####### Check if asset with this name exist
 
       echo "$FILE exists. Importing ..."
       importedName=$(curl --location --request POST ${FLOW_URL} \
-                  --header "Content-Type:multipart/form-data" \
-                  --header "Accept:application/json" \
+                  --header 'Content-Type: multipart/form-data' \
+                  --header 'Accept: application/json' \
                   --form ${formKey} -u ${admin_user}:${admin_password})    
 
       name=$(echo "$importedName" | jq '.output.name // empty')
@@ -107,7 +118,19 @@ debug=${@: -1}
   else
     echo "$FILE does not exists, Nothing to import"
   fi
-cd "${HOME_DIR}/${repoName}"
+cd ${HOME_DIR}/${repoName}
+}
+
+function refData(){
+  LOCAL_DEV_URL=$1
+  admin_user=$2
+  admin_password=$3
+  repoName=$4
+  assetID=$5
+  assetType=$6
+  HOME_DIR=$7
+  synchProject=$8
+  source_type=$9
 
 # Importing Reference Data
   DIR="./assets/projectConfigs/referenceData/"
@@ -115,29 +138,28 @@ cd "${HOME_DIR}/${repoName}"
       echo "Project referenceData needs to be synched"
       PROJECT_ID_URL=${LOCAL_DEV_URL}/apis/v1/rest/projects/${repoName}
       projectJson=$(curl  --location --request GET ${PROJECT_ID_URL} \
-          --header "Content-Type:application/json" \
-          --header "Accept:application/json" \
+          --header 'Content-Type: application/json' \
+          --header 'Accept: application/json' \
           -u ${admin_user}:${admin_password})
       projectID=$(echo "$projectJson" | jq -r -c '.output.uid // empty')
       if [ -z "$projectID" ];   then
           echo "Incorrect Project/Repo name"
           exit 1
       fi
-       echo "ProjectID:" ${projectID}
-       echo $(pwd)
-      cd "./assets/projectConfigs/referenceData/"
+       echod "ProjectID:" ${projectID}
+      cd ./assets/projectConfigs/referenceData/
       for d in * ; do
           if [ -d "$d" ]; then
             refDataName="$d"
-            echo "$d"
-            cd ""$d""
+            echod "$d"
+            cd "$d"
             description=$(jq -r .description metadata.json)
             columnDelimiter=$(jq -r .columnDelimiter metadata.json)
             encodingType=$(jq -r .encodingType metadata.json)
             releaseCharacter=$(jq -r .releaseCharacter metadata.json)
             FILE=./${source_type}.csv
             formKey="file=@"${FILE}
-            echo "${formKey}"
+            echod ${formKey} 
             REF_DATA_URL=${LOCAL_DEV_URL}/integration/rest/external/v1/ut-flow/referencedata/${projectID}/${refDataName}
             rdJson=$(curl --location --request GET ${REF_DATA_URL}  \
               --header 'Content-Type: application/json' \
@@ -152,7 +174,7 @@ cd "${HOME_DIR}/${repoName}"
                 POST_REF_DATA_URL=${LOCAL_DEV_URL}/integration/rest/external/v1/ut-flow/referencedata/update/${projectID}/${refDataName}
               fi
               projectPostJson=$(curl --location --request POST ${POST_REF_DATA_URL} \
-                  --header "Accept:application/json" \
+                  --header 'Accept: application/json' \
                   --form 'name='"$refDataName" \
                   --form 'description='"$description" \
                   --form 'field separator='"$columnDelimiter" \
@@ -165,47 +187,60 @@ cd "${HOME_DIR}/${repoName}"
               else
                 echo "Reference Data failed:" ${projectPostJson}
               fi
-            "cd -"
+            cd -
           fi
         done
   fi
-echo $(pwd)
-echo $(ls -lrt)
-cd "${HOME_DIR}/${repoName}"
+cd ${HOME_DIR}/${repoName}
+
+}
 
 
+function projectParameters(){
+# Importing Project Parameters
+  LOCAL_DEV_URL=$1
+  admin_user=$2
+  admin_password=$3
+  repoName=$4
+  assetID=$5
+  assetType=$6
+  HOME_DIR=$7
+  synchProject=$8
+  source_type=$9
+  echod $(pwd)
+  echod $(ls -ltr)
 
   DIR="./assets/projectConfigs/parameters/"
   if [ -d "$DIR" ]; then
       echo "Project Parameters needs to be synched"
-      cd "./assets/projectConfigs/parameters/"
+      cd ./assets/projectConfigs/parameters/
       for filename in ./*.json; do
           parameterUID=${filename##*/}
           parameterUID=${parameterUID%.*}
-          echo ${parameterUID}
+          echod ${parameterUID}
           PROJECT_PARAM_GET_URL=${LOCAL_DEV_URL}/apis/v1/rest/projects/${repoName}/params/${parameterUID}
-          echo ${PROJECT_PARAM_GET_URL}
+          echod ${PROJECT_PARAM_GET_URL}
           ppListJson=$(curl --location --request GET ${PROJECT_PARAM_GET_URL}  \
           --header 'Content-Type: application/json' \
           --header 'Accept: application/json' \
           -u ${admin_user}:${admin_password})
 
           ppExport=$(echo "$ppListJson" | jq '.output.uid // empty')
-          echo ${ppExport}
+          echod ${ppExport}
           if [ -z "$ppExport" ];   then
               echo "Project parameters does not exists, creating ..:"
               PROJECT_PARAM_CREATE_URL=${LOCAL_DEV_URL}/apis/v1/rest/projects/${repoName}/params
-              echo ${PROJECT_PARAM_CREATE_URL}
+              echod ${PROJECT_PARAM_CREATE_URL}
               parameterJSON="$(cat ${parameterUID}.json)"
-              echo "${parameterJSON}"
-              echo "$(curl --location --request POST ${PROJECT_PARAM_CREATE_URL}  \
-              --header "Content-Type:application/json" \
-              --header "Accept:application/json" \
+              echod "${parameterJSON}"
+              echod "curl --location --request POST ${PROJECT_PARAM_CREATE_URL}  \
+              --header 'Content-Type: application/json' \
+              --header 'Accept: application/json' \
               --data-raw "$parameterJSON" -u ${admin_user}:${admin_password})"
 
               ppCreateJson=$(curl --location --request POST ${PROJECT_PARAM_CREATE_URL}  \
-              --header "Content-Type:application/json" \
-              --header "Accept:application/json" \
+              --header 'Content-Type: application/json' \
+              --header 'Accept: application/json' \
               --data-raw "$parameterJSON" -u ${admin_user}:${admin_password})
               ppCreatedJson=$(echo "$ppCreateJson" | jq '.output.uid // empty')
               if [ -z "$ppCreatedJson" ];   then
@@ -216,12 +251,12 @@ cd "${HOME_DIR}/${repoName}"
           else
               echo "Project parameters does exists, updating ..:"
               PROJECT_PARAM_UPDATE_URL=${LOCAL_DEV_URL}/apis/v1/rest/projects/${repoName}/params/${parameterUID}
-              echo ${PROJECT_PARAM_UPDATE_URL}
+              echod ${PROJECT_PARAM_UPDATE_URL}
               parameterJSON=`jq '.' ${parameterUID}.json`
-              echo ${parameterJSON}
+              echod ${parameterJSON}
               ppUpdateJson=$(curl --location --request POST ${PROJECT_PARAM_UPDATE_URL}  \
-              --header "Content-Type:application/json" \
-              --header "Accept:application/json" \
+              --header 'Content-Type: application/json' \
+              --header 'Accept: application/json' \
               -d ${parameterJSON} -u ${admin_user}:${admin_password})
               ppUpdatedJson=$(echo "$ppUpdateJson" | jq '.output.uid // empty')
               if [ -z "$ppUpdatedJson" ];   then
@@ -236,15 +271,19 @@ cd "${HOME_DIR}/${repoName}"
   fi
 
   cd ${HOME_DIR}/${repoName}
+  
+
+}
+
 
 if [ ${synchProject} == true ]; then
-  echo "Listing files"
+  echod "Listing files"
   for filename in ./assets/*/*.zip; do 
       base_name=${filename##*/}
       parent_name="$(basename "$(dirname "$filename")")"
       base_name=${base_name%.*}
-      echo $base_name${filename%.*}
-      echo $parent_name
+      echod $base_name${filename%.*}
+      echod $parent_name
       importAsset ${LOCAL_DEV_URL} ${admin_user} ${admin_password} ${repoName} ${base_name} ${parent_name} ${HOME_DIR} ${synchProject}
   done
   
