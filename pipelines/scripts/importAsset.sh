@@ -108,7 +108,6 @@ debug=${@: -1}
     echo "$FILE does not exists, Nothing to import"
   fi
 cd ${HOME_DIR}/${repoName}
-}
 
 # Importing Reference Data
   DIR="./assets/projectConfigs/referenceData/"
@@ -171,7 +170,6 @@ cd ${HOME_DIR}/${repoName}
   fi
 cd ${HOME_DIR}/${repoName}
 
-}
 
 
   DIR="./assets/projectConfigs/parameters/"
@@ -235,9 +233,6 @@ cd ${HOME_DIR}/${repoName}
   fi
 
   cd ${HOME_DIR}/${repoName}
-  
-
-}
 
 
 if [ ${synchProject} == true ]; then
