@@ -69,22 +69,22 @@ debug=${@: -1}
   fi
 
 
-  echo $(pwd)
-  echo $(ls -ltr)
+  sh 'pwd'
+  sh 'ls -ltr'
   echo "AssetType:" $assetType
   if [[ $assetType = workflow* ]]; then
       FLOW_URL=${LOCAL_DEV_URL}/apis/v1/rest/projects/${repoName}/workflow-import
     sh'cd ${HOME_DIR}${repoName}/assets/workflows'
-      echo "Workflow Import:" ${FLOW_URL}
-      echo "$(ls -ltr)"
+      echo "Workflow Import:${FLOW_URL}"
+      sh'ls -ltr'
   else
       FLOW_URL=${LOCAL_DEV_URL}/apis/v1/rest/projects/${repoName}/flow-import
       sh'cd ${HOME_DIR}/${repoName}/assets/flowservices'
       echo "Flowservice Import: ${FLOW_URL}"
-      echo "$(ls -ltr)"
+      sh'ls -ltr'
   fi    
-      echo ${FLOW_URL}
-      echo ${PWD}
+      echo "${FLOW_URL}"
+      echo "${PWD}"
   FILE=./${assetID}.zip
   formKey="recipe=@"${FILE}
   echo ${formKey}
