@@ -93,8 +93,8 @@ debug=${@: -1}
 
       echo "$FILE exists. Importing ..."
       importedName=$(curl --location --request POST ${FLOW_URL} \
-                  --header 'Content-Type: multipart/form-data' \
-                  --header 'Accept: application/json' \
+                  --header "Content-Type:multipart/form-data" \
+                  --header "Accept:application/json" \
                   --form ${formKey} -u ${admin_user}:${admin_password})    
 
       name=$(echo "$importedName" | jq '.output.name // empty')
