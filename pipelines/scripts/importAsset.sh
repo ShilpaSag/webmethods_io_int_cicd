@@ -69,14 +69,14 @@ debug=${@: -1}
   fi
 
 
-  echod $(pwd)
-  echod $(ls -ltr)
+  echo $(pwd)
+  echo $(ls -ltr)
   echo "AssetType:" $assetType
   if [[ $assetType = workflow* ]]; then
       FLOW_URL=${LOCAL_DEV_URL}/apis/v1/rest/projects/${repoName}/workflow-import
       cd ${HOME_DIR}/${repoName}/assets/workflows
-      echod "Workflow Import:" ${FLOW_URL}
-      echod $(ls -ltr)
+      echo "Workflow Import:" ${FLOW_URL}
+      echo $(ls -ltr)
   else
       FLOW_URL=${LOCAL_DEV_URL}/apis/v1/rest/projects/${repoName}/flow-import
       cd ${HOME_DIR}/${repoName}/assets/flowservices
