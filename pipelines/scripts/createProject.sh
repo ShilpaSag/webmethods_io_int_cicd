@@ -62,10 +62,10 @@ if [ -z "$name" ];   then
     json='{"name": "'${repoName}'", "description": "Created by Automated CI for feature branch"}'
     echo "Project url is ${PROJECT_URL}"
     echo "json is ${jsonString}"
-    projectName=$"(curl --location --request POST ${PROJECT_URL} \
+    projectName=$(curl --location --request POST ${PROJECT_URL} \
     --header "Content-Type:application/json" \
     --header "Accept:application/json" \
-    --data-raw '{"name": "'${repoName}'", "description": "Created by Automated CI for feature branch"}' -u ${admin_user}:${admin_password})"
+    --data-raw '{"name": "'${repoName}'", "description": "Created by Automated CI for feature branch"}' -u ${admin_user}:${admin_password})
 
     echo "Project name is ${projectName}"
     
