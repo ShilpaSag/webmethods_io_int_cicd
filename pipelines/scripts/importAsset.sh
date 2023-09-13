@@ -110,37 +110,26 @@ debug=${@: -1}
 cd ${HOME_DIR}/${repoName}
 }
 
-function refData(){
-  LOCAL_DEV_URL=$1
-  admin_user=$2
-  admin_password=$3
-  repoName=$4
-  assetID=$5
-  assetType=$6
-  HOME_DIR=$7
-  synchProject=$8
-  source_type=$9
-
 # Importing Reference Data
   DIR="./assets/projectConfigs/referenceData/"
   if [ -d "$DIR" ]; then
       echo "Project referenceData needs to be synched"
       PROJECT_ID_URL=${LOCAL_DEV_URL}/apis/v1/rest/projects/${repoName}
       projectJson=$(curl  --location --request GET ${PROJECT_ID_URL} \
-          --header 'Content-Type: application/json' \
-          --header 'Accept: application/json' \
+          --header "Content-Type:application/json" \
+          --header "Accept:application/json" \
           -u ${admin_user}:${admin_password})
       projectID=$(echo "$projectJson" | jq -r -c '.output.uid // empty')
       if [ -z "$projectID" ];   then
           echo "Incorrect Project/Repo name"
           exit 1
       fi
-       echod "ProjectID:" ${projectID}
+       echo "ProjectID:" ${projectID}
       cd ./assets/projectConfigs/referenceData/
       for d in * ; do
           if [ -d "$d" ]; then
             refDataName="$d"
-            echod "$d"
+            echo "$d"
             cd "$d"
             description=$(jq -r .description metadata.json)
             columnDelimiter=$(jq -r .columnDelimiter metadata.json)
@@ -148,7 +137,7 @@ function refData(){
             releaseCharacter=$(jq -r .releaseCharacter metadata.json)
             FILE=./${source_type}.csv
             formKey="file=@"${FILE}
-            echod ${formKey} 
+            echo ${formKey} 
             REF_DATA_URL=${LOCAL_DEV_URL}/integration/rest/external/v1/ut-flow/referencedata/${projectID}/${refDataName}
             rdJson=$(curl --location --request GET ${REF_DATA_URL}  \
               --header 'Content-Type: application/json' \
@@ -163,7 +152,7 @@ function refData(){
                 POST_REF_DATA_URL=${LOCAL_DEV_URL}/integration/rest/external/v1/ut-flow/referencedata/update/${projectID}/${refDataName}
               fi
               projectPostJson=$(curl --location --request POST ${POST_REF_DATA_URL} \
-                  --header 'Accept: application/json' \
+                  --header "Accept:application/json" \
                   --form 'name='"$refDataName" \
                   --form 'description='"$description" \
                   --form 'field separator='"$columnDelimiter" \
@@ -185,20 +174,6 @@ cd ${HOME_DIR}/${repoName}
 }
 
 
-function projectParameters(){
-# Importing Project Parameters
-  LOCAL_DEV_URL=$1
-  admin_user=$2
-  admin_password=$3
-  repoName=$4
-  assetID=$5
-  assetType=$6
-  HOME_DIR=$7
-  synchProject=$8
-  source_type=$9
-  echod $(pwd)
-  echod $(ls -ltr)
-
   DIR="./assets/projectConfigs/parameters/"
   if [ -d "$DIR" ]; then
       echo "Project Parameters needs to be synched"
@@ -215,21 +190,21 @@ function projectParameters(){
           -u ${admin_user}:${admin_password})
 
           ppExport=$(echo "$ppListJson" | jq '.output.uid // empty')
-          echod ${ppExport}
+          echo ${ppExport}
           if [ -z "$ppExport" ];   then
               echo "Project parameters does not exists, creating ..:"
               PROJECT_PARAM_CREATE_URL=${LOCAL_DEV_URL}/apis/v1/rest/projects/${repoName}/params
-              echod ${PROJECT_PARAM_CREATE_URL}
+              echo ${PROJECT_PARAM_CREATE_URL}
               parameterJSON="$(cat ${parameterUID}.json)"
-              echod "${parameterJSON}"
-              echod "curl --location --request POST ${PROJECT_PARAM_CREATE_URL}  \
-              --header 'Content-Type: application/json' \
-              --header 'Accept: application/json' \
+              echo "${parameterJSON}"
+              echo "curl --location --request POST ${PROJECT_PARAM_CREATE_URL}  \
+              --header "Content-Type:application/json" \
+              --header "Accept:application/json" \
               --data-raw "$parameterJSON" -u ${admin_user}:${admin_password})"
 
               ppCreateJson=$(curl --location --request POST ${PROJECT_PARAM_CREATE_URL}  \
-              --header 'Content-Type: application/json' \
-              --header 'Accept: application/json' \
+              --header "Content-Type:application/json" \
+              --header "Accept:application/json" \
               --data-raw "$parameterJSON" -u ${admin_user}:${admin_password})
               ppCreatedJson=$(echo "$ppCreateJson" | jq '.output.uid // empty')
               if [ -z "$ppCreatedJson" ];   then
@@ -240,12 +215,12 @@ function projectParameters(){
           else
               echo "Project parameters does exists, updating ..:"
               PROJECT_PARAM_UPDATE_URL=${LOCAL_DEV_URL}/apis/v1/rest/projects/${repoName}/params/${parameterUID}
-              echod ${PROJECT_PARAM_UPDATE_URL}
+              echo ${PROJECT_PARAM_UPDATE_URL}
               parameterJSON=`jq '.' ${parameterUID}.json`
-              echod ${parameterJSON}
+              echo ${parameterJSON}
               ppUpdateJson=$(curl --location --request POST ${PROJECT_PARAM_UPDATE_URL}  \
-              --header 'Content-Type: application/json' \
-              --header 'Accept: application/json' \
+              --header "Content-Type:application/json" \
+              --header "Accept:application/json" \
               -d ${parameterJSON} -u ${admin_user}:${admin_password})
               ppUpdatedJson=$(echo "$ppUpdateJson" | jq '.output.uid // empty')
               if [ -z "$ppUpdatedJson" ];   then
@@ -266,13 +241,13 @@ function projectParameters(){
 
 
 if [ ${synchProject} == true ]; then
-  echod "Listing files"
+  echo "Listing files"
   for filename in ./assets/*/*.zip; do 
       base_name=${filename##*/}
       parent_name="$(basename "$(dirname "$filename")")"
       base_name=${base_name%.*}
-      echod $base_name${filename%.*}
-      echod $parent_name
+      echo $base_name${filename%.*}
+      echo $parent_name
       importAsset ${LOCAL_DEV_URL} ${admin_user} ${admin_password} ${repoName} ${base_name} ${parent_name} ${HOME_DIR} ${synchProject}
   done
   
