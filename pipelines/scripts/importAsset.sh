@@ -80,14 +80,14 @@ debug=${@: -1}
   else
       FLOW_URL=${LOCAL_DEV_URL}/apis/v1/rest/projects/${repoName}/flow-import
       cd ${HOME_DIR}/${repoName}/assets/flowservices
-      echod "Flowservice Import:" ${FLOW_URL}
-      echod $(ls -ltr)
+      echo "Flowservice Import:" ${FLOW_URL}
+      echo $(ls -ltr)
   fi    
-      echod ${FLOW_URL}
-      echod ${PWD}
+      echo ${FLOW_URL}
+      echo ${PWD}
   FILE=./${assetID}.zip
   formKey="recipe=@"${FILE}
-  echod ${formKey}
+  echo ${formKey}
   if [ -f "$FILE" ]; then
   ####### Check if asset with this name exist
 
