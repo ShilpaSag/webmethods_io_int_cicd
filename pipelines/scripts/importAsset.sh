@@ -70,24 +70,15 @@ function echod(){
 
 }
 
-function importAsset() {
-  LOCAL_DEV_URL=$1
-  admin_user=$2
-  admin_password=$3
-  repoName=$4
-  assetID=$5
-  assetType=$6
-  HOME_DIR=$7
-  synchProject=$8
 
-  echod $(pwd)
-  echod $(ls -ltr)
+  echo $(pwd)
+  echo $(ls -ltr)
   echo "AssetType:" $assetType
   if [[ $assetType = workflow* ]]; then
       FLOW_URL=${LOCAL_DEV_URL}/apis/v1/rest/projects/${repoName}/workflow-import
-      cd ${HOME_DIR}/${repoName}/assets/workflows
-      echod "Workflow Import:" ${FLOW_URL}
-      echod $(ls -ltr)
+      cd $HOME_DIR/$repoName/assets/workflows
+      echo "Workflow Import:" ${FLOW_URL}
+      echo $(ls -ltr)
   else
       FLOW_URL=${LOCAL_DEV_URL}/apis/v1/rest/projects/${repoName}/flow-import
       cd ${HOME_DIR}/${repoName}/assets/flowservices
