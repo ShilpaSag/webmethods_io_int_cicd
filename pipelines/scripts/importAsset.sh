@@ -61,24 +61,13 @@ debug=${@: -1}
     fi
 
 
-function echod(){
+
   
   if [ "$debug" == "debug" ]; then
     echo $1
     set -x
   fi
 
-}
-
-function importAsset() {
-  LOCAL_DEV_URL=$1
-  admin_user=$2
-  admin_password=$3
-  repoName=$4
-  assetID=$5
-  assetType=$6
-  HOME_DIR=$7
-  synchProject=$8
 
   echod $(pwd)
   echod $(ls -ltr)
