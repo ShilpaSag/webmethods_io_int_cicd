@@ -74,20 +74,20 @@ debug=${@: -1}
   echo "AssetType:" $assetType
   if [[ $assetType = workflow* ]]; then
       FLOW_URL=${LOCAL_DEV_URL}/apis/v1/rest/projects/${repoName}/workflow-import
-    sh'cd ${HOME_DIR}${repoName}/assets/workflows'
+    sh 'cd ${HOME_DIR}${repoName}/assets/workflows'
       echo "Workflow Import:${FLOW_URL}"
-      sh'ls -ltr'
+      sh 'ls -ltr'
   else
       FLOW_URL=${LOCAL_DEV_URL}/apis/v1/rest/projects/${repoName}/flow-import
-      sh'cd ${HOME_DIR}/${repoName}/assets/flowservices'
+      sh 'cd ${HOME_DIR}/${repoName}/assets/flowservices'
       echo "Flowservice Import: ${FLOW_URL}"
-      sh'ls -ltr'
+      sh 'ls -ltr'
   fi    
       echo "${FLOW_URL}"
       echo "${PWD}"
   FILE=./${assetID}.zip
   formKey="recipe=@"${FILE}
-  echo ${formKey}
+  echo "${formKey}"
   if [ -f "$FILE" ]; then
   ####### Check if asset with this name exist
 
@@ -107,7 +107,7 @@ debug=${@: -1}
   else
     echo "$FILE does not exists, Nothing to import"
   fi
-cd ${HOME_DIR}/${repoName}
+sh 'cd ${HOME_DIR}/${repoName}'
 
 # Importing Reference Data
   DIR="./assets/projectConfigs/referenceData/"
@@ -124,19 +124,20 @@ cd ${HOME_DIR}/${repoName}
           exit 1
       fi
        echo "ProjectID:" ${projectID}
-      cd ./assets/projectConfigs/referenceData/
+       sh 'pwd'
+      sh 'cd ./assets/projectConfigs/referenceData/'
       for d in * ; do
           if [ -d "$d" ]; then
             refDataName="$d"
             echo "$d"
-            cd "$d"
+            sh 'cd "$d"'
             description=$(jq -r .description metadata.json)
             columnDelimiter=$(jq -r .columnDelimiter metadata.json)
             encodingType=$(jq -r .encodingType metadata.json)
             releaseCharacter=$(jq -r .releaseCharacter metadata.json)
             FILE=./${source_type}.csv
             formKey="file=@"${FILE}
-            echo ${formKey} 
+            echo "${formKey}"
             REF_DATA_URL=${LOCAL_DEV_URL}/integration/rest/external/v1/ut-flow/referencedata/${projectID}/${refDataName}
             rdJson=$(curl --location --request GET ${REF_DATA_URL}  \
               --header 'Content-Type: application/json' \
@@ -164,18 +165,20 @@ cd ${HOME_DIR}/${repoName}
               else
                 echo "Reference Data failed:" ${projectPostJson}
               fi
-            cd -
+            sh 'cd -'
           fi
         done
   fi
-cd ${HOME_DIR}/${repoName}
+sh 'pwd'
+sh 'ls -lrt'
+sh 'cd ${HOME_DIR}/${repoName}'
 
 
 
   DIR="./assets/projectConfigs/parameters/"
   if [ -d "$DIR" ]; then
       echo "Project Parameters needs to be synched"
-      cd ./assets/projectConfigs/parameters/
+      sh 'cd ./assets/projectConfigs/parameters/'
       for filename in ./*.json; do
           parameterUID=${filename##*/}
           parameterUID=${parameterUID%.*}
@@ -232,7 +235,7 @@ cd ${HOME_DIR}/${repoName}
       echo "No Project Parameters to import."
   fi
 
-  cd ${HOME_DIR}/${repoName}
+  sh 'cd ${HOME_DIR}/${repoName}'
 
 
 if [ ${synchProject} == true ]; then
