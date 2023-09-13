@@ -182,9 +182,9 @@ cd "${HOME_DIR}/${repoName}"
       for filename in ./*.json; do
           parameterUID=${filename##*/}
           parameterUID=${parameterUID%.*}
-          echod ${parameterUID}
+          echo ${parameterUID}
           PROJECT_PARAM_GET_URL=${LOCAL_DEV_URL}/apis/v1/rest/projects/${repoName}/params/${parameterUID}
-          echod ${PROJECT_PARAM_GET_URL}
+          echo ${PROJECT_PARAM_GET_URL}
           ppListJson=$(curl --location --request GET ${PROJECT_PARAM_GET_URL}  \
           --header 'Content-Type: application/json' \
           --header 'Accept: application/json' \
@@ -198,7 +198,7 @@ cd "${HOME_DIR}/${repoName}"
               echo ${PROJECT_PARAM_CREATE_URL}
               parameterJSON="$(cat ${parameterUID}.json)"
               echo "${parameterJSON}"
-              echo "curl --location --request POST ${PROJECT_PARAM_CREATE_URL}  \
+              echo "$(curl --location --request POST ${PROJECT_PARAM_CREATE_URL}  \
               --header "Content-Type:application/json" \
               --header "Accept:application/json" \
               --data-raw "$parameterJSON" -u ${admin_user}:${admin_password})"
