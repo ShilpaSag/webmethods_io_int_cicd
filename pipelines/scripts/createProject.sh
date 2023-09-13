@@ -60,13 +60,12 @@ if [ -z "$name" ];   then
    ## PROJECT_URL=${LOCAL_DEV_URL}/projects
    echo "Repo name is '${repoName}'"
     json='{"name": "'${repoName}'", "description": "Created by Automated CI for feature branch"}'
-    jsonString="'${json}'"
     echo "Project url is ${PROJECT_URL}"
     echo "json is ${jsonString}"
     projectName=$"(curl --location --request POST ${PROJECT_URL} \
     --header "Content-Type:application/json" \
     --header "Accept:application/json" \
-    --data-raw '${json}' -u ${admin_user}:${admin_password})"
+    --data-raw '{"name": "'${repoName}'", "description": "Created by Automated CI for feature branch"}' -u ${admin_user}:${admin_password})"
 
     echo "Project name is ${projectName}"
     
