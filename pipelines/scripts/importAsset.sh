@@ -235,8 +235,7 @@ cd "${HOME_DIR}/${repoName}"
       echo "No Project Parameters to import."
   fi
 
-  sh 'cd ${HOME_DIR}/${repoName}'
-
+  cd ${HOME_DIR}/${repoName}
 
 if [ ${synchProject} == true ]; then
   echo "Listing files"
