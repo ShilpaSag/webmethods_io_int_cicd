@@ -78,7 +78,7 @@ debug=${@: -1}
       echo $(ls -ltr)
   else
       FLOW_URL=${LOCAL_DEV_URL}/apis/v1/rest/projects/${repoName}/flow-import
-      cd $HOME_DIR$repoName/assets/flowservices
+      cd $HOME_DIR/$repoName/assets/flowservices
       echo "Flowservice Import:" ${FLOW_URL}
       echo $(ls -ltr)
   fi    
@@ -173,7 +173,7 @@ echo "Importing Reference Data"
 
 echo $(pwd)
 echo $(ls -ltr)
-cd $HOME_DIR$repoName
+cd $HOME_DIR/$repoName
 
 
   DIR="./assets/projectConfigs/parameters/"
@@ -238,7 +238,7 @@ cd $HOME_DIR$repoName
 
   echo $(pwd)
   echo $(ls -ltr)
- cd $HOME_DIR$repoName
+ cd $HOME_DIR/$repoName
   
 
 
