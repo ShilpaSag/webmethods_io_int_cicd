@@ -15,7 +15,7 @@ pipeline
 		// devUser= "test"
 		// featureBranchName= "test"
 		// HOME_DIR= "${WORKSPACE}/../"
-		HOME_DIR= "${WORKSPACE}/"
+		HOME_DIR= "${WORKSPACE}"
 		workingDirectory = "${WORKSPACE}"
 		source_environment_hostname = "localhost"
 		source_environment_port = "5555"
