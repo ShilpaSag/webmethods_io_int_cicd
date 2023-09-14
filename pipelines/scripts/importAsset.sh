@@ -61,32 +61,44 @@ debug=${@: -1}
     fi
 
 
+	function echod(){			 
   
   if [ "$debug" == "debug" ]; then
     echo $1
     set -x
   fi
 
+ }
 
-  echo $(pwd)
-  echo $(ls -ltr)
+function importAsset() {
+  LOCAL_DEV_URL=$1
+  admin_user=$2
+  admin_password=$3
+  repoName=$4
+  assetID=$5
+  assetType=$6
+  HOME_DIR=$7
+  synchProject=$8					
+  
+  echod $(pwd)
+  echod $(ls -ltr)
   echo "AssetType:" $assetType
   if [[ $assetType = workflow* ]]; then
       FLOW_URL=${LOCAL_DEV_URL}/apis/v1/rest/projects/${repoName}/workflow-import
       cd $repoName/assets/workflows
-      echo "Workflow Import:" ${FLOW_URL}
-      echo $(ls -ltr)
+      echod "Workflow Import:" ${FLOW_URL}
+      echod $(ls -ltr)
   else
       FLOW_URL=${LOCAL_DEV_URL}/apis/v1/rest/projects/${repoName}/flow-import
       cd $HOME_DIR/$repoName/assets/flowservices
-      echo "Flowservice Import:" ${FLOW_URL}
-      echo $(ls -ltr)
+      echod "Flowservice Import:" ${FLOW_URL}
+      echod $(ls -ltr)
   fi    
-      echo ${FLOW_URL}
-      echo ${PWD}
+      echod ${FLOW_URL}
+      echod ${PWD}
   FILE=./${assetName}.zip
   formKey="recipe=@"${FILE}
-  echo ${formKey}
+  echod ${formKey}
   if [ -f "$FILE" ]; then
   echo "Check if asset with this name exist"
 
@@ -109,7 +121,19 @@ debug=${@: -1}
  echo $(pwd)
  echo $(ls -ltr)
  cd $HOME_DIR/$repoName
+ }
 
+function refData(){
+  LOCAL_DEV_URL=$1
+  admin_user=$2
+  admin_password=$3
+  repoName=$4
+  assetID=$5
+  assetType=$6
+  HOME_DIR=$7
+  synchProject=$8
+  source_type=$9			   
+				  
 echo "Importing Reference Data"
   DIR="./assets/projectConfigs/referenceData/"
   if [ -d "$DIR" ]; then
@@ -124,12 +148,12 @@ echo "Importing Reference Data"
           echo "Incorrect Project/Repo name"
           exit 1
       fi
-       echo "ProjectID:" ${projectID}
+       echod "ProjectID:" ${projectID}
       cd ./assets/projectConfigs/referenceData/
       for d in * ; do
           if [ -d "$d" ]; then
             refDataName="$d"
-            echo "$d"
+            echod "$d"
             cd "$d"
             description=$(jq -r .description metadata.json)
             columnDelimiter=$(jq -r .columnDelimiter metadata.json)
@@ -137,7 +161,7 @@ echo "Importing Reference Data"
             releaseCharacter=$(jq -r .releaseCharacter metadata.json)
             FILE=./${source_type}.csv
             formKey="file=@"${FILE}
-            echo ${formKey} 
+            echod ${formKey} 
             REF_DATA_URL=${LOCAL_DEV_URL}/integration/rest/external/v1/ut-flow/referencedata/${projectID}/${refDataName}
             rdJson=$(curl --location --request GET ${REF_DATA_URL}  \
               --header 'Content-Type: application/json' \
@@ -169,12 +193,27 @@ echo "Importing Reference Data"
           fi
         done
   fi
+						  
 
 echo $(pwd)
 echo $(ls -ltr)
 cd $HOME_DIR/$repoName
+}
 
-
+	function projectParameters(){
+# Importing Project Parameters
+  LOCAL_DEV_URL=$1
+  admin_user=$2
+  admin_password=$3
+  repoName=$4
+  assetID=$5
+  assetType=$6
+  HOME_DIR=$7
+  synchProject=$8
+  source_type=$9
+  echod $(pwd)
+  echod $(ls -ltr)						 
+							  
   DIR="./assets/projectConfigs/parameters/"
   if [ -d "$DIR" ]; then
       echo "Project Parameters needs to be synched"
@@ -182,23 +221,23 @@ cd $HOME_DIR/$repoName
       for filename in ./*.json; do
           parameterUID=${filename##*/}
           parameterUID=${parameterUID%.*}
-          echo ${parameterUID}
+          echod ${parameterUID}
           PROJECT_PARAM_GET_URL=${LOCAL_DEV_URL}/apis/v1/rest/projects/${repoName}/params/${parameterUID}
-          echo ${PROJECT_PARAM_GET_URL}
+          echod ${PROJECT_PARAM_GET_URL}
           ppListJson=$(curl --location --request GET ${PROJECT_PARAM_GET_URL}  \
           --header 'Content-Type: application/json' \
           --header 'Accept: application/json' \
           -u ${admin_user}:${admin_password})
 
           ppExport=$(echo "$ppListJson" | jq '.output.uid // empty')
-          echo ${ppExport}
+          echod ${ppExport}
           if [ -z "$ppExport" ];   then
               echo "Project parameters does not exists, creating ..:"
               PROJECT_PARAM_CREATE_URL=${LOCAL_DEV_URL}/apis/v1/rest/projects/${repoName}/params
-              echo ${PROJECT_PARAM_CREATE_URL}
+              echod ${PROJECT_PARAM_CREATE_URL}
               parameterJSON="$(cat ${parameterUID}.json)"
-              echo "${parameterJSON}"
-              echo "curl --location --request POST ${PROJECT_PARAM_CREATE_URL}  \
+              echod "${parameterJSON}"
+              echod "curl --location --request POST ${PROJECT_PARAM_CREATE_URL}  \
               --header 'Content-Type: application/json' \
               --header 'Accept: application/json' \
               --data-raw "$parameterJSON" -u ${admin_user}:${admin_password})"
@@ -216,9 +255,9 @@ cd $HOME_DIR/$repoName
           else
               echo "Project parameters does exists, updating ..:"
               PROJECT_PARAM_UPDATE_URL=${LOCAL_DEV_URL}/apis/v1/rest/projects/${repoName}/params/${parameterUID}
-              echo ${PROJECT_PARAM_UPDATE_URL}
+              echod ${PROJECT_PARAM_UPDATE_URL}
               parameterJSON=`jq '.' ${parameterUID}.json`
-              echo ${parameterJSON}
+              echod ${parameterJSON}
               ppUpdateJson=$(curl --location --request POST ${PROJECT_PARAM_UPDATE_URL}  \
               --header 'Content-Type: application/json' \
               --header 'Accept: application/json' \
@@ -239,16 +278,18 @@ cd $HOME_DIR/$repoName
   echo $(ls -ltr)
  cd $HOME_DIR/$repoName
   
+}
+ 
 
 
 if [ ${synchProject} == true ]; then
-  echo "Listing files"
+  echod "Listing files"
   for filename in ./assets/*/*.zip; do 
       base_name=${filename##*/}
       parent_name="$(basename "$(dirname "$filename")")"
       base_name=${base_name%.*}
-      echo $base_name${filename%.*}
-      echo $parent_name
+      echod $base_name${filename%.*}
+      echod $parent_name
       importAsset ${LOCAL_DEV_URL} ${admin_user} ${admin_password} ${repoName} ${base_name} ${parent_name} ${HOME_DIR} ${synchProject}
   done
   
