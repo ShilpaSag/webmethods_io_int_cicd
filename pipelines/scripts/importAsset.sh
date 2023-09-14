@@ -88,7 +88,7 @@ debug=${@: -1}
   formKey="recipe=@"${FILE}
   echo ${formKey}
   if [ -f "$FILE" ]; then
-  ####### Check if asset with this name exist
+  echo "Check if asset with this name exist"
 
       echo "$FILE exists. Importing ..."
       importedName=$(curl --location --request POST ${FLOW_URL} \
@@ -106,11 +106,11 @@ debug=${@: -1}
   else
     echo "$FILE does not exists, Nothing to import"
   fi
-# echo $(pwd)
-# echo $(ls -ltr)
+ echo $(pwd)
+ echo $(ls -ltr)
 # cd $HOME_DIR$repoName
 
-# Importing Reference Data
+echo "Importing Reference Data"
   DIR="./assets/projectConfigs/referenceData/"
   if [ -d "$DIR" ]; then
       echo "Project referenceData needs to be synched"
@@ -172,7 +172,7 @@ debug=${@: -1}
 
 echo $(pwd)
 echo $(ls -ltr)
-cd $HOME_DIR/$repoName
+# cd $HOME_DIR/$repoName
 
 
   DIR="./assets/projectConfigs/parameters/"
@@ -237,7 +237,7 @@ cd $HOME_DIR/$repoName
 
   echo $(pwd)
   echo $(ls -ltr)
-  cd $HOME_DIR$repoName
+ # cd $HOME_DIR$repoName
   
 
 
