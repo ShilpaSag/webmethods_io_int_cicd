@@ -10,7 +10,7 @@ LOCAL_DEV_URL=$1
 admin_user=$2
 admin_password=$3
 repoName=$4
-assetName=$5
+assetID=$5
 assetType=$6
 HOME_DIR=$7
 synchProject=$8
@@ -38,8 +38,8 @@ debug=${@: -1}
       exit 1
     fi
 
-    if [ -z "$assetName" ]; then
-      echo "Missing template parameter assetName"
+    if [ -z "$assetID" ]; then
+      echo "Missing template parameter assetID"
       exit 1
     fi
 
@@ -96,7 +96,7 @@ function importAsset() {
   fi    
       echod ${FLOW_URL}
       echod ${PWD}
-  FILE=./${assetName}.zip
+  FILE=./${assetID}.zip
   formKey="recipe=@"${FILE}
   echod ${formKey}
   if [ -f "$FILE" ]; then
@@ -297,6 +297,6 @@ if [ ${synchProject} == true ]; then
   #projectParameters ${LOCAL_DEV_URL} ${admin_user} ${admin_password} ${repoName} ${base_name} ${parent_name} ${HOME_DIR} ${synchProject} ${source_type}
 
 else
-  importAsset ${LOCAL_DEV_URL} ${admin_user} ${admin_password} ${repoName} ${assetName} ${assetType} ${HOME_DIR} 
+  importAsset ${LOCAL_DEV_URL} ${admin_user} ${admin_password} ${repoName} ${assetID} ${assetType} ${HOME_DIR} 
 fi 
 set +x
