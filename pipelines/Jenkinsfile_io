@@ -177,7 +177,7 @@ init = sh ( returnStdout: true, script: ''' pipelines/scripts/github/initializeR
               sh "../${JOB_BASE_NAME}/pipelines/scripts/createProject.sh '${LOCAL_DEV_URL}' '${admin_user}' '${admin_password}' '${repoName}' debug"
             //  echo "Import"
                   echo "Importing asset ..."
-             sh "../${JOB_BASE_NAME}/pipelines/scripts/importAsset.sh '${LOCAL_DEV_URL}' '${admin_user}' '${admin_password}' '${repoName}' '${assetName}' '${assetType}' '${HOME_DIR}' '${synchProject}' '${source_type}' debug"
+             sh "../${JOB_BASE_NAME}/pipelines/scripts/importAsset.sh '${LOCAL_DEV_URL}' '${admin_user}' '${admin_password}' '${repoName}' '${assetID}' '${assetType}' '${HOME_DIR}' '${synchProject}' '${source_type}' debug"
                }
 				
             }
