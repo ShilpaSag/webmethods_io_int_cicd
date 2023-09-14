@@ -108,7 +108,7 @@ debug=${@: -1}
   fi
  echo $(pwd)
  echo $(ls -ltr)
- cd $repoName
+ cd $HOME_$repoName
 
 echo "Importing Reference Data"
   DIR="./assets/projectConfigs/referenceData/"
@@ -172,7 +172,7 @@ echo "Importing Reference Data"
 
 echo $(pwd)
 echo $(ls -ltr)
-# cd $HOME_DIR/$repoName
+cd $HOME_DIR$repoName
 
 
   DIR="./assets/projectConfigs/parameters/"
@@ -237,7 +237,7 @@ echo $(ls -ltr)
 
   echo $(pwd)
   echo $(ls -ltr)
- # cd $HOME_DIR$repoName
+ cd $HOME_DIR$repoName
   
 
 
