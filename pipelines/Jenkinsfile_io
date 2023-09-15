@@ -147,7 +147,7 @@ init = sh ( returnStdout: true, script: ''' pipelines/scripts/github/initializeR
         //  sh 'git clone -b production https://${repo_user}:${PAT}@github.com/${repo_user}/${repoName}.git'
           sh 'git clone -b production https://github.com/${repo_user}/${repoName}.git'
 	  sh 'pwd'
-	  sh 'cd /webmethods_io_int_cicd'
+	  sh 'dir ("${repoName}")
 	   sh 'pwd'
 	  echo "Branch name is ${featureBranchName}"
 	  def branchExists = sh ( returnStdout: true, script: '''git ls-remote --heads origin ${featureBranchName} ''' )
