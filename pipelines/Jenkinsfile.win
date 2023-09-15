@@ -5,7 +5,7 @@ pipeline {
     environment {
 	// initialize the variables
 
-		repoPAth = "${gitOwner}/${repoName}"
+		repoPath = "${gitOwner}/${repoName}"
 		init = "true"
 		repo_user = "ShilpaSag"
 		
