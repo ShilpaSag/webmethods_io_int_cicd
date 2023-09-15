@@ -141,13 +141,14 @@ init = sh ( returnStdout: true, script: ''' pipelines/scripts/github/initializeR
 				}
 			}
 	echo "Remove the repo"	
-	sh 'pwd'
-          sh 'rm -rf ./${repoName}'
+	sh '''
+	pwd
+        rm -rf ./${repoName}
 
         //  sh 'git clone -b production https://${repo_user}:${PAT}@github.com/${repo_user}/${repoName}.git'
-          sh 'git clone -b production https://github.com/${repo_user}/${repoName}.git'
-	  sh 'pwd'
-	  sh 'ls -ltr'
+          git clone -b production https://github.com/${repo_user}/${repoName}.git
+	  pwd
+	  ls -ltr
 	//  sh 'cd "$HOME_DIR/$repoName"'
 	//   sh 'pwd'
 	//   sh 'ls -ltr'
@@ -160,7 +161,7 @@ init = sh ( returnStdout: true, script: ''' pipelines/scripts/github/initializeR
 	   	   sh 'ls -ltr'
 	  	   echo "Branch name is ${featureBranchName}"
 	  	   def branchExists = sh ( returnStdout: true, script: '''git ls-remote --heads origin ${featureBranchName} ''' )
-
+	  '''
 	   echo "Does branch exists ${branchExists}"
     
 }
