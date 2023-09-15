@@ -66,7 +66,8 @@ function echod(){
 
 }
 
-
+echo ${pwd}
+echo ${ls -lrt}
 #name=$(curl -u ${repo_user}:${PAT} https://api.github.com/repos/${repo_user}/${repoName} | jq -r '.name')
 name=$(curl https://api.github.com/repos/${repo_user}/${repoName} | jq -r '.name')
       echo ${name}
