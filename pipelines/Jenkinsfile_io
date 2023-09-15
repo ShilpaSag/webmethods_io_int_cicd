@@ -146,10 +146,11 @@ init = sh ( returnStdout: true, script: ''' pipelines/scripts/github/initializeR
 
         //  sh 'git clone -b production https://${repo_user}:${PAT}@github.com/${repo_user}/${repoName}.git'
           sh 'git clone -b production https://github.com/${repo_user}/${repoName}.git'
-	   sh 'cd ${repoName}'
+	   sh 'cd $repoName'
+	   sh 'pwd'
 	  echo "Branch name is ${featureBranchName}"
 	  def branchExists = sh ( returnStdout: true, script: '''git ls-remote --heads origin ${featureBranchName} ''' )
-	// init = sh ( returnStdout: true, script: ''' pipelines/scripts/github/initializeRepo.sh ${repo_user} ${PAT} ${AZURE_TOKEN} ${repoName} ${devUser} ${featureBranchName} ${HOME_DIR} debug | grep -i initvalue | cut -d 'x' -f2''' ).trim()
+
 	   echo "Does branch exists ${branchExists}"
         // branchExists = $(git ls-remote --exit-code --heads origin ${featureBranchName})
           if ( "${branchExists}" ) 
