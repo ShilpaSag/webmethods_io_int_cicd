@@ -41,8 +41,8 @@ function echod(){
   fi
 
 }
-              echo "{pwd}"
-              echo "{ls -ltr}"
+              echo $(pwd)
+              echo $(ls -ltr)
 
               # Creating Feature Branch 
               echo "Branch does not exists. Creating Branch ..."
