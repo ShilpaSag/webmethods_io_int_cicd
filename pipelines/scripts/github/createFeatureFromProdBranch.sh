@@ -71,7 +71,8 @@ function echod(){
               git branch ${featureBranchName} origin/production
               git add .
               git commit -m "Synching from Prod for feature branch ${featureBranchName}"
-            #  git push -u origin ${featureBranchName}
-              git push git@github.com/${repo_user}/${repoName}.git
+              git remote -v
+              git push -u origin ${featureBranchName}
+            #  git push git@github.com/${repo_user}/${repoName}.git
 
 set +x
