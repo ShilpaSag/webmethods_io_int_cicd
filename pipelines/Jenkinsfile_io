@@ -160,7 +160,8 @@ init = sh ( returnStdout: true, script: ''' pipelines/scripts/github/initializeR
 		   sh 'pwd'
 	   	   sh 'ls -ltr'
 	  	   echo "Branch name is ${featureBranchName}"
-	  	   def branchExists = sh ( returnStdout: true, script: '''git ls-remote --heads origin ${featureBranchName} ''' )
+	  	  // def branchExists = sh ( returnStdout: true, script: '''git ls-remote --heads origin ${featureBranchName} ''' )
+		     branchExists = sh ( returnStdout: true, script: "git ls-remote --heads origin ${featureBranchName} " )
 	  	   echo "Does branch exists ${branchExists}"
     		}
 
