@@ -9,6 +9,9 @@
 devUser=$1
 featureBranchName=$2
 HOME_DIR=$3
+repo_user=$4
+PAT=$5
+repoName=$6
 debug=${@: -1}
 
 
@@ -25,6 +28,21 @@ debug=${@: -1}
 
     if [ -z "$HOME_DIR" ]; then
       echo "Missing template parameter HOME_DIR"
+      exit 1
+    fi
+
+    if [ -z "$repo_user" ]; then
+      echo "Missing template parameter repo_user"
+      exit 1
+    fi
+    
+    if [ -z "$PAT" ]; then
+      echo "Missing template parameter PAT"
+      exit 1
+    fi
+
+    if [ -z "$repoName" ]; then
+      echo "Missing template parameter repoName"
       exit 1
     fi
    
@@ -54,5 +72,6 @@ function echod(){
               git add .
               git commit -m "Synching from Prod for feature branch ${featureBranchName}"
             #  git push -u origin ${featureBranchName}
-              git push origin ${featureBranchName}
+              git push https://${repo_user}:${PAT}@github.com/${repo_user}/${repoName}.git
+
 set +x
