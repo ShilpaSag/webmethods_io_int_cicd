@@ -10,7 +10,7 @@ devUser=$1
 featureBranchName=$2
 HOME_DIR=$3
 repo_user=$4
-admin_password=$5
+PAT=$5
 repoName=$6
 debug=${@: -1}
 
@@ -36,7 +36,7 @@ debug=${@: -1}
       exit 1
     fi
     
-    if [ -z "$admin_password" ]; then
+    if [ -z "$PAT" ]; then
       echo "Missing template parameter admin_password"
       exit 1
     fi
@@ -72,6 +72,6 @@ function echod(){
               git add .
               git commit -m "Synching from Prod for feature branch ${featureBranchName}"
             #  git push -u origin ${featureBranchName}
-              git push git://${repo_user}:${admin_password}@github.com/${repo_user}/${repoName}.git
+              git push git@github.com/${repo_user}/${repoName}.git
 
 set +x
