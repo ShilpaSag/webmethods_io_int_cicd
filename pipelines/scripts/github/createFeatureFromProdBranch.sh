@@ -49,9 +49,10 @@ function echod(){
               git config user.email "noemail.com"
               git config user.name "${devUser}"
               git fetch --all
-          #    git checkout -b ${featureBranchName} origin/production
+          #   git checkout -b ${featureBranchName} origin/production
               git branch ${featureBranchName} origin/production
               git add .
               git commit -m "Synching from Prod for feature branch ${featureBranchName}"
-              git push -u origin ${featureBranchName}
+            #  git push -u origin ${featureBranchName}
+              git push origin ${featureBranchName}
 set +x
