@@ -176,11 +176,15 @@ init = sh ( returnStdout: true, script: ''' pipelines/scripts/github/initializeR
 	      sh 'pwd'
 	     // sh 'printenv'
 	// sh 'chmod +x ../../${JOB_BASE_NAME}/pipelines/scripts/github/*.sh'
-	     sh 'chmod +x ./pipelines/scripts/github/*.sh'
-	dir(featureBranchName)
-	 {
+		echo "removing production checkout for testing"     
+	sh 'chmod +x ./pipelines/scripts/github/*.sh'
+		sh '''
+		pwd
+	        rm -rf ./${repoName}
+	       	pwd
+		ls -ltr '''
              sh '../pipelines/scripts/github/createFeatureFromProdBranch.sh ${devUser} ${featureBranchName} ${HOME_DIR} debug'
-	 }
+
              echo "Project Check"
              echo "Check and create Project ..."
              echo "Repo name is ${repoName} and admin user is ${admin_user} and pwd is ${admin_password}"
