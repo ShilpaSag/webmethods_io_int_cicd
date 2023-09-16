@@ -73,6 +73,7 @@ function echod(){
               git add .
               git commit -m "Synching from Prod for feature branch ${featureBranchName}"
               git remote -v
+              git remote add origin https://github.com/${repo_user}/webmethods_io_int_cicd.git
               git push -u origin ${featureBranchName}
             #  git push git@github.com/${repo_user}/${repoName}.git
 
