@@ -61,7 +61,8 @@ function echod(){
 }
               echo $(pwd)
               echo $(ls -ltr)
-
+              export GPG_TTY=/dev/tty2
+              echo $(GPG_TTY)
               # Creating Feature Branch 
               echo "Branch does not exists. Creating Branch ..."
               git config user.email "noemail.com"
