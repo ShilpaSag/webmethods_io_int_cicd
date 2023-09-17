@@ -20,6 +20,7 @@ pipeline
 		source_environment_hostname = "localhost"
 		source_environment_port = "5555"
 		def source_environment = "https://env608865.int-aws-de.webmethods.io"
+		GitHubCred = credentials('ShilpaGitHubCredentials')
  	}
     stages 
 	{
@@ -66,18 +67,59 @@ init = sh ( returnStdout: true, script: ''' pipelines/scripts/github/initializeR
 			{
 			echo "Create empty repo"
           	//	curl -u ${repo_user}:${PAT} https://api.github.com/user/repos -d '{"name":"'${repoName}'"}'
-			curl https://api.github.com/user/repos -d '{"name":"'${repoName}'"}'
 
-			echo "Initiatialite and push to main"
-			sh '''
+			  sh '''
+			  curl -u $GitHubCred_USR:GitHubCred_PSW https://api.github.com/user/repos -d '{"name":"'${repoName}'"}'
+			  echo "Initiatialite and push to main"
 			  echo "# ${repoName}" >> README.md
 		          mkdir -p .github
 		          cd .github
 		          mkdir -p workflows
 		          cd ..
 		          pwd
-		          cp ../${repoName}/assets/github/workflows/dev.yml .github/workflows/ '''
-			
+		          cp ../${repoName}/assets/github/workflows/dev.yml .github/workflows/
+			  git init
+		          git config user.email "noemail.com"
+		          git config user.name "${devUser}"
+		          git add .
+		          git commit -m "first commit"
+		          git branch -M production
+		          git remote add origin https://${GitHubCred_USR}:${GitHubCred_PSW}@github.com/${repo_user}/${repoName}.git '''
+
+ withCredentials([gitUsernamePassword(credentialsId: 'ShilpaGitHubCredentials', passwordVariable: 'GitHubCred_PSW', usernameVariable: 'GitHubCred_USR')]) {
+             		sh "git push -u origin production" }
+		
+		        sh '''  
+			git checkout -b dev production
+		          git commit -m "first commit" '''
+		        
+			 withCredentials([gitUsernamePassword(credentialsId: 'ShilpaGitHubCredentials', passwordVariable: 'GitHubCred_PSW', usernameVariable: 'GitHubCred_USR')]) {
+             		sh "git push -u origin dev" }
+
+			sh '''
+		          git checkout -b qa production
+		          git commit -m "first commit" '''
+		         
+			withCredentials([gitUsernamePassword(credentialsId: 'ShilpaGitHubCredentials', passwordVariable: 'GitHubCred_PSW', usernameVariable: 'GitHubCred_USR')]) {
+             		  sh "git push -u origin qa" }
+
+			sh '''
+		          git checkout -b ${featureBranchName} production
+		          git commit -m "first commit"
+		          git push -u origin ${featureBranchName} '''
+
+			 withCredentials([gitUsernamePassword(credentialsId: 'ShilpaGitHubCredentials', passwordVariable: 'GitHubCred_PSW', usernameVariable: 'GitHubCred_USR')]) {
+             		sh "git push -u origin ${featureBranchName}" }
+
+			sh '''
+		        echo "Enable workflow"
+		          curl -u ${repo_user}:${PAT} -X PUT \
+		              -H "Accept: application/vnd.github+json" \
+		             -H "X-GitHub-Api-Version: 2022-11-28" \
+		             https://api.github.com/repos/${repo_user}/${repoName}/actions/workflows/dev.yml/enable
+		
+		          echo "Repo creation done !!!"
+			'''
 	
 			}
 		}
