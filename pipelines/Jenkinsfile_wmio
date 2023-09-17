@@ -64,9 +64,21 @@ init = sh ( returnStdout: true, script: ''' pipelines/scripts/github/initializeR
 		echo "Repo does not exists, creating ..."
 		dir(repoName)
 			{
+			echo "Create empty repo"
+          	//	curl -u ${repo_user}:${PAT} https://api.github.com/user/repos -d '{"name":"'${repoName}'"}'
+			curl https://api.github.com/user/repos -d '{"name":"'${repoName}'"}'
+
+			echo "Initiatialite and push to main"
+			sh '''
+			  echo "# ${repoName}" >> README.md
+		          mkdir -p .github
+		          cd .github
+		          mkdir -p workflows
+		          cd ..
+		          pwd
+		          cp ../${repoName}/assets/github/workflows/dev.yml .github/workflows/ '''
 			
-
-
+	
 			}
 		}
 		else
