@@ -70,7 +70,7 @@ echo "Repo does not exists, creating ..."
           	//	curl -u ${repo_user}:${PAT} https://api.github.com/user/repos -d '{"name":"'${repoName}'"}'
 
 			  sh '''
-			  curl -u $GitHubCred_USR:GitHubCred_PSW https://api.github.com/user/repos -d '{"name":"'${repoName}'"}'
+			  curl -u $GitHubCred_USR:$GitHubCred_PSW https://api.github.com/user/repos -d '{"name":"'${repoName}'"}'
 			  echo "Initiatialite and push to main"
 			  echo "# ${repoName}" >> README.md
 		          mkdir -p .github
@@ -87,7 +87,7 @@ echo "Repo does not exists, creating ..."
 		          git branch -M production
 		          git remote add origin https://${GitHubCred_USR}:${GitHubCred_PSW}@github.com/${repo_user}/${repoName}.git '''
 
- withCredentials([gitUsernamePassword(credentialsId: 'ShilpaGitHubCredentials', passwordVariable: 'GitHubCred_PSW', usernameVariable: 'GitHubCred_USR')]) {
+ withCredentials([sshUserPrivateKey(credentialsId: 'sshGithubShilpaID')]) {
              		sh "git push -u origin production" }
 		
 		        sh '''  
