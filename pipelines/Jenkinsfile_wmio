@@ -12,8 +12,6 @@ pipeline
 		repo_user = "ShilpaSag"
 		PAT= "test"
 		AZURE_TOKEN= "test"
-		// devUser= "test"
-		// featureBranchName= "test"
 		// HOME_DIR= "${WORKSPACE}/../"
 		HOME_DIR= "${WORKSPACE}"
 		workingDirectory = "${WORKSPACE}"
@@ -33,21 +31,13 @@ pipeline
 		sh 'pwd'
 		sh 'ls -ltr'
 
-		script {
-
+		script 
+			{
 		source_environment_hostname = sh ( returnStdout: true, script: '''cat configs/play.yml | grep -i hostname | cut -d '"' -f2 ''' ).trim()
 		source_environment_port = sh ( returnStdout: true, script: '''cat configs/play.yml | grep -i port | cut -d '"' -f2 ''' ).trim()
 		admin_user = sh ( returnStdout: true, script: '''cat configs/play.yml | grep -i admin_username | cut -d '"' -f2 ''' ).trim()
 		source_type = sh ( returnStdout: true, script: '''cat configs/play.yml | grep -i type | cut -d '"' -f2 ''' ).trim()
 		repo_user = sh ( returnStdout: true, script: '''cat configs/repo.yml | grep -i user | cut -d '"' -f2 ''' ).trim()
-
-	//	#echo "##vso[build.updatebuildnumber]$(Build.BuildNumber)-$(repoName)"
-
-	//	source_environment_hostname = sh ( returnStdout: true, script: ''' yq -e ".tenant.hostname" configs/play.yml ''' )
-	//	source_environment_port = sh ( returnStdout: true, script: ''' yq -e ".tenant.port" configs/play.yml ''' )
-	//	admin_user = sh ( returnStdout: true, script: ''' yq -e ".tenant.admin_username" configs/play.yml ''' )
-	//	source_type = sh ( returnStdout: true, script: ''' yq -e ".tenant.type" configs/play.yml ''' )
-	//	repo_user = sh ( returnStdout: true, script: ''' yq -e ".repo.user" configs/repo.yml ''' )
 			}
 		echo "${source_environment_hostname}"
 		echo "${source_environment_port}"
@@ -55,10 +45,9 @@ pipeline
 		echo "${source_type}"
 		echo "${repo_user}"
 	        
-	    echo "Verify the repo and create a repo"
-	    
-	    sh 'pwd'
-	    sh 'chmod +x ./pipelines/scripts/github/*.sh'
+		echo "Verify the repo and create a repo"
+	    	sh 'pwd'
+	    	sh 'chmod +x ./pipelines/scripts/github/*.sh'
 
 	     script {
 
