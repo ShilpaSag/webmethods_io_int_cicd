@@ -125,7 +125,7 @@ pipeline
 		}
 		else
 		{
-		echo "Repo already exixts with name:" ${name}
+		echo "Repo already exixts with name: ${name} "
        	        init = false
 		}
 
