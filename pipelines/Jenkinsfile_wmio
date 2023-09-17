@@ -62,8 +62,9 @@ pipeline
 		echo "The repo name is ${name} "
 		if ( "${name}" == null )
 		{
-		echo "Repo does not exists, creating ..."
-		dir(repoName)
+			echo "Repo does not exists, creating ..."
+			mkdir -p ${repoName}
+          		dir(repoName)
 			{
 			echo "Create empty repo"
           	//	curl -u ${repo_user}:${PAT} https://api.github.com/user/repos -d '{"name":"'${repoName}'"}'
@@ -120,7 +121,6 @@ pipeline
 		
 		          echo "Repo creation done !!!"
 			'''
-	
 			}
 		}
 		else
