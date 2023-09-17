@@ -60,7 +60,8 @@ pipeline
 //		echo "Init value after verifying the repo ${init}"	
 		name = sh ( returnStdout: true, script: ''' curl https://api.github.com/repos/${repo_user}/${repoName} | jq -r '.name' ''' ).trim()
 		echo "The repo name is ${name} "
-		if ( "${name}" = null )
+
+		if ( "${name}" == null )
 		{
 			echo "Repo does not exists, creating ..."
 			sh mkdir -p ${repoName}
