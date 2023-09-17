@@ -63,7 +63,7 @@ pipeline
 
 
 echo "Repo does not exists, creating ..."
-			sh mkdir -p ${repoName}
+			sh 'mkdir -p ${repoName}'
           		dir(repoName)
 			{
 			echo "Create empty repo"
