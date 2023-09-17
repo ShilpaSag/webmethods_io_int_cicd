@@ -132,7 +132,7 @@ echo "Repo does not exists, creating ..."
 
 
 
-		if ( name = null )
+		if ( name = "null" )
 		{
 			echo "Repo does not exists, creating ..."
 			sh mkdir -p ${repoName}
