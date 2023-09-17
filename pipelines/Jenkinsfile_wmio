@@ -58,7 +58,7 @@ pipeline
 // sh './pipelines/scripts/github/initializeRepo.sh ${repo_user} ${PAT} ${AZURE_TOKEN} ${repoName} ${devUser} ${featureBranchName} ${HOME_DIR} debug'
 
 //		echo "Init value after verifying the repo ${init}"	
-		def name = sh ( returnStdout: true, script: ''' curl https://api.github.com/repos/${repo_user}/${repoName} | jq -r '.name' ''' )
+		def RepoValue = sh ( returnStdout: true, script: ''' curl https://api.github.com/repos/${repo_user}/${repoName} | jq -r '.name' ''' )
 		echo "The repo name is ${name} "
 
 
@@ -132,7 +132,7 @@ echo "Repo does not exists, creating ..."
 
 
 
-		if ( name = "null" )
+		if ( RepoValue == null )
 		{
 			echo "Repo does not exists, creating ..."
 			sh mkdir -p ${repoName}
