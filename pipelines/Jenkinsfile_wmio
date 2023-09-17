@@ -55,13 +55,27 @@ pipeline
 echo "Init default value is ${init}"	
 init = sh ( returnStdout: true, script: ''' pipelines/scripts/github/initializeRepo.sh ${repo_user} ${PAT} ${AZURE_TOKEN} ${repoName} ${devUser} ${featureBranchName} ${HOME_DIR} debug | grep -i initvalue | cut -d 'x' -f2''' ).trim()
 // sh './pipelines/scripts/github/initializeRepo.sh ${repo_user} ${PAT} ${AZURE_TOKEN} ${repoName} ${devUser} ${featureBranchName} ${HOME_DIR} debug'
-		//initializeRepoInput = "${repo_user} ${PAT} ${AZURE_TOKEN} ${repoName} ${devUser} ${featureBranchName} ${HOME_DIR} debug"
-		//echo "${initializeRepoInput}"
-		// def initVal = sh ( returnStdout: true, script: 'pipelines/scripts/github/initializeRepo.sh ${repo_user} ${PAT} ${AZURE_TOKEN} ${repoName} ${devUser} ${featureBranchName} ${HOME_DIR} debug' )
-		// init = initVal
-		// echo "initVal is ${initVal}"
-		echo "Init value after verifying the repo ${init}"	
 
+		echo "Init value after verifying the repo ${init}"	
+		name=$(curl https://api.github.com/repos/${repo_user}/${repoName} | jq -r '.name')
+		echo ${name}
+		if ( "${name}" == null )
+		{
+		echo "Repo does not exists, creating ..."
+		dir(repoName)
+			{
+			
+
+
+			}
+		}
+		else
+		{
+		echo "Repo already exixts with name:" ${name}
+       	        init = false
+		}
+
+		
 		echo "Verified the repo and required branches"	
 		    }
 		}
