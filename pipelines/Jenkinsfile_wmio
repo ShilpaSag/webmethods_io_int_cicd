@@ -88,7 +88,7 @@ echo "Repo does not exists, creating ..."
 		          git branch -M production
 		          git remote add origin https://${GitHubCred_USR}:${GitHubCred_PSW}@github.com/${repo_user}/${repoName}.git '''
 
-withCredentials([gitUsernamePassword(credentialsId: 'ShilpaGitHubCredentials', variable: 'USERPASS')]) {
+withCredentials([gitUsernamePassword(credentialsId: 'ShilpaGitHubCredentials')]) {
              		sh "git push -u origin production" }
 
 withCredentials([sshUserPrivateKey(credentialsId: 'sshGithubShilpaID')]) {
