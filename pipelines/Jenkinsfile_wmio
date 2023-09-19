@@ -86,7 +86,7 @@ echo "Repo does not exists, creating ..."
 		          git add .
 		          git commit -m "first commit"
 		          git branch -M production
-		          git remote add origin ssh://${GitHubCred_USR}@github.com/${repo_user}/${repoName}.git
+		          git remote add origin git://${GitHubCred_USR}@github.com/${repo_user}/${repoName}.git
 '''
 
 withCredentials([gitUsernamePassword(credentialsId: 'sshGithubShilpaID')]) {
