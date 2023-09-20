@@ -113,7 +113,7 @@ pipeline
 	        rm -rf ./${repoName}
 	        git clone -b production https://github.com/${repo_user}/${repoName}.git
 		pwd
-		ls -ltr
+		ls -ltr '''
 
 		dir(repoName)
 		 { 
