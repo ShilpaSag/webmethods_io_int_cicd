@@ -44,7 +44,6 @@ pipeline
 	stage('Sync Projects')
 	 {
          steps {
-		git checkout iPaas
 		sh 'pwd'
 		sh 'ls -lrt'
 		echo "LOCAL_DEV_URL"
@@ -112,9 +111,12 @@ pipeline
 	sh '''
 		pwd
 	        rm -rf ./${repoName}
-	        git clone -b production https://github.com/${repo_user}/${repoName}.git
+	        git clone -b production https://github.com/${repo_user}/webmethods.io.git
 		pwd
 		ls -ltr
+		git checkout production
+		// checkout([$class: 'GitSCM', branches: [[name: gitBranch]], extensions: [[$class: 'CloneOption', timeout: 120]], 
+          userRemoteConfigs: [[credentialsId: "${credentialsId}", url: mainProjectGITURL ]  ]])
 	'''
 	// sh 'git clone -b production https://${repo_user}:${PAT}@github.com/${repo_user}/${repoName}.git'
 	//  sh 'cd "$HOME_DIR/$repoName"'
