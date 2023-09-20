@@ -124,20 +124,8 @@ pipeline
 	  	   echo "Does branch exists ${branchExists}"
     		
 
-         if ( "${branchExists}" ) 
-          {
-              echo "Branch ${featureBranchName} already exists"
-          }
-          else {
-              echo "Branch ${featureBranchName} doesnt exists, synching from prod ..."
-	      sh 'pwd'
-
-	// sh 'printenv'
-	// sh 'chmod +x ../../${JOB_BASE_NAME}/pipelines/scripts/github/*.sh'
-
 	     sh 'chmod +x ../pipelines/scripts/github/*.sh'
-             sh '../pipelines/scripts/github/createFeatureFromProdBranch.sh ${devUser} ${featureBranchName} ${HOME_DIR} ${repo_user} ${PAT} ${repoName} debug'
-		
+            		
              echo "Project Check"
              echo "Check and create Project ..."
              echo "Repo name is ${repoName} and admin user is ${admin_user} and pwd is ${admin_password}"
@@ -147,7 +135,7 @@ pipeline
               echo "Importing asset ..."
               sh "../pipelines/scripts/importAsset.sh '${LOCAL_DEV_URL}' '${admin_user}' '${admin_password}' '${repoName}' '${assetID}' '${assetType}' '${HOME_DIR}' '${synchProject}' '${source_type}' debug"
               
-		}
+		
 	}			
             }
  }
