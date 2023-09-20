@@ -14,20 +14,11 @@ pipeline
 		AZURE_TOKEN= "test"
 		HOME_DIR= "${WORKSPACE}"
 		workingDirectory = "${WORKSPACE}"
-		def source_environment = "https://env608865.int-aws-de.webmethods.io"
+		source_environment = "https://env608865.int-aws-de.webmethods.io"
  	}
     stages 
 	{
-	 stage('InitialiseRepo')
-	 {
-            steps 
-			{
-		echo "$WORKSPACE"
-		echo "${CUSTOMWORKSPACE}"
-		echo "Copy to the repo to custom workspace"
-		sh 'pwd'
-		sh 'ls -ltr'
-
+            
 		script {
 
 		source_environment_hostname = sh ( returnStdout: true, script: '''cat configs/play.yml | grep -i hostname | cut -d '"' -f2 ''' ).trim()
@@ -49,31 +40,13 @@ pipeline
       		echo "${admin_user}"
 		echo "${source_type}"
 		echo "${repo_user}"
-	        
-	    echo "Verify the repo and create a repo"
-	    
-	    sh 'pwd'
-	    sh 'chmod +x ./pipelines/scripts/github/*.sh'
 
-	     script {
-
-echo "Init default value is ${init}"	
-init = sh ( returnStdout: true, script: ''' pipelines/scripts/github/initializeRepo.sh ${repo_user} ${PAT} ${AZURE_TOKEN} ${repoName} ${devUser} ${featureBranchName} ${HOME_DIR} debug | grep -i initvalue | cut -d 'x' -f2''' ).trim()
-// sh './pipelines/scripts/github/initializeRepo.sh ${repo_user} ${PAT} ${AZURE_TOKEN} ${repoName} ${devUser} ${featureBranchName} ${HOME_DIR} debug'
-		//initializeRepoInput = "${repo_user} ${PAT} ${AZURE_TOKEN} ${repoName} ${devUser} ${featureBranchName} ${HOME_DIR} debug"
-		//echo "${initializeRepoInput}"
-		// def initVal = sh ( returnStdout: true, script: 'pipelines/scripts/github/initializeRepo.sh ${repo_user} ${PAT} ${AZURE_TOKEN} ${repoName} ${devUser} ${featureBranchName} ${HOME_DIR} debug' )
-		// init = initVal
-		// echo "initVal is ${initVal}"
-		echo "Init value after verifying the repo ${init}"	
-
-		echo "Verified the repo and required branches"	
-		    }
-		}
-       }
-	stage('Create and Sync Projects')
+	stage('Sync Projects')
 	 {
-      steps {
+         steps {
+		git checkout iPaas
+		sh 'pwd'
+		sh 'ls -lrt'
 		echo "LOCAL_DEV_URL"
 		script{
 		def LOCAL_DEV_URL = "${source_environment}"
