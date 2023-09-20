@@ -20,11 +20,13 @@ pipeline
 	{
 		stage('Initialize Repo')
 			{  
-		script {
+			steps 
+			{
+				script {
 
-		source_environment_hostname = sh ( returnStdout: true, script: '''cat configs/play.yml | grep -i hostname | cut -d '"' -f2 ''' ).trim()
-		source_environment_port = sh ( returnStdout: true, script: '''cat configs/play.yml | grep -i port | cut -d '"' -f2 ''' ).trim()
-		admin_user = sh ( returnStdout: true, script: '''cat configs/play.yml | grep -i admin_username | cut -d '"' -f2 ''' ).trim()
+			source_environment_hostname = sh ( returnStdout: true, script: '''cat configs/play.yml | grep -i hostname | cut -d '"' -f2 ''' ).trim()
+			source_environment_port = sh ( returnStdout: true, script: '''cat configs/play.yml | grep -i port | cut -d '"' -f2 ''' ).trim()
+			admin_user = sh ( returnStdout: true, script: '''cat configs/play.yml | grep -i admin_username | cut -d '"' -f2 ''' ).trim()
 		source_type = sh ( returnStdout: true, script: '''cat configs/play.yml | grep -i type | cut -d '"' -f2 ''' ).trim()
 		repo_user = sh ( returnStdout: true, script: '''cat configs/repo.yml | grep -i user | cut -d '"' -f2 ''' ).trim()
 			}
@@ -35,7 +37,7 @@ pipeline
 		echo "${source_type}"
 		echo "${repo_user}"
 		}
-
+	   }
 	stage('Sync Projects')
 	 {
          steps {
