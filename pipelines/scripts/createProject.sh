@@ -49,10 +49,12 @@ function echod(){
 PROJECT_URL=${LOCAL_DEV_URL}/apis/v1/rest/projects/${repoName}
 
 echo "Check Project exists"
+echo "Repo name is ${repoName} and admin user is ${admin_user} and pwd is ${admin_password}"
 name=$(curl --location --request GET ${PROJECT_URL} \
         --header 'Accept: application/json' \
         -u ${admin_user}:${admin_password} | jq -r '.output.name // empty')
 
+echo "Repo name is ${repoName} and admin user is ${admin_user} and pwd is ${admin_password}"
 if [ -z "$name" ];   then
     echo "Project does not exists. Creating ..."
     #### Create project in the tenant
