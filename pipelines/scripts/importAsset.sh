@@ -85,12 +85,12 @@ function importAsset() {
   echo "AssetType:" $assetType
   if [[ $assetType = workflow* ]]; then
       FLOW_URL=${LOCAL_DEV_URL}/apis/v1/rest/projects/${repoName}/workflow-import
-      cd $HOME_DIR/$repoName/assets/workflows
+      cd $HOME_DIR/$repoName/iPaas/API_TDD/workflows
       echod "Workflow Import:" ${FLOW_URL}
       echod $(ls -ltr)
   else
       FLOW_URL=${LOCAL_DEV_URL}/apis/v1/rest/projects/${repoName}/flow-import
-      cd $HOME_DIR/$repoName/assets/flowservices
+      cd $HOME_DIR/$repoName/iPaas/API_TDD/flowservices
       echod "Flowservice Import:" ${FLOW_URL}
       echod $(ls -ltr)
   fi    
@@ -135,7 +135,7 @@ function refData(){
   source_type=$9			   
 				  
 echo "Importing Reference Data"
-  DIR="./assets/projectConfigs/referenceData/"
+  DIR="./iPaas/API_TDD/configs/referenceData/"
   if [ -d "$DIR" ]; then
       echo "Project referenceData needs to be synched"
       PROJECT_ID_URL=${LOCAL_DEV_URL}/apis/v1/rest/projects/${repoName}
@@ -149,7 +149,7 @@ echo "Importing Reference Data"
           exit 1
       fi
        echod "ProjectID:" ${projectID}
-      cd ./assets/projectConfigs/referenceData/
+      cd ./iPaas/API_TDD/configs/referenceData/
       for d in * ; do
           if [ -d "$d" ]; then
             refDataName="$d"
@@ -214,10 +214,10 @@ cd $HOME_DIR/$repoName
   echod $(pwd)
   echod $(ls -ltr)						 
 							  
-  DIR="./assets/projectConfigs/parameters/"
+  DIR="./iPaas/API_TDD/configs/parameters/"
   if [ -d "$DIR" ]; then
       echo "Project Parameters needs to be synched"
-      cd ./assets/projectConfigs/parameters/
+      cd ./iPaas/API_TDD/configs/parameters/
       for filename in ./*.json; do
           parameterUID=${filename##*/}
           parameterUID=${parameterUID%.*}
@@ -284,7 +284,7 @@ cd $HOME_DIR/$repoName
 
 if [ ${synchProject} == true ]; then
   echod "Listing files"
-  for filename in ./assets/*/*.zip; do 
+  for filename in ./iPaas/API_TDD/*/*.zip; do 
       base_name=${filename##*/}
       parent_name="$(basename "$(dirname "$filename")")"
       base_name=${base_name%.*}
