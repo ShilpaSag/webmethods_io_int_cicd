@@ -106,7 +106,6 @@ function importAsset() {
       importedName=$(curl --location --request POST ${FLOW_URL} \
                   --header 'Content-Type: multipart/form-data' \
                   --header 'Accept: application/json' \
-		  --data-raw '{"overwrite": "true"}' \
                   --form ${formKey} -u ${admin_user}:${admin_password})    
 
       name=$(echo "$importedName" | jq '.output.name // empty')
