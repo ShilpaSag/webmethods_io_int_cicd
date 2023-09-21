@@ -10,10 +10,8 @@ LOCAL_DEV_URL=$1
 admin_user=$2
 admin_password=$3
 repoName=$4
-assetID=$5
-assetType=$6
-HOME_DIR=$7
-apiName=$8
+apiName=$5
+HOME_DIR=$6
 debug=${@: -1}
 
 
