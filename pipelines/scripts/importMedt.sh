@@ -13,8 +13,6 @@ repoName=$4
 assetID=$5
 assetType=$6
 HOME_DIR=$7
-synchProject=$8
-source_type=$9
 debug=${@: -1}
 
 
@@ -281,23 +279,17 @@ cd $HOME_DIR/$repoName
 }
  
 
-
-if [ ${synchProject} == true ]; then
   echod "Listing files"
   #for filename in ./iPaas/API_TDD/*/*.zip; do 
-  for filename in ./iPaas/{projectName}/*/*; do 
+  for filename in ./iPaas/$apiName/*/*; do 
       base_name=${filename##*/}
       parent_name="$(basename "$(dirname "$filename")")"
       base_name=${base_name%.*}
       echod $base_name${filename%.*}
       echod $parent_name
-      importAsset ${LOCAL_DEV_URL} ${admin_user} ${admin_password} ${repoName} ${base_name} ${parent_name} ${HOME_DIR} ${synchProject}
+      importAsset ${LOCAL_DEV_URL} ${admin_user} ${admin_password} ${repoName} ${base_name} ${parent_name} ${HOME_DIR}
   done
   
   #refData ${LOCAL_DEV_URL} ${admin_user} ${admin_password} ${repoName} ${base_name} ${parent_name} ${HOME_DIR} ${synchProject} ${source_type}
   #projectParameters ${LOCAL_DEV_URL} ${admin_user} ${admin_password} ${repoName} ${base_name} ${parent_name} ${HOME_DIR} ${synchProject} ${source_type}
 
-else
-  importAsset ${LOCAL_DEV_URL} ${admin_user} ${admin_password} ${repoName} ${assetID} ${assetType} ${HOME_DIR} 
-fi 
-set +x
