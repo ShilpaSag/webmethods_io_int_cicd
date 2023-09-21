@@ -284,7 +284,8 @@ cd $HOME_DIR/$repoName
 
 if [ ${synchProject} == true ]; then
   echod "Listing files"
-  for filename in ./iPaas/API_TDD/*/*.zip; do 
+  #for filename in ./iPaas/API_TDD/*/*.zip; do 
+  for filename in ./iPaas/{projectName}/*/*; do 
       base_name=${filename##*/}
       parent_name="$(basename "$(dirname "$filename")")"
       base_name=${base_name%.*}
