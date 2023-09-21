@@ -35,13 +35,8 @@ debug=${@: -1}
       exit 1
     fi
 
-    if [ -z "$assetID" ]; then
-      echo "Missing template parameter assetID"
-      exit 1
-    fi
-
-    if [ -z "$assetType" ]; then
-      echo "Missing template parameter assetType"
+    if [ -z "$apiName" ]; then
+      echo "Missing template parameter apiName"
       exit 1
     fi
 
