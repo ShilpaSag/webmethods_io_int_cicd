@@ -280,7 +280,7 @@ cd $HOME_DIR/$repoName
   echo $(pwd)
   echo "apiName is $apiName"
   #for filename in ./iPaas/API_TDD/*/*.zip; do 
-  for filename in $(./iPaas/$apiName/*/*.zip); do 
+  for filename in ./iPaas/$apiName/*/*.zip; do 
       base_name=${filename##*/}
       parent_name="$(basename "$(dirname "$filename")")"
       base_name=${base_name%.*}
