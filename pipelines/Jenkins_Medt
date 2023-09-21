@@ -69,17 +69,7 @@ pipeline
 				        git clone -b ${branchName} https://github.com/${repo_user}/${repoName}.git
 					pwd
 					ls -ltr  '''
-			
-				dir(repoName)
-				    { 
-					sh 'pwd'
-				 	sh 'ls -ltr'
-				  	echo "Branch name is ${featureBranchName}"
-					branchExists = sh ( returnStdout: true, script: "git ls-remote --heads origin ${featureBranchName} " )
-				  	echo "Does branch exists ${branchExists}"
-			    		
-			
-				     sh 'chmod +x ../pipelines/scripts/github/*.sh'
+
 			            		
 			             echo "Project Check"
 			             echo "Check and create Project ..."
