@@ -280,6 +280,7 @@ cd $HOME_DIR/$repoName
  
 
   echod "Listing files"
+  echo "apiName is $apiName"
   #for filename in ./iPaas/API_TDD/*/*.zip; do 
   for filename in ./iPaas/$apiName/*/*; do 
       base_name=${filename##*/}
