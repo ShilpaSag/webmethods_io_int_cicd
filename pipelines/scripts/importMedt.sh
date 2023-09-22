@@ -76,11 +76,13 @@ function importAsset() {
       FLOW_URL=${LOCAL_DEV_URL}/apis/v1/rest/projects/${repoName}/workflow-import
       cd $HOME_DIR/$repoName/iPaas/$apiName/workflows
       echod "Workflow Import:" ${FLOW_URL}
+      echod $(pwd)
       echod $(ls -ltr)
   else
       FLOW_URL=${LOCAL_DEV_URL}/apis/v1/rest/projects/${repoName}/flow-import
       cd $HOME_DIR/$repoName/iPaas/$apiName/flowservices
       echod "Flowservice Import:" ${FLOW_URL}
+      echod $(pwd)
       echod $(ls -ltr)
   fi    
       echod ${FLOW_URL}
@@ -280,6 +282,7 @@ cd $HOME_DIR/$repoName
       base_name=${base_name%.*}
       echod $base_name${filename%.*}
       echod $parent_name
+      echod $basename
       importAsset ${LOCAL_DEV_URL} ${admin_user} ${admin_password} ${repoName} ${base_name} ${parent_name} ${HOME_DIR}
   done
   
