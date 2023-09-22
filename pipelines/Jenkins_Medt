@@ -47,6 +47,7 @@ pipeline
 		def LOCAL_DEV_URL = "${source_environment}"
 		env.LOCAL_DEV_URL = LOCAL_DEV_URL
 
+		echo "Api name is ${apiName}"
 		//def LOCAL_DEV_URL = "https://${source_environment_hostname}:${source_environment_port}"
 		echo "${LOCAL_DEV_URL}"
 		}
