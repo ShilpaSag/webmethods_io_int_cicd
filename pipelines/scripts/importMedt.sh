@@ -282,7 +282,7 @@ cd $HOME_DIR/$repoName
       base_name=${base_name%.*}
       echod $base_name${filename%.*}
       echod $parent_name
-      echod $basename
+      echo "Basename is $basename"
       importAsset ${LOCAL_DEV_URL} ${admin_user} ${admin_password} ${repoName} ${base_name} ${parent_name} ${HOME_DIR}
   done
   
