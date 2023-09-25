@@ -9,7 +9,7 @@ pipeline
 
 		
 		//repo_user = "ShilpaSag"
-		source_environment = "https://env608865.int-aws-de.webmethods.io"
+		//source_environment = "https://env608865.int-aws-de.webmethods.io"
  	}
     stages 
 	{
@@ -38,13 +38,10 @@ pipeline
          steps {
 		sh 'pwd'
 		sh 'ls -lrt'
-		echo "LOCAL_DEV_URL"
 		script{
-		def LOCAL_DEV_URL = "${source_environment}"
-		env.LOCAL_DEV_URL = LOCAL_DEV_URL
-
-		echo "Api name is ${apiName}"
-		//def LOCAL_DEV_URL = "https://${source_environment_hostname}:${source_environment_port}"
+		//def LOCAL_DEV_URL = "${source_environment}"
+		//env.LOCAL_DEV_URL = LOCAL_DEV_URL
+		def LOCAL_DEV_URL = "https://${source_environment_hostname}:${source_environment_port}"
 		echo "${LOCAL_DEV_URL}"
 		}
 
