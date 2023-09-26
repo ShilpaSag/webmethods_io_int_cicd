@@ -58,14 +58,15 @@ import_api() {
 	password=$4
 	BIN_DIR="$PWD"
 	CURR_DIR="../"
-	API_DIR=$CURR_DIR/apis/$api_project iPaas/ioAPI
+	API_DIR=cd $HOME_DIR/$repoName/iPaas/ioAPI/
 
 echo "${BIN_DIR} ${api_project} ${url} ${username} ${password} ${CURR_DIR} ${API_DIR} "
  
 	if [ -d "$API_DIR" ] 
 	then
-		cd $API_DIR && zip -r $CURR_DIR/$api_project.zip ./*
-		curl -sS -i -X POST $url/rest/apigateway/archive?overwrite=* -H "Content-Type:application/zip" -H"Accept:application/json" --data-binary @"$CURR_DIR/$api_project.zip" -u $username:$password > /dev/null
+		## cd $API_DIR && zip -r $CURR_DIR/$api_project.zip ./*
+  		cd $API_DIR
+		curl -sS -i -X POST $url/rest/apigateway/archive?overwrite=* -H "Content-Type:application/zip" -H"Accept:application/json" --data-binary @"$API_DIR/$api_project.zip" -u $username:$password > /dev/null
 		rm $CURR_DIR/$api_project.zip
 	else
 		echo "The API with name $api does not exist as a flat file."
