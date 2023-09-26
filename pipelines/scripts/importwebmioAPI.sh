@@ -52,10 +52,10 @@ ping_apigateway_server() {
 ##############################################################################
 import_api() {
 
-	api_project=$1
-	url=$2
-	username=$3
-	password=$4
+	apiName=$1
+	wmioapi_url=$2
+	admin_user=$3
+	admin_password=$4
 	BIN_DIR="$PWD"
 	CURR_DIR="../"
 	API_DIR=cd $HOME_DIR/$repoName/iPaas/ioAPI/
@@ -64,12 +64,12 @@ echo "${BIN_DIR} ${api_project} ${url} ${username} ${password} ${CURR_DIR} ${API
  
 	if [ -d "$API_DIR" ] 
 	then
-		## cd $API_DIR && zip -r $CURR_DIR/$api_project.zip ./*
+		## cd $API_DIR && zip -r $CURR_DIR/$apiName.zip ./*
   		cd $API_DIR
 		curl -sS -i -X POST $url/rest/apigateway/archive?overwrite=* -H "Content-Type:application/zip" -H"Accept:application/json" --data-binary @"$API_DIR/$api_project.zip" -u $username:$password > /dev/null
-		rm $CURR_DIR/$api_project.zip
+		rm $CURR_DIR/$apiName.zip
 	else
-		echo "The API with name $api does not exist as a flat file."
+		echo "The API with name $apiName does not exist."
 	fi
 	cd $BIN_DIR
 }
