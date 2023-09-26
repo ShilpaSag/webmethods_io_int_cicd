@@ -3,11 +3,7 @@
 pipeline 
 {
     agent any 
-    environment 
-	{
-	// initialize the variables
 
- 	}
     stages 
 	{
 	 stage('Initialize Repo')
