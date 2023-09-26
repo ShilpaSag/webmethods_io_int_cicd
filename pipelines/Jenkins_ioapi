@@ -7,7 +7,7 @@ pipeline
 	{
 	// initialize the variables
 
-		wmioapi_url=http://localhost:5555
+		wmioapi_url = "http://localhost:5555"
  	}
     stages 
 	{
