@@ -58,8 +58,10 @@ import_api() {
 	password=$4
 	BIN_DIR="$PWD"
 	CURR_DIR="../"
-	API_DIR=$CURR_DIR/apis/$api_project
-	
+	API_DIR=$CURR_DIR/apis/$api_project iPaas/ioAPI
+
+echo "${BIN_DIR} ${api_project} ${url} ${username} ${password} ${CURR_DIR} ${API_DIR} "
+ 
 	if [ -d "$API_DIR" ] 
 	then
 		cd $API_DIR && zip -r $CURR_DIR/$api_project.zip ./*
