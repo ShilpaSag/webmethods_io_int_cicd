@@ -55,6 +55,7 @@ pipeline
 	   	   			        sh 'ls -ltr' 		
 			             
                      				echo "Importing asset ..."
+						echo "Echo the wmioapi_url is ${wmioapi_url}"
 					        def apiNames = params.apiName.split(',')
 					        for(apiName in apiNames){
    						    apiName = apiName.trim() 
@@ -62,7 +63,7 @@ pipeline
 							sh 'chmod +x ../pipelines/scripts/*.sh'
 						     //  sh "../pipelines/scripts/importwebmioAPI.sh '${LOCAL_DEV_URL}' '${admin_user}' '${admin_password}' '${repoName}' '${apiName}' '${HOME_DIR}' debug"
 						//	sh ''' 	 source ../pipelines/scripts/importwebmioAPI.sh; import_api "${apiName}" '${wmioapi_url}' '${admin_user}' '${admin_password}'   '''
-							sh " source ../pipelines/scripts/importwebmioAPI.sh; import_api '${apiName}' '${wmioapi_url}' '${admin_user}' '${admin_password}' "
+							sh "source ../pipelines/scripts/importwebmioAPI.sh; import_api '${apiName}' '${wmioapi_url}' '${admin_user}' '${admin_password}' "
 						            }           
 				        }	
 		
