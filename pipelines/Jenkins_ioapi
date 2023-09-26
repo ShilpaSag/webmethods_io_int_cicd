@@ -1,1 +1,77 @@
+#!/usr/bin/env groovy
 
+pipeline 
+{
+    agent any 
+    environment 
+	{
+	// initialize the variables
+
+ 	}
+    stages 
+	{
+	 stage('Initialize Repo')
+	  {  
+	   steps 
+		{
+		  script {
+
+			source_environment_hostname = sh ( returnStdout: true, script: '''cat ${iPaasEnv}/configs/${wmioenv}.yml | grep -i hostname | cut -d '"' -f2 ''' ).trim()
+			source_environment_port = sh ( returnStdout: true, script: '''cat ${iPaasEnv}/configs/${wmioenv}.yml | grep -i port | cut -d '"' -f2 ''' ).trim()
+			admin_user = sh ( returnStdout: true, script: '''cat ${iPaasEnv}/configs/${wmioenv}.yml | grep -i admin_username | cut -d '"' -f2 ''' ).trim()
+			source_type = sh ( returnStdout: true, script: '''cat ${iPaasEnv}/configs/${wmioenv}.yml | grep -i type | cut -d '"' -f2 ''' ).trim()
+			repo_user = sh ( returnStdout: true, script: '''cat ${iPaasEnv}/configs/repo.yml | grep -i user | cut -d '"' -f2 ''' ).trim()
+			}
+			
+		echo "${source_environment_hostname}"
+		echo "${source_environment_port}"
+    echo "${admin_user}"
+		echo "${source_type}"
+		echo "${repo_user}"
+		}
+	   }
+	stage('Sync Projects')
+	 {
+         steps {
+		            sh 'pwd'
+		            sh 'ls -lrt'
+		            script{
+	                    def wmioapi_url = "https://${source_environment_hostname}:${source_environment_port}"
+		                  echo "${wmioapi_url}"
+		                  }
+
+		            script{
+                      echo "Create / Sychronize the projects"
+				              sh '''
+				              pwd
+				              '''
+
+
+				              echo "Remove the repo"	
+				              sh '''
+					            pwd
+				              rm -rf ./${repoName}
+				              git clone -b ${branchName} https://github.com/${repo_user}/${repoName}.git
+					            pwd
+					            ls -ltr  '''
+
+			                dir(repoName)
+		 			            { 
+		   			          sh 'pwd'
+	   	   			        sh 'ls -ltr' 		
+			             
+                      echo "Importing asset ..."
+					            def apiNames = params.apiName.split(',')
+					            for(apiName in apiNames){
+   						          apiName = apiName.trim() 
+						            echo "$apiName"
+						             sh "../pipelines/scripts/importMedt.sh '${LOCAL_DEV_URL}' '${admin_user}' '${admin_password}' '${repoName}' '${apiName}' '${HOME_DIR}' debug"
+						            }           
+				        }	
+		
+            }
+ }
+ }
+        
+	}
+}
