@@ -3,7 +3,12 @@
 pipeline 
 {
     agent any 
+	environment 
+	{
+	// initialize the variables
 
+		wmioapi_url=http://localhost:5555
+ 	}
     stages 
 	{
 	 stage('Initialize Repo')
@@ -17,6 +22,7 @@ pipeline
 			admin_user = sh ( returnStdout: true, script: '''cat configs/ioAPI/${wmioenv}.yml | grep -i admin_username | cut -d '"' -f2 ''' ).trim()
 			source_type = sh ( returnStdout: true, script: '''cat configs/ioAPI/${wmioenv}.yml | grep -i type | cut -d '"' -f2 ''' ).trim()
 			repo_user = sh ( returnStdout: true, script: '''cat configs/ioAPI/repo.yml | grep -i user | cut -d '"' -f2 ''' ).trim()
+			 wmioapi_url = "https://${source_environment_hostname}:${source_environment_port}"          
 			}
 			
 		echo "${source_environment_hostname}"
@@ -24,6 +30,7 @@ pipeline
     echo "${admin_user}"
 		echo "${source_type}"
 		echo "${repo_user}"
+		 echo "${wmioapi_url}"
 		}
 	   }
 	stage('Sync Projects')
@@ -31,10 +38,10 @@ pipeline
          steps {
 		            sh 'pwd'
 		            sh 'ls -lrt'
-		            script{
-	                    def wmioapi_url = "https://${source_environment_hostname}:${source_environment_port}"
-		                  echo "${wmioapi_url}"
-		                  }
+		         //   script{
+	                   // wmioapi_url = "https://${source_environment_hostname}:${source_environment_port}"
+		             //     echo "${wmioapi_url}"
+		               //   }
 
 		            script{
                       echo "Create / Sychronize the projects"
