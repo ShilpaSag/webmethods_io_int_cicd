@@ -55,7 +55,7 @@ pipeline
 	   	   			        sh 'ls -ltr' 		
 			             
                      				echo "Importing asset ..."
-						echo "Echo the wmioapi_url is ${wmioapi_url}"
+						echo "${wmioapi_url}"
 					        def apiNames = params.apiName.split(',')
 					        for(apiName in apiNames){
    						    apiName = apiName.trim() 
