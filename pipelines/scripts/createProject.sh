@@ -9,7 +9,7 @@
 LOCAL_DEV_URL=$1
 admin_user=$2
 admin_password=$3
-repoName=$4
+project=$4
 debug=${@: -1}
 
     if [ -z "$LOCAL_DEV_URL" ]; then
@@ -27,7 +27,7 @@ debug=${@: -1}
       exit 1
     fi
 
-    if [ -z "$repoName" ]; then
+    if [ -z "$project" ]; then
       echo "Missing template parameter repoName"
       exit 1
     fi
@@ -46,28 +46,27 @@ function echod(){
 }
 
 
-PROJECT_URL=${LOCAL_DEV_URL}/apis/v1/rest/projects/${repoName}
+PROJECT_URL=${LOCAL_DEV_URL}/apis/v1/rest/projects/${project}
 
 echo "Check Project exists"
-echo "Repo name is ${repoName} and admin user is ${admin_user} and pwd is ${admin_password}"
+echo "Project name is ${project} and admin user is ${admin_user} and pwd is ${admin_password}"
 name=$(curl --location --request GET ${PROJECT_URL} \
         --header 'Accept: application/json' \
         -u ${admin_user}:${admin_password} | jq -r '.output.name // empty')
 
-echo "Repo name is ${repoName} and admin user is ${admin_user} and pwd is ${admin_password}"
 if [ -z "$name" ];   then
     echo "Project does not exists. Creating ..."
     #### Create project in the tenant
    PROJECT_URL=${LOCAL_DEV_URL}/apis/v1/rest/projects
    ## PROJECT_URL=${LOCAL_DEV_URL}/projects
-   echo "Repo name is '${repoName}'"
-    json='{"name": "'${repoName}'", "description": "Created by Automated CI for feature branch"}'
+   echo "Project name is '${project}'"
+    json='{"name": "'${project}'", "description": "Created by Automated CI for feature branch"}'
     echo "Project url is ${PROJECT_URL}"
     echo "json is ${jsonString}"
     projectName=$(curl --location --request POST ${PROJECT_URL} \
     --header "Content-Type:application/json" \
     --header "Accept:application/json" \
-    --data-raw '{"name": "'${repoName}'", "description": "Created by Automated CI for feature branch"}' -u ${admin_user}:${admin_password})
+    --data-raw '{"name": "'${project}'", "description": "Created by Automated CI for feature branch"}' -u ${admin_user}:${admin_password})
 
     echo "Project name is ${projectName}"
     
