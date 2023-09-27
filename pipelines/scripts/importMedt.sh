@@ -79,7 +79,7 @@ function importAsset() {
       echod $(pwd)
       echod $(ls -ltr)
   else
-      FLOW_URL=${LOCAL_DEV_URL}/apis/v1/rest/projects/${repoName}/flow-import
+      FLOW_URL=${LOCAL_DEV_URL}/apis/v1/rest/projects/${project}/flow-import
       cd $HOME_DIR/$repoName/iPaas/wmioINT/$project/flow-services
       echod "Flowservice Import:" ${FLOW_URL}
       echod $(pwd)
