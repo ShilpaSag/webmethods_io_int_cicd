@@ -10,7 +10,7 @@ LOCAL_DEV_URL=$1
 admin_user=$2
 admin_password=$3
 repoName=$4
-apiName=$5
+project=$5
 HOME_DIR=$6
 debug=${@: -1}
 
@@ -35,7 +35,7 @@ debug=${@: -1}
       exit 1
     fi
 
-    if [ -z "$apiName" ]; then
+    if [ -z "$project" ]; then
       echo "Missing template parameter apiName"
       exit 1
     fi
@@ -73,14 +73,14 @@ function importAsset() {
   echod $(ls -ltr)
   echo "AssetType:" $assetType
   if [[ $assetType = workflow* ]]; then
-      FLOW_URL=${LOCAL_DEV_URL}/apis/v1/rest/projects/${repoName}/workflow-import
-      cd $HOME_DIR/$repoName/iPaas/ioInt/$apiName/workflows
+      FLOW_URL=${LOCAL_DEV_URL}/apis/v1/rest/projects/${project}/workflow-import
+      cd $HOME_DIR/$repoName/iPaas/wmioINT/$project/workflows
       echod "Workflow Import:" ${FLOW_URL}
       echod $(pwd)
       echod $(ls -ltr)
   else
       FLOW_URL=${LOCAL_DEV_URL}/apis/v1/rest/projects/${repoName}/flow-import
-      cd $HOME_DIR/$repoName/iPaas/ioInt/$apiName/flowservices
+      cd $HOME_DIR/$repoName/iPaas/wmioINT/$project/flowservices
       echod "Flowservice Import:" ${FLOW_URL}
       echod $(pwd)
       echod $(ls -ltr)
@@ -274,9 +274,9 @@ cd $HOME_DIR/$repoName
 
   echod "Listing files"
   echo $(pwd)
-  echo "apiName is $apiName"
+  echo "projectName is $project"
   #for filename in ./iPaas/API_TDD/*/*.zip; do 
-  for filename in ./iPaas/ioInt/$apiName/*/*.zip; do 
+  for filename in ./iPaas/wmioINT/$project/*/*.zip; do 
       base_name=${filename##*/}
       parent_name="$(basename "$(dirname "$filename")")"
       base_name=${base_name%.*}
