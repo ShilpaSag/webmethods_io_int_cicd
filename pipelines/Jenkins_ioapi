@@ -3,12 +3,7 @@
 pipeline 
 {
     agent any 
-	environment 
-	{
-	// initialize the variables
 
-		wmioapi_url = "http://localhost:5555"
- 	}
     stages 
 	{
 	 stage('Initialize Repo')
@@ -17,20 +12,20 @@ pipeline
 		{
 		  script {
 
-			source_environment_hostname = sh ( returnStdout: true, script: '''cat configs/ioAPI/${wmioenv}.yml | grep -i hostname | cut -d '"' -f2 ''' ).trim()
-			source_environment_port = sh ( returnStdout: true, script: '''cat configs/ioAPI/${wmioenv}.yml | grep -i port | cut -d '"' -f2 ''' ).trim()
-			admin_user = sh ( returnStdout: true, script: '''cat configs/ioAPI/${wmioenv}.yml | grep -i admin_username | cut -d '"' -f2 ''' ).trim()
-			source_type = sh ( returnStdout: true, script: '''cat configs/ioAPI/${wmioenv}.yml | grep -i type | cut -d '"' -f2 ''' ).trim()
-			repo_user = sh ( returnStdout: true, script: '''cat configs/ioAPI/repo.yml | grep -i user | cut -d '"' -f2 ''' ).trim()
+			source_environment_hostname = sh ( returnStdout: true, script: '''cat configs/${iPaasEnv}/${wmioenv}.yml | grep -i hostname | cut -d '"' -f2 ''' ).trim()
+			source_environment_port = sh ( returnStdout: true, script: '''cat configs/${iPaasEnv}/${wmioenv}.yml | grep -i port | cut -d '"' -f2 ''' ).trim()
+			admin_user = sh ( returnStdout: true, script: '''cat configs/${iPaasEnv}/${wmioenv}.yml | grep -i admin_username | cut -d '"' -f2 ''' ).trim()
+			source_type = sh ( returnStdout: true, script: '''cat configs/${iPaasEnv}/${wmioenv}.yml | grep -i type | cut -d '"' -f2 ''' ).trim()
+			repo_user = sh ( returnStdout: true, script: '''cat configs/${iPaasEnv}/repo.yml | grep -i user | cut -d '"' -f2 ''' ).trim()
 			 wmioapi_url = "https://${source_environment_hostname}:${source_environment_port}"          
 			}
 			
 		echo "${source_environment_hostname}"
 		echo "${source_environment_port}"
-    echo "${admin_user}"
+    		echo "${admin_user}"
 		echo "${source_type}"
 		echo "${repo_user}"
-		 echo "${wmioapi_url}"
+		echo "${wmioapi_url}"
 		}
 	   }
 	stage('Sync Projects')
@@ -45,9 +40,7 @@ pipeline
 
 		            script{
                       echo "Create / Sychronize the projects"
-				         sh '''
-				           pwd
-				            '''
+				 
 			              echo "Remove the repo"	
 			              sh '''
 				            pwd
