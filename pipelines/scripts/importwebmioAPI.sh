@@ -58,7 +58,7 @@ import_api() {
 	admin_password=$4
 	BIN_DIR="$PWD"
 	CURR_DIR="../"
-	API_DIR=$BIN_DIR/iPaas/ioAPI/
+	API_DIR=$BIN_DIR/iPaas/wmioAPI/
 
 echo "${BIN_DIR} ${api_project} ${url} ${username} ${password} ${CURR_DIR} ${API_DIR} "
  
@@ -66,7 +66,7 @@ echo "${BIN_DIR} ${api_project} ${url} ${username} ${password} ${CURR_DIR} ${API
 	then
 		## cd $API_DIR && zip -r $CURR_DIR/$apiName.zip ./*
   		cd $API_DIR
-		curl -sS -i -X POST $wmioapi_url/rest/apigateway/archive?overwrite=* -H "Content-Type:application/zip" -H"Accept:application/json" --data-binary @"$API_DIR/$apiName.zip" -u $admin_user:$admin_password > /dev/null
+		curl -sS -i -X POST $wmioapi_url/rest/apigateway/archive?overwrite=* -H "Content-Type:application/zip" -H"Accept:application/json" --data-binary @"$API_DIR$apiName.zip" -u $admin_user:$admin_password > /dev/null
 		## rm $CURR_DIR/$apiName.zip
 	else
 		echo "The API with name $apiName does not exist."
