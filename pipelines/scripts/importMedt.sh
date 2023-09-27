@@ -74,13 +74,13 @@ function importAsset() {
   echo "AssetType:" $assetType
   if [[ $assetType = workflow* ]]; then
       FLOW_URL=${LOCAL_DEV_URL}/apis/v1/rest/projects/${repoName}/workflow-import
-      cd $HOME_DIR/$repoName/iPaas/$apiName/workflows
+      cd $HOME_DIR/$repoName/iPaas/ioInt/$apiName/workflows
       echod "Workflow Import:" ${FLOW_URL}
       echod $(pwd)
       echod $(ls -ltr)
   else
       FLOW_URL=${LOCAL_DEV_URL}/apis/v1/rest/projects/${repoName}/flow-import
-      cd $HOME_DIR/$repoName/iPaas/$apiName/flowservices
+      cd $HOME_DIR/$repoName/iPaas/ioInt/$apiName/flowservices
       echod "Flowservice Import:" ${FLOW_URL}
       echod $(pwd)
       echod $(ls -ltr)
@@ -276,7 +276,7 @@ cd $HOME_DIR/$repoName
   echo $(pwd)
   echo "apiName is $apiName"
   #for filename in ./iPaas/API_TDD/*/*.zip; do 
-  for filename in ./iPaas/$apiName/*/*.zip; do 
+  for filename in ./iPaas/ioInt/$apiName/*/*.zip; do 
       base_name=${filename##*/}
       parent_name="$(basename "$(dirname "$filename")")"
       base_name=${base_name%.*}
