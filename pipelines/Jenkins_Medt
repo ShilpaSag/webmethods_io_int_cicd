@@ -3,7 +3,12 @@
 pipeline 
 {
     agent any 
-    
+       environment 
+	{
+	// initialize the variables
+
+		HOME_DIR= "${WORKSPACE}"
+ 	}
     stages 
 	{
 	 stage('Initialize Repo')
