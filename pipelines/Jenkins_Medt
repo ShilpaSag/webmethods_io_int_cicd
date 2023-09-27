@@ -3,14 +3,7 @@
 pipeline 
 {
     agent any 
-    environment 
-	{
-	// initialize the variables
-
-		
-		//repo_user = "ShilpaSag"
-		//source_environment = "https://env608865.int-aws-de.webmethods.io"
- 	}
+    
     stages 
 	{
 	 stage('Initialize Repo')
@@ -19,11 +12,11 @@ pipeline
 		{
 		  script {
 
-			source_environment_hostname = sh ( returnStdout: true, script: '''cat ${iPaasEnv}/configs/${wmioenv}.yml | grep -i hostname | cut -d '"' -f2 ''' ).trim()
-			source_environment_port = sh ( returnStdout: true, script: '''cat ${iPaasEnv}/configs/${wmioenv}.yml | grep -i port | cut -d '"' -f2 ''' ).trim()
-			admin_user = sh ( returnStdout: true, script: '''cat ${iPaasEnv}/configs/${wmioenv}.yml | grep -i admin_username | cut -d '"' -f2 ''' ).trim()
-			source_type = sh ( returnStdout: true, script: '''cat ${iPaasEnv}/configs/${wmioenv}.yml | grep -i type | cut -d '"' -f2 ''' ).trim()
-			repo_user = sh ( returnStdout: true, script: '''cat ${iPaasEnv}/configs/repo.yml | grep -i user | cut -d '"' -f2 ''' ).trim()
+			source_environment_hostname = sh ( returnStdout: true, script: '''cat configs/${iPaasEnv}/${wmioenv}.yml | grep -i hostname | cut -d '"' -f2 ''' ).trim()
+			source_environment_port = sh ( returnStdout: true, script: '''cat configs/${iPaasEnv}/${wmioenv}.yml | grep -i port | cut -d '"' -f2 ''' ).trim()
+			admin_user = sh ( returnStdout: true, script: '''cat configs/${iPaasEnv}/${wmioenv}.yml | grep -i admin_username | cut -d '"' -f2 ''' ).trim()
+			source_type = sh ( returnStdout: true, script: '''cat configs/${iPaasEnv}/${wmioenv}.yml | grep -i type | cut -d '"' -f2 ''' ).trim()
+			repo_user = sh ( returnStdout: true, script: '''cat configs/${iPaasEnv}/repo.yml | grep -i user | cut -d '"' -f2 ''' ).trim()
 			}
 			
 		echo "${source_environment_hostname}"
