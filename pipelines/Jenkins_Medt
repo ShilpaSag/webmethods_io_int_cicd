@@ -16,6 +16,8 @@ pipeline
 	   steps 
 		{
 		  script {
+			iPaasEnv = iPaasEnv.trim()
+			echo "${iPaasEnv}"
 
 			source_environment_hostname = sh ( returnStdout: true, script: '''cat configs/${iPaasEnv}/${wmioenv}.yml | grep -i hostname | cut -d '"' -f2 ''' ).trim()
 			source_environment_port = sh ( returnStdout: true, script: '''cat configs/${iPaasEnv}/${wmioenv}.yml | grep -i port | cut -d '"' -f2 ''' ).trim()
