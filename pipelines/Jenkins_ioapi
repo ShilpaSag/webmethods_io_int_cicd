@@ -53,7 +53,12 @@ pipeline
 		 			            { 
 		   			        sh 'pwd'
 	   	   			        sh 'ls -ltr' 		
-			             
+			             		echo "Project Check"
+						DIR="./iPaas/wmioAPI/$apiName/"
+						echo "${DIR}"
+  						//if ( -d '$DIR' ); then
+						if (fileExists("${DIR}"))
+						{
                      				echo "Importing asset ..."
 						echo "${wmioapi_url}"
 					        def apiNames = params.apiName.split(',')
@@ -65,8 +70,10 @@ pipeline
 						//	sh ''' 	 source ../pipelines/scripts/importwebmioAPI.sh; import_api "${apiName}" '${wmioapi_url}' '${admin_user}' '${admin_password}'   '''
 							sh "source ../pipelines/scripts/importwebmioAPI.sh; import_api '${apiName}' '${wmioapi_url}' '${admin_user}' '${admin_password}' "
 						            }           
-				        }	
-		
+				        }
+					else 
+						echo "API ${apiName} not found in Repo ${repoName}"
+					}
             }
  }
  }
