@@ -54,11 +54,13 @@ pipeline
 		   			        sh 'pwd'
 	   	   			        sh 'ls -ltr' 		
 			             		echo "API Check"
-						DIR="./iPaas/wmioAPI/$apiName.zip"
-						echo "${DIR}"
+					//	DIR="./iPaas/wmioAPI/$apiName.zip"
+					//	echo "${DIR}"
   						//if ( -d '$DIR' ); then
-						if (fileExists("${DIR}"))
-						{
+						def exists = fileExists './iPaas/wmioAPI/$apiName.zip'
+						if (exists) {
+						//if (fileExists("${DIR}"))
+					//	{
                      				echo "Importing asset ..."
 						echo "API found and importing to ${wmioapi_url}"
 					        def apiNames = params.apiName.split(',')
