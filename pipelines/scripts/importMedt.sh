@@ -97,7 +97,8 @@ function importAsset() {
       importedName=$(curl --location --request POST ${FLOW_URL} \
                   --header 'Content-Type: multipart/form-data' \
                   --header 'Accept: application/json' \
-                  --form ${formKey} -u ${admin_user}:${admin_password})    
+                  --form ${formKey} \
+		  --form 'overwrite="true"' -u ${admin_user}:${admin_password})    
 
       name=$(echo "$importedName" | jq '.output.name // empty')
       if [ -z "$name" ];   then
