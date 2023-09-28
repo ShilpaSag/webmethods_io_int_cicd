@@ -53,14 +53,14 @@ pipeline
 		 			            { 
 		   			        sh 'pwd'
 	   	   			        sh 'ls -ltr' 		
-			             		echo "Project Check"
+			             		echo "API Check"
 						DIR="./iPaas/wmioAPI/$apiName/"
 						echo "${DIR}"
   						//if ( -d '$DIR' ); then
 						if (fileExists("${DIR}"))
 						{
                      				echo "Importing asset ..."
-						echo "${wmioapi_url}"
+						echo "API found and importing to ${wmioapi_url}"
 					        def apiNames = params.apiName.split(',')
 					        for(apiName in apiNames){
    						    apiName = apiName.trim() 
