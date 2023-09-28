@@ -73,7 +73,7 @@ pipeline
 					DIR="./iPaas/wmioINT/{$project}/"
 					echo "${DIR}"
   					//if ( -d '$DIR' ); then
-					if (fileExists('$DIR')
+					if (fileExists("${DIR}"))
 					{
 			              	
 					def projNames = params.project.split(',')
