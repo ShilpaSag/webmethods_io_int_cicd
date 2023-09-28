@@ -58,6 +58,7 @@ pipeline
 					//	echo "${DIR}"
   						//if ( -d '$DIR' ); then
 						def exists = fileExists './iPaas/wmioAPI/$apiName.zip'
+						echo "${exists}"
 						if (exists) {
 						//if (fileExists("${DIR}"))
 					//	{
