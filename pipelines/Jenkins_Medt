@@ -72,7 +72,7 @@ pipeline
 			             	echo "Project Check"
 					DIR="./iPaas/wmioINT/{$project}/"
 					echo "${project}"
-  					if ( -d "$DIR" ); then
+  					if ( -d '$DIR' ); then
 					{
 			            // 	echo "Check and create Project ..."
 				   //	echo "${env.LOCAL_DEV_URL}"
