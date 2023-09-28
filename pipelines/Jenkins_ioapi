@@ -54,7 +54,7 @@ pipeline
 		   			        sh 'pwd'
 	   	   			        sh 'ls -ltr' 		
 			             		echo "API Check"
-						DIR="./iPaas/wmioAPI/$apiName/"
+						DIR="./iPaas/wmioAPI/$apiName.zip"
 						echo "${DIR}"
   						//if ( -d '$DIR' ); then
 						if (fileExists("${DIR}"))
