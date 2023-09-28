@@ -57,9 +57,9 @@ pipeline
 					//	DIR="./iPaas/wmioAPI/$apiName.zip"
 					//	echo "${DIR}"
   						//if ( -d '$DIR' ); then
-						def exists = fileExists "./iPaas/wmioAPI/$apiName.zip"
-						echo "${exists}"
-						if (exists) {
+					//	def exists = fileExists "./iPaas/wmioAPI/$apiName.zip"
+					//	echo "${exists}"
+					//	if (exists) {
 						//if (fileExists("${DIR}"))
 					//	{
                      				echo "Importing asset ..."
