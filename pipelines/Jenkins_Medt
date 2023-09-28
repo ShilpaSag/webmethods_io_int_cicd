@@ -70,7 +70,8 @@ pipeline
 		   			sh 'pwd'
 	   	   			sh 'ls -ltr' 		
 			             	echo "Project Check"
-					DIR="./iPaas/wmioINT/{$Project}/"
+					DIR="./iPaas/wmioINT/{$project}/"
+					echo "${project}"
   					if ( -d "$DIR" ); then
 					{
 			            // 	echo "Check and create Project ..."
