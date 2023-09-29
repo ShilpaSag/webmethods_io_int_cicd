@@ -8,6 +8,7 @@ pipeline
 	// initialize the variables
 
 		HOME_DIR= "${WORKSPACE}"
+		project = ""
  	}
     stages 
 	{
