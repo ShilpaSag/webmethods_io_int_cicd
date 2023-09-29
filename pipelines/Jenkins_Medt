@@ -71,10 +71,12 @@ pipeline
 	   	   			sh 'ls -ltr' 		
 			             	echo "Project Check"
 					script {
-						def foundFiles = sh(script: ''' ls -A1 iPaas/wmioINT ''', returnStdout: true).split()
-						echo "${foundFiles}"
+						//def foundFiles = sh(script: ''' ls -A1 iPaas/wmioINT ''', returnStdout: true).split()
+						//echo "${foundFiles}"
 						//def folderNames = params.foundFiles.split(',')
 						//echo "$folderNames"
+						def  FILES_LIST = sh (script: ''' ls   iPaas/wmioINT ''', returnStdout: true).trim()
+						echo "FILES_LIST : ${FILES_LIST}"
 					}
 					DIR="./iPaas/wmioINT/$projects/"
 					echo "${DIR}"
