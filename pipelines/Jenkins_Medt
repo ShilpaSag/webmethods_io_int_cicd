@@ -76,12 +76,8 @@ pipeline
 						//def folderNames = params.foundFiles.split(',')
 						//echo "$folderNames"
 
-						def files = findFiles() 
-						files.each { f -> 
-                    				if (f.directory) {
-                        					echo "This is a directory: ${f.name}"
-                    					}
-						}
+						def directories = getDirectories("$dir")
+            					echo "$directories"
 					}
 					DIR="./iPaas/wmioINT/$projects/"
 					echo "${DIR}"
