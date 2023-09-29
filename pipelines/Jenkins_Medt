@@ -8,7 +8,6 @@ pipeline
 	// initialize the variables
 
 		HOME_DIR= "${WORKSPACE}"
-		def project
  	}
     stages 
 	{
@@ -74,12 +73,12 @@ pipeline
 					if ("${projectNames}" == 'All')
 						{
 						echo "Select all projects for wmioINT"
-						project = sh (script: ''' ls iPaas/wmioINT --format=comma ''', returnStdout: true).trim()
+						def project = sh (script: ''' ls iPaas/wmioINT --format=comma ''', returnStdout: true).trim()
 						echo "Project is : ${project}"
 					      }
 					  else 
   					    {
-						project = "${projectNames}"
+						def project = "${projectNames}"
 						echo "Project is : ${project}"
 					}
 					
