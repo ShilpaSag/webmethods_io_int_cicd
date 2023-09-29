@@ -71,13 +71,19 @@ pipeline
 	   	   			sh 'ls -ltr' 		
 			             	echo "Project Check"
 					script {
-							//sh ( returnStdout: true, script: '''cat configs/${iPaasEnv}/${wmioenv}.yml | grep -i hostname | cut -d '"' -f2 ''' ).trim()
-						def foundFiles = sh(script: ''' ls -1 iPaas/wmioINT ''', returnStdout: true).split()
-						echo "${foundFiles}"
-						def folderNames = params.foundFiles.split(',')
-						echo "$folderNames"
+						//def foundFiles = sh(script: ''' ls -1 iPaas/wmioINT ''', returnStdout: true).split()
+						//echo "${foundFiles}"
+						//def folderNames = params.foundFiles.split(',')
+						//echo "$folderNames"
+
+						def files = findFiles() 
+						files.each { f -> 
+                    				if (f.directory) {
+                        					echo "This is a directory: ${f.name}"
+                    					}
 						}
-					DIR="./iPaas/wmioINT/$project/"
+					}
+					DIR="./iPaas/wmioINT/$project/"----
 					echo "${DIR}"
   					//if ( -d '$DIR' ); then
 					if (fileExists("${DIR}"))
