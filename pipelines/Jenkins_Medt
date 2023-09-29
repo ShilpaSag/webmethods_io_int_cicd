@@ -83,7 +83,7 @@ pipeline
                     					}
 						}
 					}
-					DIR="./iPaas/wmioINT/$project/"----
+					DIR="./iPaas/wmioINT/$projects/"
 					echo "${DIR}"
   					//if ( -d '$DIR' ); then
 					if (fileExists("${DIR}"))
