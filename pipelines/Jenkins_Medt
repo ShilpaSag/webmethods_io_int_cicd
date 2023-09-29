@@ -70,7 +70,7 @@ pipeline
 		   			sh 'pwd'
 	   	   			sh 'ls -ltr' 		
 			             	echo "Project Check"
-					if ("${project}" == All)
+					if ("${project}" == 'All')
 						{
 						echo "Select all projects for wmioINT"
 						script {
