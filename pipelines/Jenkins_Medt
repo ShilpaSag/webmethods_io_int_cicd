@@ -8,6 +8,7 @@ pipeline
 	// initialize the variables
 
 		HOME_DIR= "${WORKSPACE}"
+		def project
  	}
     stages 
 	{
@@ -70,19 +71,18 @@ pipeline
 		   			sh 'pwd'
 	   	   			sh 'ls -ltr' 		
 			             	echo "Project Check"
-					if ("${project}" == 'All')
+					if ("${projectNames}" == 'All')
 						{
 						echo "Select all projects for wmioINT"
-						script {
-						//def foundFiles = sh(script: ''' ls -A1 iPaas/wmioINT ''', returnStdout: true).split()
-						//echo "${foundFiles}"
-						//def folderNames = params.foundFiles.split(',')
-						//echo "$folderNames"
-						def  FILES_LIST = sh (script: ''' ls   iPaas/wmioINT ''', returnStdout: true).trim()
-						echo "FILES_LIST : ${FILES_LIST}"
-						def project = "${FILES_LIST}"
-						}
+						project = sh (script: ''' ls iPaas/wmioINT --format=comma ''', returnStdout: true).trim()
+						echo "Project is : ${project}"
 					      }
+					  else 
+  					    {
+						project = "${projectNames}"
+						echo "Project is : ${project}"
+					}
+					
 					//DIR="./iPaas/wmioINT/$project/"
 					//echo "${DIR}"
   					//if ( -d '$DIR' ); then
@@ -106,15 +106,6 @@ pipeline
 						echo "Importing asset ..."
 						 sh "../pipelines/scripts/importMedt.sh '${LOCAL_DEV_URL}' '${admin_user}' '${admin_password}' '${repoName}' '${project}' '${HOME_DIR}' debug"
 						}
-					//def apiNames = params.apiName.split(',')
-					//for(apiName in apiNames){
-   					//	apiName = apiName.trim() 
-					//	echo "$apiName"
-					//	 sh "../pipelines/scripts/importMedt.sh '${LOCAL_DEV_URL}' '${admin_user}' '${admin_password}' '${repoName}' '${apiName}' '${HOME_DIR}' debug"
-					//	}
-			            //  sh "../pipelines/scripts/importAsset.sh '${LOCAL_DEV_URL}' '${admin_user}' '${admin_password}' '${repoName}' '${assetID}' '${assetType}' '${HOME_DIR}' '${synchProject}' '${source_type}' debug"
-				    //  sh "../pipelines/scripts/importMedt.sh '${LOCAL_DEV_URL}' '${admin_user}' '${admin_password}' '${repoName}' '${apiName}' '${HOME_DIR}' debug"              
-				
 				else
                 			echo "Project ${project} not found in Repo ${repoName}"
 				}
