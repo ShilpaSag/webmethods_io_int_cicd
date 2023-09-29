@@ -74,6 +74,8 @@ pipeline
 							//sh ( returnStdout: true, script: '''cat configs/${iPaasEnv}/${wmioenv}.yml | grep -i hostname | cut -d '"' -f2 ''' ).trim()
 						def foundFiles = sh(script: ''' ls -1 iPaas/wmioINT ''', returnStdout: true).split()
 						echo "${foundFiles}"
+						def folderNames = params.foundFiles.split(',')
+						echo "$folderNames"
 						}
 					DIR="./iPaas/wmioINT/$project/"
 					echo "${DIR}"
