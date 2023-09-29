@@ -86,7 +86,7 @@ pipeline
 					}
 					
 			              	echo "Project before split is : ${project}"
-					def projNames = params.project.split(',')
+					def projNames = project.split(',')
 					echo "Project Names: ${projNames}"
 					for(project in projNames){
    						project = project.trim() 
