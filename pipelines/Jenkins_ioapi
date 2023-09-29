@@ -84,10 +84,11 @@ pipeline
 				        
 					else {
 						echo "API ${apiName} not found in Repo ${repoName}"
-					}
+							}
+						}
 				}
-            }
- }
+			}
+		}
  }
         
 	}
