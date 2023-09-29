@@ -75,13 +75,11 @@ pipeline
 						{
 						echo "Select all projects for wmioINT"
 						project = sh (script: ''' ls iPaas/wmioINT -m ''', returnStdout: true).trim()
-						env.project = project
 						echo "Project is : ${project}"
 					      }
 					  else 
   					    {
 						project = "${projectNames}"
-						env.project = project
 						echo "Project is : ${project}"
 					}
 					
