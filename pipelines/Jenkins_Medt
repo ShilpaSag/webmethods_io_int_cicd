@@ -87,8 +87,9 @@ pipeline
   					//if ( -d '$DIR' ); then
 					//if (fileExists("${DIR}"))
 					//{
-			              	
+			              	echo "Project before split is : ${project}"
 					def projNames = "${params.project}".split(', ')
+					echo "Project Names: ${projNames}"
 					for(project in projNames){
    						project = project.trim() 
 						echo "$project"
