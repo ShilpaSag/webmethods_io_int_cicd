@@ -73,7 +73,7 @@ pipeline
 					if ("${projectNames}" == 'All')
 						{
 						echo "Select all projects for wmioINT"
-						def project = sh (script: ''' ls iPaas/wmioINT --format=comma ''', returnStdout: true).trim()
+						def project = sh (script: ''' ls iPaas/wmioINT -m ''', returnStdout: true).trim()
 						echo "Project is : ${project}"
 					      }
 					  else 
@@ -88,7 +88,7 @@ pipeline
 					//if (fileExists("${DIR}"))
 					//{
 			              	
-					def projNames = params.project.split(',')
+					def projNames = params.project.split(', ')
 					for(project in projNames){
    						project = project.trim() 
 						echo "$project"
