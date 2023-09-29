@@ -82,7 +82,7 @@ pipeline
 						echo "FILES_LIST : ${FILES_LIST}"
 						project = "${FILES_LIST}"
 						}
-					
+					      }
 					DIR="./iPaas/wmioINT/$project/"
 					echo "${DIR}"
   					//if ( -d '$DIR' ); then
@@ -117,4 +117,5 @@ pipeline
  }
         
 	}
+}
 }
