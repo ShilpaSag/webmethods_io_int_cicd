@@ -88,7 +88,7 @@ pipeline
 					//if (fileExists("${DIR}"))
 					//{
 			              	
-					def projNames = project.split(', ')
+					def projNames = "${project}".split(', ')
 					for(project in projNames){
    						project = project.trim() 
 						echo "$project"
