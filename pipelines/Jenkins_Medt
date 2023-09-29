@@ -72,7 +72,7 @@ pipeline
 			             	echo "Project Check"
 					script {
 								sh ( returnStdout: true, script: '''cat configs/${iPaasEnv}/${wmioenv}.yml | grep -i hostname | cut -d '"' -f2 ''' ).trim()
-						def foundFiles = sh(script: ''' ls -1 iPaas ''', returnStdout: true).split()
+						def foundFiles = sh(script: ''' ls -1 wmioINT ''', returnStdout: true).split()
 						echo "${foundFiles}"
 						}
 					DIR="./iPaas/wmioINT/$project/"
