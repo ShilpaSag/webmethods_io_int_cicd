@@ -23,8 +23,7 @@ pipeline
 			admin_user = sh ( returnStdout: true, script: '''cat configs/${iPaasEnv}/${wmioenv}.yml | grep -i admin_username | cut -d '"' -f2 ''' ).trim()
 			source_type = sh ( returnStdout: true, script: '''cat configs/${iPaasEnv}/${wmioenv}.yml | grep -i type | cut -d '"' -f2 ''' ).trim()
 			repo_user = sh ( returnStdout: true, script: '''cat configs/${iPaasEnv}/repo.yml | grep -i user | cut -d '"' -f2 ''' ).trim()
-			// wmioapi_url = "https://${source_environment_hostname}:${source_environment_port}"     
-			   wmioapi_url = "https://env608865.apigw-aw-eu.webmethods.io/apigatewayui"  
+			wmioapi_url = "https://${source_environment_hostname}:${source_environment_port}"      
 			}
 			
 		echo "${source_environment_hostname}"
