@@ -62,6 +62,7 @@ pipeline
 						apis = sh (script: ''' ls iPaas/wmioAPI -m ''', returnStdout: true).trim()
 						echo "API is : ${apis}"
 						apis = apis.replaceAll( '.zip', '' )
+						echo "API after replace is : ${apis}"
 					      	}
 					  	else 
   					    	{
