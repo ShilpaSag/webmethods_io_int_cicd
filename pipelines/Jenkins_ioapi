@@ -75,7 +75,7 @@ pipeline
 					        for(apis in apiNames){
    						    apis = apis.trim() 
 						      echo "$apis"
-						      def exists = fileExists "./iPaas/wmioAPI/${apis}"
+						      def exists = fileExists "./iPaas/wmioAPI/${apis}.zip"
 							echo "${exists}"
 							if (exists) {
                      					echo "Importing asset ..."
