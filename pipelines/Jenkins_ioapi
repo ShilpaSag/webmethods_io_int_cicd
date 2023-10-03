@@ -64,7 +64,7 @@ pipeline
 					      	}
 					  	else 
   					    	{
-						apis = "${apiName}.zip"
+						apis = "${apiName}"
 						echo "API is : ${apis}"
 						}
 
