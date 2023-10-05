@@ -3,87 +3,46 @@
 pipeline 
 {
     agent any 
-    environment 
+       environment 
 	{
 	// initialize the variables
 
-		repoPAth = "${gitOwner}/${repoName}"
-		init = "true"
-		repo_user = "ShilpaSag"
-		PAT= "test"
-		AZURE_TOKEN= "test"
-		// devUser= "test"
-		// featureBranchName= "test"
-		// HOME_DIR= "${WORKSPACE}/../"
 		HOME_DIR= "${WORKSPACE}"
-		workingDirectory = "${WORKSPACE}"
-		source_environment_hostname = "localhost"
-		source_environment_port = "5555"
-		def source_environment = "https://env608865.int-aws-de.webmethods.io"
+		project = ""
  	}
     stages 
 	{
-	 stage('InitialiseRepo')
-	 {
-            steps 
-			{
-		echo "$WORKSPACE"
-		echo "${CUSTOMWORKSPACE}"
-		echo "Copy to the repo to custom workspace"
-		sh 'pwd'
-		sh 'ls -ltr'
+	 stage('Initialize Repo')
+	  {  
+	   steps 
+		{
+		  script {
+			iPaasEnv = iPaasEnv.trim()
+			echo "${iPaasEnv}"
 
-		script {
-
-		source_environment_hostname = sh ( returnStdout: true, script: '''cat configs/play.yml | grep -i hostname | cut -d '"' -f2 ''' ).trim()
-		source_environment_port = sh ( returnStdout: true, script: '''cat configs/play.yml | grep -i port | cut -d '"' -f2 ''' ).trim()
-		admin_user = sh ( returnStdout: true, script: '''cat configs/play.yml | grep -i admin_username | cut -d '"' -f2 ''' ).trim()
-		source_type = sh ( returnStdout: true, script: '''cat configs/play.yml | grep -i type | cut -d '"' -f2 ''' ).trim()
-		repo_user = sh ( returnStdout: true, script: '''cat configs/repo.yml | grep -i user | cut -d '"' -f2 ''' ).trim()
-
-	//	#echo "##vso[build.updatebuildnumber]$(Build.BuildNumber)-$(repoName)"
-
-	//	source_environment_hostname = sh ( returnStdout: true, script: ''' yq -e ".tenant.hostname" configs/play.yml ''' )
-	//	source_environment_port = sh ( returnStdout: true, script: ''' yq -e ".tenant.port" configs/play.yml ''' )
-	//	admin_user = sh ( returnStdout: true, script: ''' yq -e ".tenant.admin_username" configs/play.yml ''' )
-	//	source_type = sh ( returnStdout: true, script: ''' yq -e ".tenant.type" configs/play.yml ''' )
-	//	repo_user = sh ( returnStdout: true, script: ''' yq -e ".repo.user" configs/repo.yml ''' )
+			source_environment_hostname = sh ( returnStdout: true, script: '''cat configs/${iPaasEnv}/${wmioenv}.yml | grep -i hostname | cut -d '"' -f2 ''' ).trim()
+			source_environment_port = sh ( returnStdout: true, script: '''cat configs/${iPaasEnv}/${wmioenv}.yml | grep -i port | cut -d '"' -f2 ''' ).trim()
+			//admin_user = sh ( returnStdout: true, script: '''cat configs/${iPaasEnv}/${wmioenv}.yml | grep -i admin_username | cut -d '"' -f2 ''' ).trim()
+			source_type = sh ( returnStdout: true, script: '''cat configs/${iPaasEnv}/${wmioenv}.yml | grep -i type | cut -d '"' -f2 ''' ).trim()
+			repo_user = sh ( returnStdout: true, script: '''cat configs/${iPaasEnv}/repo.yml | grep -i user | cut -d '"' -f2 ''' ).trim()
+			LOCAL_DEV_URL = "https://${source_environment_hostname}:${source_environment_port}"
 			}
+			
 		echo "${source_environment_hostname}"
 		echo "${source_environment_port}"
       		echo "${admin_user}"
 		echo "${source_type}"
 		echo "${repo_user}"
-	        
-	    echo "Verify the repo and create a repo"
-	    
-	    sh 'pwd'
-	    sh 'chmod +x ./pipelines/scripts/github/*.sh'
-
-	     script {
-
-echo "Init default value is ${init}"	
-init = sh ( returnStdout: true, script: ''' pipelines/scripts/github/initializeRepo.sh ${repo_user} ${PAT} ${AZURE_TOKEN} ${repoName} ${devUser} ${featureBranchName} ${HOME_DIR} debug | grep -i initvalue | cut -d 'x' -f2''' ).trim()
-// sh './pipelines/scripts/github/initializeRepo.sh ${repo_user} ${PAT} ${AZURE_TOKEN} ${repoName} ${devUser} ${featureBranchName} ${HOME_DIR} debug'
-		//initializeRepoInput = "${repo_user} ${PAT} ${AZURE_TOKEN} ${repoName} ${devUser} ${featureBranchName} ${HOME_DIR} debug"
-		//echo "${initializeRepoInput}"
-		// def initVal = sh ( returnStdout: true, script: 'pipelines/scripts/github/initializeRepo.sh ${repo_user} ${PAT} ${AZURE_TOKEN} ${repoName} ${devUser} ${featureBranchName} ${HOME_DIR} debug' )
-		// init = initVal
-		// echo "initVal is ${initVal}"
-		echo "Init value after verifying the repo ${init}"	
-
-		echo "Verified the repo and required branches"	
-		    }
 		}
-       }
-	stage('Create and Sync Projects')
+	   }
+	stage('Sync Projects')
 	 {
-      steps {
-		echo "LOCAL_DEV_URL"
+         steps {
+		sh 'pwd'
+		sh 'ls -lrt'
 		script{
-		def LOCAL_DEV_URL = "${source_environment}"
-		env.LOCAL_DEV_URL = LOCAL_DEV_URL
-
+		//def LOCAL_DEV_URL = "${source_environment}"
+		//env.LOCAL_DEV_URL = LOCAL_DEV_URL
 		//def LOCAL_DEV_URL = "https://${source_environment_hostname}:${source_environment_port}"
 		echo "${LOCAL_DEV_URL}"
 		}
@@ -94,104 +53,62 @@ init = sh ( returnStdout: true, script: ''' pipelines/scripts/github/initializeR
 				pwd
 				'''
 				script {
-					// LOCAL_DEV_URL = "https://${source_environment_hostname}:${source_environment_port}"
-					// def LOCAL_DEV_URL = "${source_environment}"
-					echo "${env.LOCAL_DEV_URL}"
+				// LOCAL_DEV_URL = "https://${source_environment_hostname}:${source_environment_port}"
+				echo "${LOCAL_DEV_URL}"
 				}
-				// echo ${env.LOCAL_DEV_URL}
 
 
-				script {
-				if ( "${init}" == 'true' )
-				{
-					echo "New repo created"
-					sh 'pwd'
-					sh 'ls -ltr'
-				// Check & Create Project 
-					sh 'chmod +x ./pipelines/scripts/*.sh'
-					sh './pipelines/scripts/createProject.sh ${LOCAL_DEV_URL} ${admin_user} ${admin_password} ${repoName}'
-				}
-				else 
-				{
-				 // Create a feature branch from prod 
-				 echo "Repo Exists, Check and sync feature branch from Prod"
-				 echo "Synch Project value is ${synchProject}"
-			      	  if ( "${synchProject}" != 'true' ) 
-				  {
-					echo "Patch Initialize"
-					if ( "${assetID}" == null) 
-					{
-						//echo "##vso[task.logissue type=error;]Missing parameter \"assetID\""
-						//echo "##vso[task.complete result=Failed;]"
-						echo "Missing parameter assetID"
+				echo "Remove the repo"	
+				sh '''
+					pwd
+				        rm -rf ./${repoName}
+				        git clone -b ${branchName} https://github.com/${repo_user}/${repoName}.git
+					pwd
+					ls -ltr  '''
 
-						sh 'exit 1'
+			           dir(repoName)
+		 			{ 
+		   			sh 'pwd'
+	   	   			sh 'ls -ltr' 		
+			             	echo "Project Check"
+					if ("${projectNames}" == 'All')
+						{
+						echo "Select all projects for wmioINT"
+						project = sh (script: ''' ls iPaas/wmioINT -m ''', returnStdout: true).trim()
+						echo "Project is : ${project}"
+					      }
+					  else 
+  					    {
+						project = "${projectNames}"
+						echo "Project is : ${project}"
 					}
-					 
-					if ( "${assetType}"  == null)
-					{
-						echo "##vso[task.logissue type=error;]Missing parameter \"assetType\""
-						echo "##vso[task.complete result=Failed;]"
-						echo "Missing parameter assetType"
-						sh 'exit 1'
-					}
-				  }
-				  else
-					echo "Project Initialize"
+					
+			              	echo "Project before split is : ${project}"
+					def projNames = project.split(',')
+					echo "Project Names: ${projNames}"
+					for(project in projNames){
+   						project = project.trim() 
+						echo "$project"
+						echo "Check if Project Exists..."
+						DIR="./iPaas/wmioINT/$project/"
+						echo "${DIR}"
+  						//if ( -d '$DIR' ); then
+						if (fileExists("${DIR}"))
+						{
+						echo "Project Exists and create Project ..."
+			                	sh 'chmod +x ../pipelines/scripts/*.sh'
+						sh "../pipelines/scripts/createProject.sh '${LOCAL_DEV_URL}' '${admin_user}' '${admin_password}' '${project}' debug"
+
+						echo "Importing asset ..."
+						 sh "../pipelines/scripts/importMedt.sh '${LOCAL_DEV_URL}' '${admin_user}' '${admin_password}' '${repoName}' '${project}' '${HOME_DIR}' debug"
+						}
+				else{
+                			echo "Project ${project} not found in Repo ${repoName}"
 				}
-			}
-	echo "Remove the repo"	
-	sh '''
-		pwd
-	        rm -rf ./${repoName}
-	        git clone -b production https://github.com/${repo_user}/${repoName}.git
-		pwd
-		ls -ltr
-	'''
-	// sh 'git clone -b production https://${repo_user}:${PAT}@github.com/${repo_user}/${repoName}.git'
-	//  sh 'cd "$HOME_DIR/$repoName"'
-	//   sh 'pwd'
-	//   sh 'ls -ltr'
-	//  echo "Branch name is ${featureBranchName}"
-	//  def branchExists = sh ( returnStdout: true, script: '''git ls-remote --heads origin ${featureBranchName} ''' )
-
-	   dir(repoName)
-		 { 
-		   sh 'pwd'
-	   	   sh 'ls -ltr'
-	  	   echo "Branch name is ${featureBranchName}"
-	  	  // def branchExists = sh ( returnStdout: true, script: '''git ls-remote --heads origin ${featureBranchName} ''' )
-		     branchExists = sh ( returnStdout: true, script: "git ls-remote --heads origin ${featureBranchName} " )
-	  	   echo "Does branch exists ${branchExists}"
-    		
-
-         if ( "${branchExists}" ) 
-          {
-              echo "Branch ${featureBranchName} already exists"
-          }
-          else {
-              echo "Branch ${featureBranchName} doesnt exists, synching from prod ..."
-	      sh 'pwd'
-
-	// sh 'printenv'
-	// sh 'chmod +x ../../${JOB_BASE_NAME}/pipelines/scripts/github/*.sh'
-
-	     sh 'chmod +x ../pipelines/scripts/github/*.sh'
-             sh '../pipelines/scripts/github/createFeatureFromProdBranch.sh ${devUser} ${featureBranchName} ${HOME_DIR} ${repo_user} ${PAT} ${repoName} debug'
-		
-             echo "Project Check"
-             echo "Check and create Project ..."
-             echo "Repo name is ${repoName} and admin user is ${admin_user} and pwd is ${admin_password}"
-            
-	      sh 'chmod +x ../pipelines/scripts/*.sh'
-              sh "../pipelines/scripts/createProject.sh '${LOCAL_DEV_URL}' '${admin_user}' '${admin_password}' '${repoName}' debug"
-              echo "Importing asset ..."
-              sh "../pipelines/scripts/importAsset.sh '${LOCAL_DEV_URL}' '${admin_user}' '${admin_password}' '${repoName}' '${assetID}' '${assetType}' '${HOME_DIR}' '${synchProject}' '${source_type}' debug"
-              
-		}
-	}			
+				}
             }
  }
+}
  }
         
 	}
