@@ -52,7 +52,7 @@ echo "Check Project exists"
 echo "Project name is ${project} and admin user is ${admin_user} and pwd is ${admin_password}"
 name=$(curl --location --request GET ${PROJECT_URL} \
         --header 'Accept: application/json' \
-        -u ${admin_user}:${admin_password} | jq -r '.output.name // empty')
+        -u ${admin_user}:${admin_password} | grep -o '"name":"[^"]' | grep -o '[^"]$')
 echo "name of project in webmio '${name}'"
 if [ -z "$name" ];   then
     echo "Project does not exists. Creating ..."
@@ -70,7 +70,7 @@ if [ -z "$name" ];   then
 
     echo "Project name is ${projectName}"
     
-    namecreated=$(echo "$projectName" | jq  '.output.name // empty')
+    namecreated=$(echo "$projectName" | grep -o '"name":"[^"]' | grep -o '[^"]$')
     echo "Name created is ${namecreated}"
     
     if [ ! -z "$namecreated" ]; then
