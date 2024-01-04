@@ -127,7 +127,7 @@ function refData(){
   source_type=$9			   
 				  
 echo "Importing Reference Data"
-  DIR="./iPaas/API_TDD/configs/referenceData/"
+  DIR="./iPaas/wmioINT/$project/configs/"
   if [ -d "$DIR" ]; then
       echo "Project referenceData needs to be synched"
       PROJECT_ID_URL=${LOCAL_DEV_URL}/apis/v1/rest/projects/${repoName}
@@ -141,7 +141,7 @@ echo "Importing Reference Data"
           exit 1
       fi
        echod "ProjectID:" ${projectID}
-      cd ./iPaas/API_TDD/configs/referenceData/
+      cd ./iPaas/wmioINT/$project/configs/
       for d in * ; do
           if [ -d "$d" ]; then
             refDataName="$d"
