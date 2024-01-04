@@ -129,7 +129,7 @@ echo "Importing Reference Data"
   DIR="./iPaas/wmioINT/$project/configs/"
   if [ -d "$DIR" ]; then
       echo "Project referenceData needs to be synched"
-      PROJECT_ID_URL=${LOCAL_DEV_URL}/apis/v1/rest/projects/${repoName}
+      PROJECT_ID_URL=${LOCAL_DEV_URL}/apis/v1/rest/projects/${project}
       projectJson=$(curl  --location --request GET ${PROJECT_ID_URL} \
           --header 'Content-Type: application/json' \
           --header 'Accept: application/json' \
