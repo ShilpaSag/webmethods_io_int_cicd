@@ -143,6 +143,7 @@ echo "Importing Reference Data"
       cd ./iPaas/wmioINT/$project/configs/
       for d in * ; do
           if [ -d "$d" ]; then
+	    echo "referenceData present in dir"
             refDataName="$d"
             echod "$d"
             cd "$d"
