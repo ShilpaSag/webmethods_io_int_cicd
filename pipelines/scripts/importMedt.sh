@@ -146,12 +146,12 @@ echo "Importing Reference Data"
 	    echo "referenceData present in dir"
             refDataName="$d"
             echod "$d"
-            cd "$d"
+            ##cd "$d"
             description=$(jq -r .description metadata.json)
             columnDelimiter=$(jq -r .columnDelimiter metadata.json)
             encodingType=$(jq -r .encodingType metadata.json)
             releaseCharacter=$(jq -r .releaseCharacter metadata.json)
-            FILE=./${source_type}.csv
+            FILE=./${refDataName}
             formKey="file=@"${FILE}
             echod ${formKey} 
             REF_DATA_URL=${LOCAL_DEV_URL}/integration/rest/external/v1/ut-flow/referencedata/${projectID}/${refDataName}
