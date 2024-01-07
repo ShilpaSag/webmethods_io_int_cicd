@@ -151,7 +151,7 @@ echo "Importing Reference Data"
             columnDelimiter=$(jq -r .columnDelimiter metadata.json)
             encodingType=$(jq -r .encodingType metadata.json)
             releaseCharacter=$(jq -r .releaseCharacter metadata.json)
-            FILE=./${refDataName}
+            FILE=${refDataName}
             formKey="file=@"${FILE}
             echod ${formKey} 
             REF_DATA_URL=${LOCAL_DEV_URL}/integration/rest/external/v1/ut-flow/referencedata/${projectID}/${refDataName}
