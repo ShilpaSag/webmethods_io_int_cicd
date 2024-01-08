@@ -152,7 +152,7 @@ echo "Importing Reference Data"
             encodingType=$(jq -r .encodingType metadata.json)
             releaseCharacter=$(jq -r .releaseCharacter metadata.json)
             FILE=${refDataName}
-            formKey=${FILE}
+            formKey="file=@"${FILE}
             echod ${formKey} 
             REF_DATA_URL=${LOCAL_DEV_URL}/apis/v1/rest/projects/${projectID}/referencedata/${refDataName}
             rdJson=$(curl --location --request GET ${REF_DATA_URL}  \
