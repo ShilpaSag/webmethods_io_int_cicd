@@ -144,6 +144,8 @@ echo "Importing Reference Data"
       for d in * ; do
           if [ -f "$d" ]; then
 	    echo "referenceData present in dir"
+     	    name=$(echo "$d" | cut -f 1 -d '.')
+	    echod "name of filename :" ${name}
             refDataName="$d"
             echod "$d"
             ##cd "$d"
