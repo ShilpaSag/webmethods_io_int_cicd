@@ -146,7 +146,7 @@ echo "Importing Reference Data"
 	    echo "referenceData present in dir"
      	    name=$(echo "$d" | cut -f 1 -d '.')
 	    echod "name of filename :" ${name}
-            refDataName="$d"
+            refDataName="name"
             echod "$d"
             ##cd "$d"
             description=$(jq -r .description metadata.json)
