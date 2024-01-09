@@ -154,7 +154,8 @@ echo "Importing Reference Data"
             FILE=${refDataName}
             formKey="file=@"${FILE}
             echod ${formKey} 
-            REF_DATA_URL=${LOCAL_DEV_URL}/apis/v1/rest/projects/${projectID}/referencedata/${refDataName}
+            ##REF_DATA_URL=${LOCAL_DEV_URL}/apis/v1/rest/projects/${projectID}/referencedata/${refDataName}
+	    REF_DATA_URL=${LOCAL_DEV_URL}/integration/rest/external/v1/ut-flow/referencedata/${projectID}/${refDataName}
             rdJson=$(curl --location --request GET ${REF_DATA_URL}  \
               --header 'Content-Type: application/json' \
               --header 'Accept: application/json' \
@@ -162,7 +163,8 @@ echo "Importing Reference Data"
               rdExport=$(echo "$rdJson" | jq '.integration.serviceData.referenceData // empty')
               if [ -z "$rdExport" ];   then
                 echo "Refrence Data does not exists, Creating ....:" ${refDataName}
-                POST_REF_DATA_URL=${LOCAL_DEV_URL}/apis/v1/rest/projects/${projectID}/referencedata                 
+                ##POST_REF_DATA_URL=${LOCAL_DEV_URL}/apis/v1/rest/projects/${projectID}/referencedata  
+		POST_REF_DATA_URL=${LOCAL_DEV_URL}/integration/rest/external/v1/ut-flow/referencedata/create/${projectID}
               else
                 echo "Refrence Data exists, Updating ....:" ${refDataName}
                 POST_REF_DATA_URL=${LOCAL_DEV_URL}/integration/rest/external/v1/ut-flow/referencedata/update/${projectID}/${refDataName}
