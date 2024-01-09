@@ -185,7 +185,7 @@ echo "Importing Reference Data"
               else
                 echo "Reference Data failed:" ${projectPostJson}
               fi
-            cd -
+            ##cd -
           fi
         done
   fi
