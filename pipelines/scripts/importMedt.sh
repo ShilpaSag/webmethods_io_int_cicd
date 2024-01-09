@@ -144,17 +144,17 @@ echo "Importing Reference Data"
       for d in * ; do
           if [ -f "$d" ]; then
 	    echo "referenceData present in dir"
-     	    name=$(echo "$d" | cut -f 1 -d '.')
-	    echod "name of filename :" ${name}
-            refDataName="name"
+     	    refDataName=$(echo "$d" | cut -f 1 -d '.')
+	    echod "name of filename :" ${refDataName}
+            refDataFile=${d}
             echod "$d"
             ##cd "$d"
             description=$(jq -r .description metadata.json)
             columnDelimiter=$(jq -r .columnDelimiter metadata.json)
             encodingType=$(jq -r .encodingType metadata.json)
             releaseCharacter=$(jq -r .releaseCharacter metadata.json)
-            FILE=${refDataName}
-            formKey="file=@"${FILE}
+            ##FILE=${refDataName}
+            formKey="file=@"./${refDataFile}
             echod ${formKey} 
             ##REF_DATA_URL=${LOCAL_DEV_URL}/apis/v1/rest/projects/${projectID}/referencedata/${refDataName}
 	    REF_DATA_URL=${LOCAL_DEV_URL}/integration/rest/external/v1/ut-flow/referencedata/${projectID}/${refDataName}
